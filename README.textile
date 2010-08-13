@@ -1,0 +1,108 @@
+
+h1. Rich-CMS
+
+A Rails gem (and also plugin) for a pluggable CMS frontend
+
+h2. Introduction
+
+Rich-CMS is a module of E9s ("http://github.com/archan937/e9s":http://github.com/archan937/e9s) which provides a frontend for your CMS content.
+
+h2. Installation
+
+h3. Using Rich-CMS as gem
+
+Install the Rich-CMS gem:
+
+<pre>
+  sudo gem install rich_cms
+</pre>
+
+Add rich_cms in @environment.rb@ as a gem dependency:
+
+<pre>
+  config.gem "rich_cms"
+</pre>
+
+h3. Using Rich-CMS as plugin
+
+Install the Rich-CMS plugin:
+
+<pre>
+  ./script/plugin install git://github.com/archan937/rich_cms.git 
+</pre>
+
+h2. Usage
+
+h3. Specify the authentication mechanism
+
+Provide the mechanism as a symbol (e.g. @:authlogic@) and the authenticated class along with the attribute used to identify the instance in a hash.
+
+<pre>
+  Rich::Cms::Engine.authenticate(:authlogic, {:class => Betty::User, :identifier => :name})
+</pre>      
+
+Unfortunately, only AuthLogic ("http://github.com/binarylogic/authlogic":http://github.com/binarylogic/authlogic) is supported, but we are working hard on making Rich-CMS compatible with other mechanisms.
+
+h3. Register CMS content
+
+Every type of content is identified with its correspending CSS selector (used by the jQuery based Javascript module of Rich-CMS). You will have to provide some specifications:
+
+* @:class@ - The class of the CMS content model which contain the data
+* @:key@ (optional) - The attribute used for identification of the content instance (which at default is @:key@). You can also provide an array for a combined key (e.g. @[:key, :locale]@)
+* @:value@ (optional) - The attribute which stores the value of the content instance (which at default is @:value@).
+
+<pre>
+  Rich::Cms::Engine.register(".betty_cms_content", {:class => Betty::Cms::StaticContent})
+</pre>
+
+h3. Render Rich-CMS content within your views
+
+Rich-CMS requires a rendered DOM element provided with meta data of the content instance. Fortunately, you can call a method provided by Rich-CMS. Just specify the identifier of the content type and the key of the CMS content instance in question:
+
+<pre>
+  >> key = "test_content"
+  => "test_content"
+  >> Rich::Cms::Engine.to_content_tag({".betty_cms_content" => key})
+  => "<div class='betty_cms_content' data-key='test_content' data-value='Hello world!'>Hello world!</div>"
+</pre>
+
+h2. Contact me
+
+For support, remarks and requests please mail me at "paul.engel@holder.nl":mailto:paul.engel@holder.nl.
+
+h2. Credit
+
+This Rails gem / plugin depends on:
+
+jQuery<br>
+"http://jquery.com":http://jquery.com
+
+Jzip<br>
+"http://github.com/archan937/jzip":http://github.com/archan937/jzip
+
+SASS<br>
+"http://sass-lang.com":http://sass-lang.com
+
+Formtastic<br>
+"http://github.com/justinfrench/formtastic":http://github.com/justinfrench/formtastic
+
+SeatHolder (optional)<br>
+"http://github.com/archan937/seat_holder":http://github.com/archan937/seat_holder
+
+h2. ToDo's
+
+* Complete README.textile (provide documentation about optional features)
+* Integrate Rich-CMS in the E9s demo application ("http://github.com/archan937/e9s-demo":http://github.com/archan937/e9s-demo)
+* Provide compatibility with other authentication mechanisms other than AuthLogic
+
+h2. License
+
+Copyright (c) 2010 Paul Engel, released under the MIT license
+
+"http://holder.nl":http://holder.nl - "http://codehero.es":http://codehero.es - "http://gettopup.com":http://gettopup.com - "http://twitter.com/archan937":http://twitter.com/archan937 - "paul.engel@holder.nl":mailto:paul.engel@holder.nl
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
