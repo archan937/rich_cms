@@ -51,7 +51,7 @@ Every type of content is identified with its correspending CSS selector (used by
 
 The following specifications are optional as Rich-Cms uses defaults:
 
-* @:key@ (default: @:key@) - The attribute used for identification of the content instance. You can also provide an array for a combined key (e.g. @[:key, :locale]@)
+* @:key@ (default: @:key@) - The key used for identification of content. You can also provide an array for a combined key (e.g. @[:key, :locale]@)
 * @:value@ (default: @:value@) - The attribute which stores the value of the content instance.
 * @:tag@ (default: @:span@) - The tag used for content items.
 * @:add@ (default: @[]@) - An array of the content item attributes included within the HTML attributes.
