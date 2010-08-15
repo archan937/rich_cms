@@ -131,6 +131,16 @@ h2. ToDo's
 * Integrate Rich-CMS in the E9s demo application ("http://github.com/archan937/e9s-demo":http://github.com/archan937/e9s-demo)
 * Provide compatibility with other authentication mechanisms other than AuthLogic
 
+h2. E9s
+
+E9s - "http://github.com/archan937/e9s":http://github.com/archan937/e9s
+
+h3. E9s modules
+
+* Rich-CMS - "http://github.com/archan937/rich_cms":http://github.com/archan937/rich_cms
+* Rich-i18n - "http://github.com/archan937/rich_i18n":http://github.com/archan937/rich_i18n
+* Rich-pluralization - "http://github.com/archan937/rich_pluralization":http://github.com/archan937/rich_pluralization
+
 h2. License
 
 Copyright (c) 2010 Paul Engel, released under the MIT license
