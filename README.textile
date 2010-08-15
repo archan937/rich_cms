@@ -63,6 +63,10 @@ The following specifications are optional as Rich-Cms uses defaults:
   Rich::Cms::Engine.register(".i18n"             , {:class_name => "Translation", :key => [:key, :locale], :before_edit => "Rich.I18n.beforeEdit", :after_update => "Rich.I18n.afterUpdate"})
 </pre>
 
+h3. Rich-CMS in your browser
+
+Open "http://localhost:3000/cms":http://localhost:3000/cms and login.
+
 h3. Customing the after update implementation (with after_update and to_rich_cms_response)
 
 The @update@ action response of @Rich::CmsController@ is provided with "JSON":http://www.json.org data regarding the updated content item. The response will be passed to the @after_update@ Javascript function. Its default JSON data:
