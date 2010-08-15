@@ -8,14 +8,12 @@ module Rich
       
       extend self
       
-      attr_reader :authentication
+      attr_reader   :authentication, :editable_content
+      attr_accessor :controller
   
       def init
         @authentication   = AuthenticationSpecs.new
         @editable_content = {}
-        
-        ApplicationController.send :include, ::Rich::Cms::Controller
-        ActionView::Base     .send :include, ::Rich::Cms::Helper
         
         ::Jzip::Plugin.add_template_location({File.join(File.dirname(__FILE__), "..", "..", "..", "assets", "jzip") => RAILS_ROOT + "/public/javascripts"})
         ::Sass::Plugin.add_template_location( File.join(File.dirname(__FILE__), "..", "..", "..", "assets", "sass"),   RAILS_ROOT + "/public/stylesheets" )
@@ -30,25 +28,35 @@ module Rich
           if @editable_content.keys.include?(selector)
             raise RichCmsError, "Already registered editable content identified with #{selector.inspect}"
           else
-            @editable_content[selector] = specs
+            @editable_content[selector] = Cms::Content::Group.build(selector, specs)
           end
         end
       end
       
-      def editable_content
-        @editable_content.inject({}) do |h, (key, value)|
-          h[key] = {:key => :key, :value => :value}.merge(value)
-          h
-        end
+      def to_content_tag(selector, identifiers)
+        editable_content[selector].fetch(identifiers).to_tag
       end
       
       def editable_content_javascript_hash
-        "{#{editable_content.collect{|key, value| "#{key.to_s.inspect}: {#{value.reject{|k, v| [:class].include?(k)}.collect{|k, v| "#{k.to_s}: 'data-#{v.to_s}'"}.join(", ")}}"}.join(", ")}}"
+        "{#{@editable_content.collect{|k, v| v.to_javascript_hash}.join ", "}}"
       end
       
-      def to_content_tag(reference)
-        selector, key = reference.to_a.first
-        Cms::EditableContent.new(:__selector__ => selector, editable_content[selector][:key] => key).to_tag
+      def current_controller=(current_controller)
+        @current_controller  = current_controller
+        @can_render_metadata = nil
+      end
+      
+      def can_render_metadata?
+        if @can_render_metadata.nil?
+          @can_render_metadata = case authentication.logic
+                                 when :authlogic
+                                   @current_controller.send :current_rich_cms_admin
+                                 when nil
+                                   true
+                                 end
+        else
+          @can_render_metadata
+        end
       end
       
     private

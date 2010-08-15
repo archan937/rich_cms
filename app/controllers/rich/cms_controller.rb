@@ -41,7 +41,7 @@ module Rich
     end
 
     def update
-      render :json => Cms::EditableContent.new(params[:editable_content]).save
+      render :json => Cms::Content::Item.new(params[:content_item]).save
     end
 
   private

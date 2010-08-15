@@ -38,7 +38,7 @@ h3. Specify the authentication mechanism
 Provide the mechanism as a symbol (e.g. @:authlogic@) and the authenticated class along with the attribute used to identify the instance in a hash.
 
 <pre>
-  Rich::Cms::Engine.authenticate(:authlogic, {:class => Betty::User, :identifier => :name})
+  Rich::Cms::Engine.authenticate(:authlogic, {:class_name => "Betty::User", :identifier => :name})
 </pre>      
 
 Unfortunately, only AuthLogic ("http://github.com/binarylogic/authlogic":http://github.com/binarylogic/authlogic) is supported, but we are working hard on making Rich-CMS compatible with other mechanisms.
@@ -47,12 +47,48 @@ h3. Register CMS content
 
 Every type of content is identified with its correspending CSS selector (used by the jQuery based Javascript module of Rich-CMS). You will have to provide some specifications:
 
-* @:class@ - The class of the CMS content model which contain the data
-* @:key@ (optional) - The attribute used for identification of the content instance (which at default is @:key@). You can also provide an array for a combined key (e.g. @[:key, :locale]@)
-* @:value@ (optional) - The attribute which stores the value of the content instance (which at default is @:value@).
+* @:class_name@ - The class of the CMS content model which contain the data
+
+The following specifications are optional as Rich-Cms uses defaults:
+
+* @:key@ (default: @:key@) - The attribute used for identification of the content instance. You can also provide an array for a combined key (e.g. @[:key, :locale]@)
+* @:value@ (default: @:value@) - The attribute which stores the value of the content instance.
+* @:tag@ (default: @:span@) - The tag used for content items.
+* @:add@ (default: @[]@) - An array of the content item attributes included within the HTML attributes.
+* @:before_edit@ (default: @nil@) - Javascript function called before showing the edit form of a content item
+* @:after_update@ (default: @Rich.Cms.Editor.afterUpdate@) - Javascript function called after update a content item
 
 <pre>
-  Rich::Cms::Engine.register(".betty_cms_content", {:class => Betty::Cms::StaticContent})
+  Rich::Cms::Engine.register(".betty_cms_content", {:class_name => "Betty::Cms::StaticContent"})
+  Rich::Cms::Engine.register(".i18n"             , {:class_name => "Translation", :key => [:key, :locale], :before_edit => "Rich.I18n.beforeEdit", :after_update => "Rich.I18n.afterUpdate"})
+</pre>
+
+h3. Customing the after update implementation (with after_update and to_rich_cms_response)
+
+The @update@ action response of @Rich::CmsController@ is provided with "JSON":http://www.json.org data regarding the updated content item. The response will be passed to the @after_update@ Javascript function. Its default JSON data:
+
+<pre>
+  {"__selector__": ".betty_cms_content", "__identifier__": {"key": "test_paragraph"}, "value": "Hello world!"}
+</pre>
+
+*Note*: @__selector__@ and @__identifier__@ are *always* provided in the JSON data.
+
+When specifying a custom after update Javascript function, you probably want to acquire more information than provided in the default JSON data. You can customize this by defining the @to_rich_cms_response@ method in the CMS content model class:
+
+<pre>
+  class Translation < ActiveRecord::Base
+  
+    def to_rich_cms_response(params)
+      {:value => value, :translations => Hash[*params[:derivative_keys].split(";").uniq.collect{|x| [x, x.t]}.flatten]}
+    end
+  
+  end
+</pre>
+
+The JSON data provided will be look like:
+
+<pre>
+  {"__selector__": ".i18n", "__identifier__": {"locale": "nl", "key": "word.user"}, "value": "gebruiker", "translations": {"users": "gebruikers"}}
 </pre>
 
 h3. Render Rich-CMS content within your views

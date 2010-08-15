@@ -4,8 +4,7 @@
 //= require jquery/extensions/modules
 //= require jquery/extensions/object
 
-//= require shared/rich
-
+//= require rich
 //= require rich/cms
 //= require rich/cms/login
 //= require rich/cms/editor

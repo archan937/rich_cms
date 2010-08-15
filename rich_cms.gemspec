@@ -52,6 +52,7 @@ Gem::Specification.new do |s|
      "lib/rich/cms/helper.rb",
      "lib/rich_cms.rb",
      "rails/init.rb",
+     "rich_cms.gemspec",
      "tasks/rich_cms_tasks.rake",
      "test/engine_test.rb",
      "test/test_helper.rb",
