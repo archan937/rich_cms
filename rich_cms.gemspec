@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Paul Engel"]
-  s.date = %q{2010-08-13}
+  s.date = %q{2010-08-15}
   s.description = %q{Rich-CMS is a module of E9s (http://github.com/archan937/e9s) which provides a frontend for your CMS content. You can use this gem to manage CMS content or translations (in an internationalized application). The installation and setup process is very easily done. You will have to register content at the Rich-CMS engine and also you will have to specify the authentication mechanism. Both are one-liners.}
   s.email = %q{paul.engel@holder.nl}
   s.extra_rdoc_files = [
@@ -34,11 +34,11 @@ Gem::Specification.new do |s|
      "assets/jzip/jquery/extensions/ajaxify.js",
      "assets/jzip/jquery/extensions/modules.js",
      "assets/jzip/jquery/extensions/object.js",
+     "assets/jzip/rich.js",
      "assets/jzip/rich/cms.js",
      "assets/jzip/rich/cms/editor.js",
      "assets/jzip/rich/cms/login.js",
      "assets/jzip/rich_cms.jz",
-     "assets/jzip/shared/rich.js",
      "assets/sass/_bar.sass",
      "assets/sass/_editables.sass",
      "assets/sass/_mixins.sass",
@@ -46,10 +46,12 @@ Gem::Specification.new do |s|
      "config/routes.rb",
      "init.rb",
      "install.rb",
-     "lib/rich/cms/controller.rb",
-     "lib/rich/cms/editable_content.rb",
+     "lib/rich/cms/actionpack.rb",
+     "lib/rich/cms/actionpack/action_controller/base.rb",
+     "lib/rich/cms/actionpack/action_view/base.rb",
+     "lib/rich/cms/content/group.rb",
+     "lib/rich/cms/content/item.rb",
      "lib/rich/cms/engine.rb",
-     "lib/rich/cms/helper.rb",
      "lib/rich_cms.rb",
      "rails/init.rb",
      "rich_cms.gemspec",
