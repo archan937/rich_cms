@@ -57,7 +57,7 @@ module Rich
         if @can_render_metadata.nil?
           @can_render_metadata = case authentication.logic
                                  when :authlogic
-                                   @current_controller.send :current_rich_cms_admin
+                                   @current_controller.try :current_rich_cms_admin
                                  when nil
                                    true
                                  end
