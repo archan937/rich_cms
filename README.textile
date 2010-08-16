@@ -63,11 +63,22 @@ The following specifications are optional as Rich-Cms uses defaults:
   Rich::Cms::Engine.register(".i18n"             , {:class_name => "Translation", :key => [:key, :locale], :before_edit => "Rich.I18n.beforeEdit", :after_update => "Rich.I18n.afterUpdate"})
 </pre>
 
+h3. Render CMS content in your views
+
+Rich-CMS requires a rendered DOM element provided with meta data of the content instance. Fortunately, you can call a method provided by Rich-CMS. Just specify the identifier of the content type and the key of the CMS content instance in question:
+
+<pre>
+  >> key = "test_content"
+  => "test_content"
+  >> Rich::Cms::Engine.to_content_tag({".betty_cms_content" => key})
+  => "<div class='betty_cms_content' data-key='test_content' data-value='Hello world!'>Hello world!</div>"
+</pre>
+
 h3. Rich-CMS in your browser
 
-Open "http://localhost:3000/cms":http://localhost:3000/cms and login.
+Open "http://localhost:3000/cms":http://localhost:3000/cms, log in and start managing CMS content.
 
-h3. Customing the after update implementation (with after_update and to_rich_cms_response)
+h2. Customizing the after update implementation
 
 The @update@ action response of @Rich::CmsController@ is provided with "JSON":http://www.json.org data regarding the updated content item. The response will be passed to the @after_update@ Javascript function. Its default JSON data:
 
@@ -93,17 +104,6 @@ The JSON data provided will be look like:
 
 <pre>
   {"__selector__": ".i18n", "__identifier__": {"locale": "nl", "key": "word.user"}, "value": "gebruiker", "translations": {"users": "gebruikers"}}
-</pre>
-
-h3. Render Rich-CMS content within your views
-
-Rich-CMS requires a rendered DOM element provided with meta data of the content instance. Fortunately, you can call a method provided by Rich-CMS. Just specify the identifier of the content type and the key of the CMS content instance in question:
-
-<pre>
-  >> key = "test_content"
-  => "test_content"
-  >> Rich::Cms::Engine.to_content_tag({".betty_cms_content" => key})
-  => "<div class='betty_cms_content' data-key='test_content' data-value='Hello world!'>Hello world!</div>"
 </pre>
 
 h2. Contact me
