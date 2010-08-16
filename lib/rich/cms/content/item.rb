@@ -34,8 +34,8 @@ module Rich
           if @object.respond_to? :to_rich_cms_response
             hash = @object.to_rich_cms_response @params
           else
-            keys = @group.keys
-            hash = @object.attributes.reject{|k, v| !keys.include?(k.to_sym)}
+            keys = @group.keys << @group.value.to_s
+            hash = @object.attributes.reject{|k, v| !keys.include?(k.to_s)}
           end
           
           selector   = @group.selector
@@ -49,8 +49,8 @@ module Rich
           
           return value unless Engine.can_render_metadata?
           
-          keys  = @group.keys
-          data  = @object.attributes.reject{|k, v| !keys.include?(k.to_sym)}
+          keys  = @group.keys << @group.value.to_s
+          data  = @object.attributes.reject{|k, v| !keys.include?(k.to_s)}
                 
           tag   = @group.tag || :span             
           attrs = data.collect{|k, v| "data-#{k}=\"#{::ERB::Util.html_escape v}\""}.join " "

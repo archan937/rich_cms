@@ -22,7 +22,7 @@ module Rich
         end
         
         def keys
-          identifiers + [self.add || []].flatten
+          (identifiers + [self.add || []].flatten.collect(&:to_s)).sort
         end
       
         def identifiers
