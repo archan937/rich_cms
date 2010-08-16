@@ -47,7 +47,7 @@ module Rich
         def to_tag
           default = @object.attributes.values_at(*@group.identifiers) if @object.new_record?
           
-          return value unless Engine.can_render_metadata?
+          return @object.send(@group.value) unless Engine.can_render_metadata?
           
           keys  = @group.keys << @group.value.to_s
           data  = @object.attributes.reject{|k, v| !keys.include?(k.to_s)}
