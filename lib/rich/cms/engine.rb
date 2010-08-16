@@ -8,8 +8,7 @@ module Rich
       
       extend self
       
-      attr_reader   :authentication, :editable_content
-      attr_accessor :controller
+      attr_reader :authentication, :editable_content
   
       def init
         @authentication   = AuthenticationSpecs.new
