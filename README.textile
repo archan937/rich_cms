@@ -70,7 +70,7 @@ Rich-CMS requires a rendered DOM element provided with meta data of the content 
 <pre>
   >> key = "test_content"
   => "test_content"
-  >> Rich::Cms::Engine.to_content_tag({".betty_cms_content" => key})
+  >> Rich::Cms::Engine.to_content_tag(".betty_cms_content", key)
   => "<div class='betty_cms_content' data-key='test_content' data-value='Hello world!'>Hello world!</div>"
 </pre>
 
