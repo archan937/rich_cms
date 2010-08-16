@@ -25,6 +25,11 @@ module Rich
         ::Sass::Plugin.add_template_location( File.join(File.dirname(__FILE__), "..", "..", "assets", "sass"),   File.join(RAILS_ROOT, "public", "stylesheets") )
       end
       
+      def current_controller=(current_controller)
+        @current_controller  = current_controller
+        @can_render_metadata = nil
+      end
+      
       def authenticate(logic, specs)
         @authentication = AuthenticationSpecs.new(logic, specs)
       end
@@ -45,11 +50,6 @@ module Rich
       
       def editable_content_javascript_hash
         "{#{@editable_content.collect{|k, v| v.to_javascript_hash}.join ", "}}"
-      end
-      
-      def current_controller=(current_controller)
-        @current_controller  = current_controller
-        @can_render_metadata = nil
       end
       
       def can_render_metadata?
