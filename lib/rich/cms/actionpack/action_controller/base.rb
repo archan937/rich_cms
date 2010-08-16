@@ -50,5 +50,12 @@ module ActionController
       end
     end
     
+    view_path = File.join File.dirname(__FILE__), "..", "..", "..", "..", "app", "views"
+    if respond_to? :append_view_path
+      self.append_view_path view_path
+    elsif respond_to? :view_paths
+      self.view_paths << view_path
+    end
+    
   end
 end

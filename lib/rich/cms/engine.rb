@@ -16,14 +16,14 @@ module Rich
         @editable_content = {}
         
         %w(controllers).each do |dir|
-          path = File.join File.dirname(__FILE__), "app", dir
+          path = File.join File.dirname(__FILE__), "..", "..", "app", dir
           $LOAD_PATH << path
           ActiveSupport::Dependencies.load_paths << path
           ActiveSupport::Dependencies.load_once_paths.delete path
         end
         
-        ::Jzip::Plugin.add_template_location({File.join(File.dirname(__FILE__), "..", "..", "assets", "jzip") => RAILS_ROOT + "/public/javascripts"})
-        ::Sass::Plugin.add_template_location( File.join(File.dirname(__FILE__), "..", "..", "assets", "sass"),   RAILS_ROOT + "/public/stylesheets" )
+        ::Jzip::Plugin.add_template_location({File.join(File.dirname(__FILE__), "..", "..", "assets", "jzip") => File.join(RAILS_ROOT, "public", "javascripts")})
+        ::Sass::Plugin.add_template_location( File.join(File.dirname(__FILE__), "..", "..", "assets", "sass"),   File.join(RAILS_ROOT, "public", "stylesheets") )
       end
       
       def authenticate(logic, specs)
