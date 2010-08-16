@@ -15,8 +15,15 @@ module Rich
         @authentication   = AuthenticationSpecs.new
         @editable_content = {}
         
-        ::Jzip::Plugin.add_template_location({File.join(File.dirname(__FILE__), "..", "..", "..", "assets", "jzip") => RAILS_ROOT + "/public/javascripts"})
-        ::Sass::Plugin.add_template_location( File.join(File.dirname(__FILE__), "..", "..", "..", "assets", "sass"),   RAILS_ROOT + "/public/stylesheets" )
+        %w(controllers).each do |dir|
+          path = File.join File.dirname(__FILE__), "app", dir
+          $LOAD_PATH << path
+          ActiveSupport::Dependencies.load_paths << path
+          ActiveSupport::Dependencies.load_once_paths.delete path
+        end
+        
+        ::Jzip::Plugin.add_template_location({File.join(File.dirname(__FILE__), "..", "..", "assets", "jzip") => RAILS_ROOT + "/public/javascripts"})
+        ::Sass::Plugin.add_template_location( File.join(File.dirname(__FILE__), "..", "..", "assets", "sass"),   RAILS_ROOT + "/public/stylesheets" )
       end
       
       def authenticate(logic, specs)
