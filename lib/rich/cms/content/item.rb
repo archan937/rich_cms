@@ -57,7 +57,7 @@ module Rich
           value = @object.new_record? ? "< #{default.size == 1 ? default.first : default.inspect} >" : @object.send(@group.value)
           
           if class_name = @group.selector.match(/^\.\w+$/)
-            attrs = "class=\"#{class_name.gsub(/^\./, "")}\" #{attrs}"
+            attrs = "class=\"#{class_name.to_s.gsub(/^\./, "")}\" #{attrs}"
           end
           
           "<#{tag} #{attrs}>#{value}</#{tag}>"
