@@ -2,7 +2,15 @@
 module ActionController
   class Base
 
+    around_filter :assign_current_controller
     helper_method :current_rich_cms_admin, :current_rich_cms_admin_name, :rich_cms_authenticated_class, :rich_cms_authentication_inputs
+    
+    def assign_current_controller
+      ::Rich::Cms::Engine.current_controller = self
+      yield
+    ensure
+      ::Rich::Cms::Engine.current_controller = nil
+    end
 
     def require_current_rich_cms_admin
       unless current_rich_cms_admin

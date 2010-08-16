@@ -11,13 +11,5 @@ module ActionView
   	  link_to name, "#", options
   	end
 
-    def render_with_rich_cms(*args, &block)
-      ::Rich::Cms::Engine.current_controller = @controller
-      render_without_rich_cms *args, &block
-    ensure
-      ::Rich::Cms::Engine.current_controller = nil
-    end
-    alias_method_chain :render, :rich_cms
-
   end
 end
