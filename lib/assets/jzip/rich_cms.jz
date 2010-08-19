@@ -8,9 +8,10 @@
 //= require jquery/extensions/ajaxify
 //= require jquery/extensions/modules
 //= require jquery/extensions/object
+//= require jquery/extensions/browser_detect
 
 //= require rich
 //= require rich/cms
+//= require rich/cms/editor
 //= require rich/cms/dock
 //= require rich/cms/menu
-//= require rich/cms/editor
