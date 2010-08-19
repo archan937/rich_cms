@@ -38,7 +38,7 @@ h3. Specify the authentication mechanism
 Provide the mechanism as a symbol (e.g. @:authlogic@) and the authenticated class along with the attribute used to identify the instance in a hash.
 
 <pre>
-  Rich::Cms::Engine.authenticate(:authlogic, {:class_name => "Betty::User", :identifier => :name})
+  Rich::Cms::Engine.authenticate(:authlogic, {:class_name => "User", :identifier => :email})
 </pre>      
 
 Unfortunately, only AuthLogic ("http://github.com/binarylogic/authlogic":http://github.com/binarylogic/authlogic) is supported, but we are working hard on making Rich-CMS compatible with other mechanisms.
@@ -59,8 +59,8 @@ The following specifications are optional as Rich-Cms uses defaults:
 * @:after_update@ (default: @Rich.Cms.Editor.afterUpdate@) - Javascript function called after update a content item
 
 <pre>
-  Rich::Cms::Engine.register(".betty_cms_content", {:class_name => "Betty::Cms::StaticContent"})
-  Rich::Cms::Engine.register(".i18n"             , {:class_name => "Translation", :key => [:key, :locale], :before_edit => "Rich.I18n.beforeEdit", :after_update => "Rich.I18n.afterUpdate"})
+  Rich::Cms::Engine.register(".cms_content", {:class_name => "Cms::StaticContent"})
+  Rich::Cms::Engine.register(".i18n"       , {:class_name => "Translation", :key => [:key, :locale], :before_edit => "Rich.I18n.beforeEdit", :after_update => "Rich.I18n.afterUpdate"})
 </pre>
 
 h3. Render Rich-CMS in your layout
@@ -81,15 +81,15 @@ Rich-CMS requires a rendered DOM element provided with meta data of the content 
 <pre>
   >> key = "test_content"
   => "test_content"
-  >> Rich::Cms::Engine.to_content_tag(".betty_cms_content", key)
-  => "<div class='betty_cms_content' data-key='test_content' data-value='Hello world!'>Hello world!</div>"
+  >> Rich::Cms::Engine.to_content_tag(".cms_content", key)
+  => "<div class='cms_content' data-key='test_content' data-value='Hello world!'>Hello world!</div>"
 </pre>
 
 We have also provided you a helper method to render Rich-CMS content tags:
 
 <pre>
   ...
-  <%= rich_cms_tag ".betty_cms_content", "test_content" %>
+  <%= rich_cms_tag ".cms_content", "test_content" %>
   ...
 </pre>
 
@@ -102,7 +102,7 @@ h2. Customizing the after update implementation
 The @update@ action response of @Rich::CmsController@ is provided with "JSON":http://www.json.org data regarding the updated content item. The response will be passed to the @after_update@ Javascript function. Its default JSON data:
 
 <pre>
-  {"__selector__": ".betty_cms_content", "__identifier__": {"key": "test_paragraph"}, "value": "Hello world!"}
+  {"__selector__": ".cms_content", "__identifier__": {"key": "test_paragraph"}, "value": "Hello world!"}
 </pre>
 
 *Note*: @__selector__@ and @__identifier__@ are *always* provided in the JSON data.
