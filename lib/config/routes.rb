@@ -11,12 +11,13 @@ ActionController::Routing::Routes.draw do |map|
       rich.send "cms_#{action}", "cms/#{action}", :controller => "cms", :action => action
     end
     
-    rich.connect  "cms"           , :controller => "cms", :action => "display"                     , :display => true
-    rich.connect  "cms_menu"      , :controller => "cms", :action => "display", :element => "menu" , :display => true
-    rich.connect  "cms_panel"     , :controller => "cms", :action => "display", :element => "panel", :display => true
-    rich.cms_hide "cms/hide"      , :controller => "cms", :action => "display"                     , :display => false
-    rich.connect  "cms_menu/hide" , :controller => "cms", :action => "display", :element => "menu" , :display => false
-    rich.connect  "cms_panel/hide", :controller => "cms", :action => "display", :element => "panel", :display => false
+    rich.connect  "cms"           , :controller => "cms", :action => "display"                      , :display => true
+    rich.connect  "cms_menu"      , :controller => "cms", :action => "display" , :element => "menu" , :display => true
+    rich.connect  "cms_panel"     , :controller => "cms", :action => "display" , :element => "panel", :display => true
+    rich.cms_hide "cms/hide"      , :controller => "cms", :action => "display"                      , :display => false
+    rich.connect  "cms_menu/hide" , :controller => "cms", :action => "display" , :element => "menu" , :display => false
+    rich.connect  "cms_panel/hide", :controller => "cms", :action => "display" , :element => "panel", :display => false
+    rich.connect  "cms/position"  , :controller => "cms", :action => "position"
     
   end
 

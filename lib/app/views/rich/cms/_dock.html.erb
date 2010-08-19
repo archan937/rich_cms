@@ -1,4 +1,12 @@
-<div id="rich_cms_dock" class="top left">
+<div id="rich_cms_dock" class="<%= session[:rich_cms][:position] || "top left" %>">
   <%= render :partial => "rich/cms/dock/menu"  %>
   <%= render :partial => "rich/cms/dock/panel" %>
 </div>
+
+<div id="x1" style="height: 100%; width : 1px; position: fixed; background: red"></div>
+<div id="x2" style="height: 100%; width : 1px; position: fixed; background: red"></div>
+<div id="y1" style="width : 100%; height: 1px; position: fixed; background: red"></div>
+<!--
+<div id="x"  style="height: 100%; width : 1px; position: fixed; background: green"></div>
+<div id="y"  style="width : 100%; height: 1px; position: fixed; background: green"></div>
+-->

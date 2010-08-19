@@ -2,7 +2,7 @@
 module Rich
   class CmsController < ::ApplicationController
 
-    before_filter :require_current_rich_cms_admin, :except => [:display, :login]
+    before_filter :require_current_rich_cms_admin, :except => [:display, :position, :login]
   
     def display
       (session[:rich_cms] ||= {})[[:display, params[:element]].compact.join("_").to_sym] = params[:display]
@@ -13,6 +13,11 @@ module Rich
       end
 
       request.xhr? ? render(:nothing => true) : redirect_to(request.referrer)
+    end
+    
+    def position
+      session[:rich_cms][:position] = params[:position]
+      render :nothing => true
     end
 
     def login
@@ -43,7 +48,8 @@ module Rich
       when :authlogic
         (@current_rich_cms_admin_session ||= rich_cms_authenticated_class.find).destroy
       end
-      hide
+      session[:rich_cms] = nil
+      redirect_to request.referrer
     end
 
     def update
