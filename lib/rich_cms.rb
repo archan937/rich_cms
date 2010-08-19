@@ -1,3 +1,5 @@
+require 'jzip'
+require 'sass/plugin'
 
 require "config/routes"
 
