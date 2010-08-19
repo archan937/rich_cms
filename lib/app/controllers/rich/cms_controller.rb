@@ -5,13 +5,7 @@ module Rich
     before_filter :require_current_rich_cms_admin, :except => [:display, :position, :login]
   
     def display
-      (session[:rich_cms] ||= {})[[:display, params[:element]].compact.join("_").to_sym] = params[:display]
-
-      if params[:element].blank? and !!params[:display]
-        session[:rich_cms][:display_menu ] = true
-        session[:rich_cms][:display_panel] = true
-      end
-
+      (session[:rich_cms] ||= {})[:display] = params[:display]
       request.xhr? ? render(:nothing => true) : redirect_to(request.referrer)
     end
     
@@ -24,10 +18,7 @@ module Rich
       case rich_cms_auth.logic
       when :authlogic
         @current_rich_cms_admin_session = rich_cms_authenticated_class.new params[key = rich_cms_authenticated_class.name.underscore.gsub("/", "_")]
-
-        if (authenticated = @current_rich_cms_admin_session.save)
-          # reset_dock_state
-        end
+        authenticated = @current_rich_cms_admin_session.save
 
         if request.xhr?
           render :update do |page|

@@ -1,5 +1,4 @@
-<ul id="rich_cms_menu"<%= ' style="display: none"' unless display_rich_cms_menu? %>>
-  
+<ul id="rich_cms_menu">
   <% unless current_rich_cms_admin %>
     <li>
       Rich-CMS
@@ -21,5 +20,4 @@
       <%= link_to "Logout", rich_cms_logout_path %>
     </li>
   <% end %>
-  
 </ul>
