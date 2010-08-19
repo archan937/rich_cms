@@ -85,6 +85,14 @@ Rich-CMS requires a rendered DOM element provided with meta data of the content 
   => "<div class='betty_cms_content' data-key='test_content' data-value='Hello world!'>Hello world!</div>"
 </pre>
 
+We have also provided you a helper method to render Rich-CMS content tags:
+
+<pre>
+  ...
+  <%= rich_cms_tag ".betty_cms_content", "test_content" %>
+  ...
+</pre>
+
 h3. Rich-CMS in your browser
 
 Open "http://localhost:3000/cms":http://localhost:3000/cms, log in and start managing CMS content.

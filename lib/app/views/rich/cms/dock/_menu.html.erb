@@ -1,0 +1,25 @@
+<ul id="rich_cms_menu"<%= ' style="display: none"' unless display_rich_cms_menu? %>>
+  
+  <% unless current_rich_cms_admin %>
+    <li>
+      Rich-CMS
+    </li>
+    <li class="last">
+      <%= link "Login" %>
+    </li>
+  <% else %>
+    <li>
+      <%= current_rich_cms_admin_name %>
+    </li>
+    <li>
+      <%= link "Mark content", :class => "mark" %>
+    </li>
+    <li>
+      <%= link_to "Hide"  , rich_cms_hide_path   %>
+    </li>
+    <li class="last">
+      <%= link_to "Logout", rich_cms_logout_path %>
+    </li>
+  <% end %>
+  
+</ul>

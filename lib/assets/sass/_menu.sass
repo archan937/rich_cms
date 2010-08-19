@@ -1,0 +1,37 @@
+
+#rich_cms_menu
+  padding: 5px 0
+  color: #222
+  font:
+    family: "Helvetica Neue", "Helvetica", "Arial", "sans-serif"
+    size: 12px
+    weight: bold
+  *border: 1px solid #555
+  background: #F6F6F6
+  +inline_block
+  +border_radius(5px)
+  +box_shadow(rgba(0, 0, 0, 0.5), 0, 1px, 2px)
+  
+  li
+    padding: 0 17px
+    line-height: 1
+    border-right: 1px solid #BBB
+    +box-shadow(white, 1px, 0, 0)
+    +inline_block
+    
+    &:first-child
+      cursor: move
+    &:last-child
+      border: 0
+      +box-shadow(transparent, 0, 0, 0)
+    &.last
+      *border: 0
+
+    a
+      color: #4183C4
+      cursor: pointer
+      outline: 0
+      text-decoration: none
+      &:hover
+        text-decoration: underline
+        +text-shadow(transparent, 0, 0)

@@ -1,10 +1,16 @@
 
 //= require jquery/core
+//= require jquery/ui/core
+//= require jquery/ui/widget
+//= require jquery/ui/mouse
+//= require jquery/ui/draggable
+
 //= require jquery/extensions/ajaxify
 //= require jquery/extensions/modules
 //= require jquery/extensions/object
 
 //= require rich
 //= require rich/cms
-//= require rich/cms/login
+//= require rich/cms/dock
+//= require rich/cms/menu
 //= require rich/cms/editor

@@ -1,0 +1,22 @@
+
+#rich_cms_dock
+  z-index: 999
+  +inline_block
+  +absolute
+  
+  &.top
+    top: 15px
+  &.bottom
+    bottom: 15px
+  &.left
+    left: 15px
+  &.right
+    right: 15px
+  &.middle
+    width: 500px
+    left: 50%
+    margin-left: -250px
+    text-align: center
+  
+  &.ui-draggable-dragging
+    +opacity(0.5)
