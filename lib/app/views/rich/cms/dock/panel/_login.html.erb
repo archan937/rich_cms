@@ -1,4 +1,4 @@
-<div class="login" style="display: none">
+<div class="login">
   <% semantic_form_for rich_cms_authenticated_class.new, :url => rich_cms_login_path, :html => {:class => "ajaxify"} do |form| %>
 
     <%= form.inputs *rich_cms_authentication_inputs %>

@@ -5,6 +5,8 @@
 //= require jquery/ui/mouse
 //= require jquery/ui/draggable
 
+//= require jquery/qtip
+
 //= require jquery/extensions/ajaxify
 //= require jquery/extensions/modules
 //= require jquery/extensions/object
@@ -12,6 +14,7 @@
 
 //= require rich
 //= require rich/cms
+//= require rich/cms/qtip
 //= require rich/cms/editor
 //= require rich/cms/dock
 //= require rich/cms/menu
