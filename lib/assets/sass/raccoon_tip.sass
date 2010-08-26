@@ -2,7 +2,6 @@
 !color            = #A27D35
 !background_color = #FBF7AA
 !border_color     = #F9E98E
-!tip_color        = !border_color
   
 =absolute
   position: absolute
@@ -20,7 +19,6 @@
   .rt_arrow
     width: 14px
     height: 14px
-    background = !tip_color
     +absolute
   
   &.rt_top_left .rt_arrow
@@ -29,8 +27,7 @@
     
   .rt_content
     padding: 6px 12px 8px 12px
-    color = !color
-    text-shadow: none
+    overflow: hidden
     background = !background_color
     border: 
       width: 10px
@@ -38,3 +35,10 @@
       color = !border_color
     *border-width: 7px
     +border_radius(10px)
+
+    &, & a
+      color = !color
+      text-shadow: none
+    
+    a
+      outline: 0
