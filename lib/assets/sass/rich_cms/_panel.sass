@@ -5,12 +5,13 @@
 
   form
     .inputs
+      label
+        font-size: 12px
+        +block
+        abbr
+          padding-left: 2px
+          border: 0
       li
-        label
-          font-size: 12px
-          abbr
-            padding-left: 2px
-            border: 0
         &.string, &.password
           input
             width: 100%
@@ -18,3 +19,6 @@
 
     .buttons
       padding-top: 9px
+
+      a
+        font-size: 12px
