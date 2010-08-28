@@ -4,7 +4,6 @@
 //= require jquery/ui/widget
 //= require jquery/ui/mouse
 //= require jquery/ui/draggable
-
 //= require jquery/raccoon_tip
 
 //= require jquery/extensions/ajaxify
