@@ -150,6 +150,7 @@ SeatHolder (optional)<br>
 
 h2. ToDo's
 
+* Provide a rake task to create the Translation model and migration files
 * Complete README.textile (provide documentation about optional features)
 * Integrate Rich-CMS in the E9s demo application ("http://github.com/archan937/e9s-demo":http://github.com/archan937/e9s-demo)
 * Provide compatibility with other authentication mechanisms other than AuthLogic

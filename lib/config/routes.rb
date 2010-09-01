@@ -1,10 +1,10 @@
-# Redefine clear! method to do nothing (usually it erases the routes)
+# TODO: add routes the right way as this is evil
 class << ActionController::Routing::Routes;self;end.class_eval do
   define_method :clear!, lambda {}
 end
+# END
 
 ActionController::Routing::Routes.draw do |map|
-
   map.namespace :rich, :path_prefix => "" do |rich|
     
     %w(login logout update).each do |action|
@@ -16,5 +16,4 @@ ActionController::Routing::Routes.draw do |map|
     rich.connect  "cms/position", :controller => "cms", :action => "position"
     
   end
-
 end
