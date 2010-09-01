@@ -1,11 +1,5 @@
 
-//= require jquery/core
-//= require jquery/ui/core
-//= require jquery/ui/widget
-//= require jquery/ui/mouse
-//= require jquery/ui/draggable
-//= require jquery/raccoon_tip
-
+var onRaccoonTipReady = function() {
 //= require jquery/extensions/ajaxify
 //= require jquery/extensions/modules
 //= require jquery/extensions/object
@@ -16,3 +10,6 @@
 //= require rich/cms/editor
 //= require rich/cms/dock
 //= require rich/cms/menu
+};
+
+//= require jquery/raccoon_tip
