@@ -15,8 +15,8 @@ module ActionView
   	  link_to name, "#", options
   	end
   	
-  	def rich_cms_tag(selector, key)
-  	  Rich::Cms::Engine.to_content_tag selector, key
+  	def rich_cms_tag(*args)
+  	  Rich::Cms::Engine.to_content_tag *args
   	end
 
   end

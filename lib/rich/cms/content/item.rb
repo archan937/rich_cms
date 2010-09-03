@@ -44,23 +44,27 @@ module Rich
           hash.merge({:__selector__ => selector, :__identifier__ => identifier})
         end
       
-        def to_tag
-          default = @object.attributes.values_at(*@group.identifiers) if @object.new_record?
+        def to_tag(options = {})
+          tag   = options[:tag] || @group.tag || :span
+          attrs = []
           
-          return @object.send(@group.value) unless Engine.can_render_metadata?
+          default = @group.identifiers.size == 1 ? @object.send(@group.identifiers.first) : @object.attributes.values_at(*@group.identifiers).inspect
+          value   = @object.send(@group.value)
           
-          keys  = @group.keys << @group.value.to_s
-          data  = @object.attributes.reject{|k, v| !keys.include?(k.to_s)}
-                
-          tag   = @group.tag || :span             
-          attrs = data.collect{|k, v| "data-#{k}=\"#{::ERB::Util.html_escape v}\""}.join " "
-          value = @object.new_record? ? "< #{default.size == 1 ? default.first : default.inspect} >" : @object.send(@group.value)
+          if Engine.can_render_metadata?
+            default = "< #{default} >"
+            keys    = @group.keys << @group.value.to_s
+            data    = @object.attributes.reject{|k, v| !keys.include?(k.to_s)}
           
-          if class_name = @group.selector.match(/^\.\w+$/)
-            attrs = "class=\"#{class_name.to_s.gsub(/^\./, "")}\" #{attrs}"
+            if class_name = @group.selector.match(/^\.\w+$/)
+              (options[:html] ||= {}).store :class, [class_name.to_s.gsub(/^\./, ""), options[:html].try(:fetch, :class, nil)].compact.join(" ")
+            end
+            
+            attrs << options[:html].collect{|k, v|      "#{k}=\"#{::ERB::Util.html_escape v}\""}.join(" ") if options[:html]
+            attrs << data          .collect{|k, v| "data-#{k}=\"#{::ERB::Util.html_escape v}\""}.join(" ")
           end
           
-          "<#{tag} #{attrs}>#{value}</#{tag}>"
+          "<#{tag} #{attrs.join(" ")}>#{value.blank? ? default : value}</#{tag}>"
         end
       
       end

@@ -44,8 +44,11 @@ module Rich
         end
       end
       
-      def to_content_tag(selector, identifiers)
-        editable_content[selector].fetch(identifiers).to_tag
+      def to_content_tag(*args)
+  	    selector    = args.shift
+  	    options     = args.extract_options!
+  	    identifiers = args
+        editable_content[selector].fetch(identifiers).to_tag options
       end
       
       def editable_content_javascript_hash
