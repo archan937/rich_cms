@@ -145,12 +145,14 @@ SASS<br>
 Formtastic<br>
 "http://github.com/justinfrench/formtastic":http://github.com/justinfrench/formtastic
 
-SeatHolder (optional)<br>
+RaccoonTip<br>
+"http://github.com/archan937/raccoon_tip":http://github.com/archan937/raccoon_tip
+
+SeatHolder<br>
 "http://github.com/archan937/seat_holder":http://github.com/archan937/seat_holder
 
 h2. ToDo's
 
-* Provide a rake task to create the Translation model and migration files
 * Complete README.textile (provide documentation about optional features)
 * Integrate Rich-CMS in the E9s demo application ("http://github.com/archan937/e9s-demo":http://github.com/archan937/e9s-demo)
 * Provide compatibility with other authentication mechanisms other than AuthLogic
