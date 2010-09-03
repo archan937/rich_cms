@@ -9,7 +9,16 @@
 
 == Version 2.0.0 (September 3, 2010)
 
-* Updated the look and feel
+* Complete new look and feel (using CSS3, no images and IE6+ compatible, Safari, Chrome and Firefox)
+* Using RaccoonTip (yay!)
+* Including jQuery dependencies the correct way
+* Moved app, assets and config to lib directory
+* Added lib/app/controllers to the load path
+* Added lib/app/views to view paths
+* Using Jzip::Engine instead of Jzip::Plugin
+* Refactored ActionController::Base a bit
+* Deriving the CMS content (to edit) the correct way within Rich.Cms.Editor
+* Improved the Rich::Cms::Engine.to_content_tag implementation
 
 == Version 1.0.0 (August 15, 2010)
 
