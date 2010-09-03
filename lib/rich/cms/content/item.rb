@@ -45,7 +45,7 @@ module Rich
         end
       
         def to_tag(options = {})
-          tag   = options[:tag] || @group.tag || :span
+          tag   = options[:tag] || @group.tag || :div
           attrs = []
           
           default = @group.identifiers.size == 1 ? @object.send(@group.identifiers.first) : @object.attributes.values_at(*@group.identifiers).inspect
