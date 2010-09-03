@@ -1,5 +1,12 @@
 = Rich-CMS CHANGELOG
 
+== Version 2.0.1 (September 3, 2010)
+
+* Tweaked determination of whether to show a text input or textarea when editing content
+* Corrected clicked cms content item detection
+* Updated styling of the Rich CMS panel
+* Rendering Rich CMS content within a div tag at default instead of a span
+
 == Version 2.0.0 (September 3, 2010)
 
 * Updated the look and feel
