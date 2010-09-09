@@ -12,7 +12,7 @@ module Rich
         def fetch(ref, as_content_item = true)
           reference = if ref.is_a?(Hash)
                         ref
-                      elsif identifier.size == 1
+                      elsif identifiers.size == 1
                         {identifiers.first => ref}
                       end
           reference.stringify_keys! if reference.is_a?(Hash)
