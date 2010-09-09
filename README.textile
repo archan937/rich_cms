@@ -85,11 +85,21 @@ Rich-CMS requires a rendered DOM element provided with meta data of the content 
   => "<div class='cms_content' data-key='test_content' data-value='Hello world!'>Hello world!</div>"
 </pre>
 
+When using a combined key for content identification, just call it as follows:
+
+<pre>
+  >> Rich::Cms::Engine.to_content_tag(".cms_content", {:key => key, :locale => I18n.locale})
+  => "<div class='cms_content' data-key='test_content' data-locale='nl' data-value='Hallo wereld!'>Hallo wereld!</div>"
+</pre>
+
+*Note*: In this case, the content was registered with @Rich::Cms::Engine.register(".cms_content", {:class_name => "Cms::StaticContent", :key => [:key, :locale]})@
+
 We have also provided you a helper method to render Rich-CMS content tags:
 
 <pre>
   ...
   <%= rich_cms_tag ".cms_content", "test_content" %>
+  <%= rich_cms_tag ".cms_content", {:key => "test_content", :locale => I18n.locale} %>
   ...
 </pre>
 
