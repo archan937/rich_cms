@@ -1,5 +1,9 @@
 = Rich-CMS CHANGELOG
 
+== Version 2.0.2 (September 9, 2010)
+
+* Corrected the Rich::Cms::Engine.to_content_tag implementation when using combined keys
+
 == Version 2.0.1 (September 3, 2010)
 
 * Tweaked determination of whether to show a text input or textarea when editing content

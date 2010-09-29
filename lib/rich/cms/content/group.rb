@@ -10,8 +10,13 @@ module Rich
         end
         
         def fetch(ref, as_content_item = true)
-          reference = ref.is_a?(Hash) || (identifiers.size != 1) ? ref : {identifiers.first => ref}
-
+          reference = if ref.is_a?(Hash)
+                        ref
+                      elsif identifiers.size == 1
+                        {identifiers.first => ref}
+                      end
+          reference.stringify_keys! if reference.is_a?(Hash)
+          
           unless valid_reference?(reference)
             raise ArgumentError, "Invalid reference #{reference.inspect} (#{reference.values_at(*identifiers).inspect}) passed for #{identifiers.inspect}"
           end
@@ -53,7 +58,7 @@ module Rich
       private
         
         def valid_reference?(reference)
-          reference.is_a?(Hash) && (identifiers - reference.stringify_keys.keys).empty? && reference.values_at(*identifiers).compact!.nil?
+          reference.is_a?(Hash) && (identifiers - reference.keys).empty? && reference.values_at(*identifiers).compact!.nil?
         end
         
       end

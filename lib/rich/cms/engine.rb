@@ -44,10 +44,7 @@ module Rich
         end
       end
       
-      def to_content_tag(*args)
-  	    selector    = args.shift
-  	    options     = args.extract_options!
-  	    identifiers = args
+      def to_content_tag(selector, identifiers, options = {})
         editable_content[selector].fetch(identifiers).to_tag options
       end
       
