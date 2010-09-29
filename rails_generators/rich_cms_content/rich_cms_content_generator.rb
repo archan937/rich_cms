@@ -8,10 +8,17 @@ class RichCmsContentGenerator < Rails::Generator::Base
     record do |m|
       m.directory                          "app/models"
       m.template               "model.rb", "app/models/#{model_file_name}.rb"
+      m.template              "config.rb", "config/initializers/enrichments.rb", {:collision => :skip}
       m.migration_template "migration.rb", "db/migrate", :migration_file_name => migration_file_name
     end
+  end
+  
+  def after_generate
+    File.open(destination_path("config/initializers/enrichments.rb"), "a+") do |file|
+      file << "\nRich::Cms::Engine.register(\".#{model_file_name}\", {:class_name => \"#{model_class_name}\"})"
+    end
     
-    # destination_path("db/migrate/[0-9]+_#{migration_file_name}.rb").migrate if options[:m] || options[:migrate]
+    system "rake db:migrate" if options[:migrate]
   end
 
   def model_file_name
@@ -36,15 +43,15 @@ class RichCmsContentGenerator < Rails::Generator::Base
 
 protected
 
-  # def add_options!(opt)
-  #   opt.separator ""
-  #   opt.separator "Options:"
-  #   opt.on("-m", "--migrate", "Run 'rake db:migrate' after generating model and migration."){|v| options[:haml] = v }
-  # end
+  def add_options!(opt)
+    opt.separator ""
+    opt.separator "Options:"
+    opt.on("-m", "--migrate", "Run 'rake db:migrate' after generating model and migration.") { options[:migrate] = true }
+  end
 
   def banner
     <<-EOS
-Creates Rich-CMS content model and migration.
+Creates Rich-CMS content model and migration and also registers content to Rich-CMS.
 
 USAGE: #{$0} #{spec.name} [model_name]
 EOS
