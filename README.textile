@@ -70,9 +70,9 @@ Run the following in your console:
   script/generate rich_cms_content CmsItem
 </pre>
 
-In case you have used the Rails generators, you can skip the *Create required entities manually* section and go straight to *Render Rich-CMS in your views*.
+In case you have used the Rails generators, you can skip the "Create required entities manually":#create_entities_manually section and go straight to "Render Rich-CMS in your views":#render_rich_cms.
 
-h2. Create required entities manually
+h2(#create_entities_manually). Create required entities manually
 
 h3. Specify the authentication mechanism
 
@@ -104,7 +104,7 @@ The following specifications are optional as Rich-Cms uses defaults:
   Rich::Cms::Engine.register(".i18n"       , {:class_name => "Translation", :key => [:key, :locale], :before_edit => "Rich.I18n.beforeEdit", :after_update => "Rich.I18n.afterUpdate"})
 </pre>
 
-h2. Render Rich-CMS in your views
+h2(#render_rich_cms). Render Rich-CMS in your views
 
 h3. Alter your layout
 
