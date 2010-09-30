@@ -17,6 +17,8 @@ class <%= migration_class_name %> < ActiveRecord::Migration
     end
     
     add_index :<%= table_name %>, :email
+    
+    <%= model_class_name %>.create :name => "Paul Engel", :email => "paul.engel@holder.nl", :password => "test", :password_confirmation => "test"
   end
 
   def self.down
