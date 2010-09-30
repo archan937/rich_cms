@@ -13,8 +13,8 @@ begin
     gemspec.author      = "Paul Engel"
 
     gemspec.add_dependency "authlogic"
-    gemspec.add_dependency "jzip", ">= 1.0.10"
-    gemspec.add_dependency "haml", ">= 3"
+    gemspec.add_dependency "jzip"      , ">= 1.0.10"
+    gemspec.add_dependency "haml"      , ">= 3"
     gemspec.add_dependency "formtastic", "0.9.7"
   end
   Jeweler::GemcutterTasks.new
