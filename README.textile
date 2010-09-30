@@ -189,6 +189,9 @@ This Rails gem / plugin depends on:
 jQuery<br>
 "http://jquery.com":http://jquery.com
 
+AuthLogic<br>
+"http://github.com/binarylogic/authlogic":http://github.com/binarylogic/authlogic
+
 Jzip<br>
 "http://github.com/archan937/jzip":http://github.com/archan937/jzip
 
