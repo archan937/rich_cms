@@ -35,8 +35,8 @@ h2. Use the provided Rails generators
 
 Rich-CMS requires two entities:
 
-* An (Authlogic authenticated) user model
-* An ActiveRecord model used for CMS content storage
+* An (@Authlogic@ authenticated) user model
+* An @ActiveRecord@ model used for CMS content storage
 
 Fortunately, Rich-CMS is provided with two Rails generators with which you can generate both entities.
 
@@ -48,7 +48,7 @@ Run the following in your console:
   script/generate rich_authlogic_user
 </pre>
 
-*Note*: At default, it will create both the User and UserSesson classes and CreateUsers migration. You can alter the class names with the following:
+*Note*: At default, it will create both the @User@ and @UserSesson@ classes and @CreateUsers@ migration. You can alter the class names with the following:
 
 <pre>
   script/generate rich_authlogic_user CodeHeroes::User
@@ -62,13 +62,13 @@ Run the following in your console:
   script/generate rich_cms_content
 </pre>
 
-*Note*: At default, it will create the CmsContent model and CreateCmsContents migration. You can alter the class name with the following:
+*Note*: At default, it will create the @CmsContent@ model and @CreateCmsContents@ migration. You can alter the class name with the following:
 
 <pre>
   script/generate rich_cms_content CmsItem
 </pre>
 
-In case you have used the Rails generators, you can skip the *Create required entities manually* section and go straight to *Render Rich-CMS in your layout*.
+In case you have used the Rails generators, you can skip the *Create required entities manually* section and go straight to *Render Rich-CMS in your views*.
 
 h2. Create required entities manually
 
@@ -102,7 +102,9 @@ The following specifications are optional as Rich-Cms uses defaults:
   Rich::Cms::Engine.register(".i18n"       , {:class_name => "Translation", :key => [:key, :locale], :before_edit => "Rich.I18n.beforeEdit", :after_update => "Rich.I18n.afterUpdate"})
 </pre>
 
-h3. Render Rich-CMS in your layout
+h2. Render Rich-CMS in your views
+
+h3. Alter your layout
 
 Add the following line at the beginning of the @<body>@ tag:
 
@@ -113,7 +115,7 @@ Add the following line at the beginning of the @<body>@ tag:
   </body>
 </pre>
 
-h3. Render CMS content in your views
+h3. Use @rich_cms_tag@
 
 Rich-CMS requires a rendered DOM element provided with meta data of the content instance. Fortunately, you can call a method provided by Rich-CMS. Just specify the identifier of the content type and the key of the CMS content instance in question:
 
