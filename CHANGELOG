@@ -1,5 +1,10 @@
 = Rich-CMS CHANGELOG
 
+== Version 2.0.3 (September 30, 2010)
+
+* Added rails generators 'rich_authlogic_user' and 'rich_cms_content'
+* Finetuned the jQuery function $.keys()
+
 == Version 2.0.2 (September 9, 2010)
 
 * Corrected the Rich::Cms::Engine.to_content_tag implementation when using combined keys

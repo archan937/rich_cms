@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{rich_cms}
-  s.version = "2.0.2"
+  s.version = "2.0.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Paul Engel"]
-  s.date = %q{2010-09-09}
+  s.date = %q{2010-09-30}
   s.description = %q{Rich-CMS is a module of E9s (http://github.com/archan937/e9s) which provides a frontend for your CMS content. You can use this gem to manage CMS content or translations (in an internationalized application). The installation and setup process is very easily done. You will have to register content at the Rich-CMS engine and also you will have to specify the authentication mechanism. Both are one-liners.}
   s.email = %q{paul.engel@holder.nl}
   s.extra_rdoc_files = [
@@ -74,6 +74,15 @@ Gem::Specification.new do |s|
      "lib/rich/cms/engine.rb",
      "lib/rich_cms.rb",
      "rails/init.rb",
+     "rails_generators/rich_authlogic_user/rich_authlogic_user_generator.rb",
+     "rails_generators/rich_authlogic_user/templates/config.rb",
+     "rails_generators/rich_authlogic_user/templates/migration.rb",
+     "rails_generators/rich_authlogic_user/templates/model.rb",
+     "rails_generators/rich_authlogic_user/templates/session.rb",
+     "rails_generators/rich_cms_content/rich_cms_content_generator.rb",
+     "rails_generators/rich_cms_content/templates/config.rb",
+     "rails_generators/rich_cms_content/templates/migration.rb",
+     "rails_generators/rich_cms_content/templates/model.rb",
      "rich_cms.gemspec",
      "tasks/rich_cms_tasks.rake",
      "test/engine_test.rb",
@@ -95,15 +104,18 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
+      s.add_runtime_dependency(%q<authlogic>, [">= 0"])
       s.add_runtime_dependency(%q<jzip>, [">= 1.0.10"])
       s.add_runtime_dependency(%q<haml>, [">= 3"])
       s.add_runtime_dependency(%q<formtastic>, ["= 0.9.7"])
     else
+      s.add_dependency(%q<authlogic>, [">= 0"])
       s.add_dependency(%q<jzip>, [">= 1.0.10"])
       s.add_dependency(%q<haml>, [">= 3"])
       s.add_dependency(%q<formtastic>, ["= 0.9.7"])
     end
   else
+    s.add_dependency(%q<authlogic>, [">= 0"])
     s.add_dependency(%q<jzip>, [">= 1.0.10"])
     s.add_dependency(%q<haml>, [">= 3"])
     s.add_dependency(%q<formtastic>, ["= 0.9.7"])

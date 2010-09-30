@@ -31,7 +31,46 @@ Install the Rich-CMS plugin:
   ./script/plugin install git://github.com/archan937/rich_cms.git 
 </pre>
 
-h2. Usage
+h2. Use the provided Rails generators
+
+Rich-CMS requires two entities:
+
+* An (Authlogic authenticated) user model
+* An ActiveRecord model used for CMS content storage
+
+Fortunately, Rich-CMS is provided with two Rails generators with which you can generate both entities.
+
+h3. Authlogic user
+
+Run the following in your console:
+
+<pre>
+  script/generate rich_authlogic_user
+</pre>
+
+*Note*: At default, it will create both the User and UserSesson classes and CreateUsers migration. You can alter the class names with the following:
+
+<pre>
+  script/generate rich_authlogic_user CodeHeroes::User
+</pre>
+
+h3. CMS content
+
+Run the following in your console:
+
+<pre>
+  script/generate rich_cms_content
+</pre>
+
+*Note*: At default, it will create the CmsContent model and CreateCmsContents migration. You can alter the class name with the following:
+
+<pre>
+  script/generate rich_cms_content CmsItem
+</pre>
+
+In case you have used the Rails generators, you can skip the *Create required entities manually* section and go straight to *Render Rich-CMS in your layout*.
+
+h2. Create required entities manually
 
 h3. Specify the authentication mechanism
 
