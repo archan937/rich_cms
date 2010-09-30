@@ -35,7 +35,7 @@ h2. Use the provided Rails generators
 
 Rich-CMS requires two entities:
 
-* An (@Authlogic@ authenticated) user model
+* An @Authlogic@ authenticated user model
 * An @ActiveRecord@ model used for CMS content storage
 
 Fortunately, Rich-CMS is provided with two Rails generators with which you can generate both entities.
@@ -51,8 +51,10 @@ Run the following in your console:
 *Note*: At default, it will create both the @User@ and @UserSesson@ classes and @CreateUsers@ migration. You can alter the class names with the following:
 
 <pre>
-  script/generate rich_authlogic_user CodeHeroes::User
+  script/generate rich_authlogic_user CodeHeroes::User --migrate
 </pre>
+
+*Note*: Both generators have the @-m@ or @--migrate@ option which runs @rake db:migrate@ after creating the files.
 
 h3. CMS content
 
@@ -115,7 +117,7 @@ Add the following line at the beginning of the @<body>@ tag:
   </body>
 </pre>
 
-h3. Use @rich_cms_tag@
+h3. Use the Rich-CMS helper method
 
 Rich-CMS requires a rendered DOM element provided with meta data of the content instance. Fortunately, you can call a method provided by Rich-CMS. Just specify the identifier of the content type and the key of the CMS content instance in question:
 
