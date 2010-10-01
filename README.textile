@@ -96,8 +96,8 @@ The following specifications are optional as Rich-Cms uses defaults:
 * @:value@ (default: @:value@) - The attribute which stores the value of the content instance.
 * @:tag@ (default: @:span@) - The tag used for content items.
 * @:add@ (default: @[]@) - An array of the content item attributes included within the HTML attributes.
-* @:before_edit@ (default: @nil@) - Javascript function called before showing the edit form of a content item
-* @:after_update@ (default: @Rich.Cms.Editor.afterUpdate@) - Javascript function called after update a content item
+* @:before_edit@ (default: @nil@) - Javascript function called before showing the edit form of a content item.
+* @:after_update@ (default: @Rich.Cms.Editor.afterUpdate@) - Javascript function called after update a content item.
 
 <pre>
   Rich::Cms::Engine.register(".cms_content", {:class_name => "Cms::StaticContent"})
