@@ -216,13 +216,13 @@ h2. ToDo's
 
 h2. Enrichments
 
-All-in-one - "http://github.com/archan937/e9s":http://github.com/archan937/e9s
+The all-in-one gem at - "http://codehero.es/rails_gems_plugins/e9s":http://codehero.es/rails_gems_plugins/e9s - "http://github.com/archan937/e9s":http://github.com/archan937/e9s
 
 h3. E9s modules
 
-* Rich-CMS - "http://github.com/archan937/rich_cms":http://github.com/archan937/rich_cms
-* Rich-i18n - "http://github.com/archan937/rich_i18n":http://github.com/archan937/rich_i18n
-* Rich-pluralization - "http://github.com/archan937/rich_pluralization":http://github.com/archan937/rich_pluralization
+* Rich-CMS <br> "http://codehero.es/rails_gems_plugins/rich_cms":http://codehero.es/rails_gems_plugins/rich_cms <br> "http://github.com/archan937/rich_cms":http://github.com/archan937/rich_cms
+* Rich-i18n <br> "http://codehero.es/rails_gems_plugins/rich_i18n":http://codehero.es/rails_gems_plugins/rich_i18n <br> "http://github.com/archan937/rich_i18n":http://github.com/archan937/rich_i18n
+* Rich-pluralization <br> "http://codehero.es/rails_gems_plugins/rich_pluralization":http://codehero.es/rails_gems_plugins/rich_pluralization <br> "http://github.com/archan937/rich_pluralization":http://github.com/archan937/rich_pluralization
 
 h2. License
 
