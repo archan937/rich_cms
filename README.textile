@@ -199,13 +199,16 @@ SASS<br>
 "http://sass-lang.com":http://sass-lang.com
 
 Jzip<br>
-"http://github.com/archan937/jzip":http://github.com/archan937/jzip - "http://codehero.es/rails_gems_plugins/jzip":http://codehero.es/rails_gems_plugins/jzip
+"http://codehero.es/rails_gems_plugins/jzip":http://codehero.es/rails_gems_plugins/jzip <br>
+"http://github.com/archan937/jzip":http://github.com/archan937/jzip
 
 RaccoonTip<br>
-"http://github.com/archan937/raccoon_tip":http://github.com/archan937/raccoon_tip - "http://codehero.es/jquery_libraries/raccoon_tip":http://codehero.es/jquery_libraries/raccoon_tip
+"http://codehero.es/jquery_libraries/raccoon_tip":http://codehero.es/jquery_libraries/raccoon_tip <br>
+"http://github.com/archan937/raccoon_tip":http://github.com/archan937/raccoon_tip
 
 SeatHolder<br>
-"http://github.com/archan937/seat_holder":http://github.com/archan937/seat_holder - "http://codehero.es/jquery_libraries/seat_holder":http://codehero.es/jquery_libraries/seat_holder
+"http://codehero.es/jquery_libraries/seat_holder":http://codehero.es/jquery_libraries/seat_holder <br>
+"http://github.com/archan937/seat_holder":http://github.com/archan937/seat_holder
 
 h2. ToDo's
 
