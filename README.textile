@@ -214,9 +214,9 @@ h2. ToDo's
 * Provide compatibility with other authentication mechanisms other than AuthLogic
 * Add cache feature which uses the standard Rails cache (rich_cms_tag ".cms_content", "test_content", :cache => true)
 
-h2. E9s
+h2. Enrichments
 
-E9s - "http://github.com/archan937/e9s":http://github.com/archan937/e9s
+All-in-one - "http://github.com/archan937/e9s":http://github.com/archan937/e9s
 
 h3. E9s modules
 
