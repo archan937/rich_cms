@@ -9,7 +9,7 @@ begin
     gemspec.summary     = "Enrichments (e9s) module for a pluggable CMS frontend"
     gemspec.description = "Rich-CMS is a module of E9s (http://github.com/archan937/e9s) which provides a frontend for your CMS content. You can use this gem to manage CMS content or translations (in an internationalized application). The installation and setup process is very easily done. You will have to register content at the Rich-CMS engine and also you will have to specify the authentication mechanism. Both are one-liners."
     gemspec.email       = "paul.engel@holder.nl"
-    gemspec.homepage    = "http://github.com/archan937/rich_cms"
+    gemspec.homepage    = "http://codehero.es/rails_gems_plugins/rich_cms"
     gemspec.author      = "Paul Engel"
 
     gemspec.add_dependency "authlogic"
