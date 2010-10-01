@@ -192,20 +192,20 @@ jQuery<br>
 AuthLogic<br>
 "http://github.com/binarylogic/authlogic":http://github.com/binarylogic/authlogic
 
-Jzip<br>
-"http://github.com/archan937/jzip":http://github.com/archan937/jzip
+Formtastic<br>
+"http://github.com/justinfrench/formtastic":http://github.com/justinfrench/formtastic
 
 SASS<br>
 "http://sass-lang.com":http://sass-lang.com
 
-Formtastic<br>
-"http://github.com/justinfrench/formtastic":http://github.com/justinfrench/formtastic
+Jzip<br>
+"http://github.com/archan937/jzip":http://github.com/archan937/jzip - "http://codehero.es/rails_gems_plugins/jzip":http://codehero.es/rails_gems_plugins/jzip
 
 RaccoonTip<br>
-"http://github.com/archan937/raccoon_tip":http://github.com/archan937/raccoon_tip
+"http://github.com/archan937/raccoon_tip":http://github.com/archan937/raccoon_tip - "http://codehero.es/jquery_libraries/raccoon_tip":http://codehero.es/jquery_libraries/raccoon_tip
 
 SeatHolder<br>
-"http://github.com/archan937/seat_holder":http://github.com/archan937/seat_holder
+"http://github.com/archan937/seat_holder":http://github.com/archan937/seat_holder - "http://codehero.es/jquery_libraries/seat_holder":http://codehero.es/jquery_libraries/seat_holder
 
 h2. ToDo's
 
