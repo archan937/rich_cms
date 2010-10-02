@@ -212,8 +212,7 @@ SeatHolder<br>
 
 h2. ToDo's
 
-* Add feature with which textilized content is editable
-* Complete README.textile (provide documentation about optional features)
+* Provide tools to use Textile, MarkDown, image files upload and models (e.g. products)
 * Provide compatibility with other authentication mechanisms other than AuthLogic
 * Add cache feature which uses the standard Rails cache (rich_cms_tag ".cms_content", "test_content", :cache => true)
 
