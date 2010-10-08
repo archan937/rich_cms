@@ -19,7 +19,23 @@ module Rich
       when :authlogic
         @current_rich_cms_admin_session = rich_cms_authenticated_class.new params[key = rich_cms_authenticated_class.name.underscore.gsub("/", "_")]
         authenticated = @current_rich_cms_admin_session.save
+        
+        after_rich_cms_login authenticated, key
+      end
+    end
 
+    def logout
+      case rich_cms_auth.logic
+      when :authlogic
+        (@current_rich_cms_admin_session ||= rich_cms_authenticated_class.find).destroy
+      end
+      session[:rich_cms] = nil
+      
+      after_rich_cms_logout
+    end
+    
+    unless ::ApplicationController.instance_methods.include?("after_rich_cms_login")
+      def after_rich_cms_login(authenticated, key)
         if request.xhr?
           render :update do |page|
             if authenticated
@@ -30,17 +46,14 @@ module Rich
           end
         else
           redirect_to request.referrer
-        end        
+        end
       end
     end
-
-    def logout
-      case rich_cms_auth.logic
-      when :authlogic
-        (@current_rich_cms_admin_session ||= rich_cms_authenticated_class.find).destroy
+    
+    unless ::ApplicationController.instance_methods.include?("after_rich_cms_logout")
+      def after_rich_cms_logout
+        redirect_to request.referrer
       end
-      session[:rich_cms] = nil
-      redirect_to request.referrer
     end
 
     def update

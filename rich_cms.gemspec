@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{rich_cms}
-  s.version = "2.0.5"
+  s.version = "2.0.6"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Paul Engel"]
-  s.date = %q{2010-10-02}
+  s.date = %q{2010-10-08}
   s.description = %q{Rich-CMS is a module of E9s (http://github.com/archan937/e9s) which provides a frontend for your CMS content. You can use this gem to manage CMS content or translations (in an internationalized application). The installation and setup process is very easily done. You will have to register content at the Rich-CMS engine and also you will have to specify the authentication mechanism. Both are one-liners.}
   s.email = %q{paul.engel@holder.nl}
   s.extra_rdoc_files = [
@@ -90,7 +90,7 @@ Gem::Specification.new do |s|
      "test/test_helper.rb",
      "uninstall.rb"
   ]
-  s.homepage = %q{http://github.com/archan937/rich_cms}
+  s.homepage = %q{http://codehero.es/rails_gems_plugins/rich_cms}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.7}
