@@ -48,7 +48,7 @@ Run the following in your console:
   script/generate rich_authlogic_user
 </pre>
 
-*Note*: At default, it will create both the @User@ and @UserSesson@ classes and @CreateUsers@ migration. You can alter the class names with the following:
+*Note*: At default, it will create both the @User@ and @UserSession@ classes and @CreateUsers@ migration. You can alter the class names with the following:
 
 <pre>
   script/generate rich_authlogic_user CodeHeroes::User --migrate
