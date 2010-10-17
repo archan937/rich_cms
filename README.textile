@@ -94,7 +94,7 @@ The following specifications are optional as Rich-Cms uses defaults:
 
 * @:key@ (default: @:key@) - The key used for identification of content. You can also provide an array for a combined key (e.g. @[:key, :locale]@)
 * @:value@ (default: @:value@) - The attribute which stores the value of the content instance.
-* @:tag@ (default: @:span@) - The tag used for content items.
+* @:tag@ (default: @:div@) - The HTML tag used for content items.
 * @:add@ (default: @[]@) - An array of the content item attributes included within the HTML attributes.
 * @:before_edit@ (default: @nil@) - Javascript function called before showing the edit form of a content item.
 * @:after_update@ (default: @Rich.Cms.Editor.afterUpdate@) - Javascript function called after update a content item.
@@ -137,11 +137,15 @@ When using a combined key for content identification, just call it as follows:
 
 *Note*: In this case, the content was registered with @Rich::Cms::Engine.register(".cms_content", {:class_name => "Cms::StaticContent", :key => [:key, :locale]})@
 
-We have also provided you a helper method to render Rich-CMS content tags:
+We have also provided you a helper method to render Rich-CMS content tags. It is provided with several options:
+
+* @:as@ (default: auto-detect @:string@ or @:text@) - Specify the input type shown in the edit form (@:string@ for an input text, @:text@ for a textarea and @:html@ for a WYSIWYG HTML editor).
+* @:tag@ (default: @:div@) - The HTML tag used for content items.
+* @:html@ (default: @{}@) - HTML attributes added to the content tag (e.g. @:id@, @:class@)
 
 <pre>
   ...
-  <%= rich_cms_tag ".cms_content", "test_content" %>
+  <%= rich_cms_tag ".cms_content", "test_content", :as => :html %>
   <%= rich_cms_tag ".cms_content", {:key => "test_content", :locale => I18n.locale} %>
   ...
 </pre>
@@ -209,6 +213,9 @@ RaccoonTip<br>
 SeatHolder<br>
 "http://codehero.es/jquery_libraries/seat_holder":http://codehero.es/jquery_libraries/seat_holder <br>
 "http://github.com/archan937/seat_holder":http://github.com/archan937/seat_holder
+
+CLEditor<br>
+"http://premiumsoftware.net/cleditor/index.html":http://premiumsoftware.net/cleditor/index.html
 
 h2. ToDo's
 

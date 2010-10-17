@@ -55,6 +55,8 @@ module Rich
             default = "< #{default} >"
             keys    = @group.keys << @group.value.to_s
             data    = @object.attributes.reject{|k, v| !keys.include?(k.to_s)}
+
+            data[:editable_input_type] = options[:as] if %w(string text html).include? options[:as].to_s.downcase
           
             if class_name = @group.selector.match(/^\.\w+$/)
               (options[:html] ||= {}).store :class, [class_name.to_s.gsub(/^\./, ""), options[:html].try(:fetch, :class, nil)].compact.join(" ")

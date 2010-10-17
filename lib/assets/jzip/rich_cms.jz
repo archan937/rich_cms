@@ -4,6 +4,7 @@ var onRaccoonTipReady = function() {
 //= require jquery/extensions/modules
 //= require jquery/extensions/object
 //= require jquery/extensions/browser_detect
+//= require jquery/cleditor
 
 //= require rich
 //= require rich/cms
