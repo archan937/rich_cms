@@ -23,6 +23,19 @@ module Rich
         
         ::Jzip::Engine.add_template_location({File.join(File.dirname(__FILE__), "..", "..", "assets", "jzip") => File.join(RAILS_ROOT, "public", "javascripts")})
         ::Sass::Plugin.add_template_location( File.join(File.dirname(__FILE__), "..", "..", "assets", "sass"),   File.join(RAILS_ROOT, "public", "stylesheets") )
+        
+        copy_assets
+      end
+    
+      def copy_assets
+        return if RAILS_ENV == "test"
+        
+        source_dir = File.join File.dirname(__FILE__), "..", "..", "assets", "images", "."
+        target_dir = File.join RAILS_ROOT, "public", "images", "rich", "cms"
+        
+        FileUtils.rm_r    target_dir if File.exists? target_dir
+        FileUtils.mkdir_p target_dir
+        FileUtils.cp_r    source_dir, target_dir
       end
       
       def current_controller=(current_controller)
