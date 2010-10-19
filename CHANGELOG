@@ -1,5 +1,17 @@
 = Rich-CMS CHANGELOG
 
+== Version 2.0.7 (October 20, 2010)
+
+* Being able to edit content with the WYSIWYG HTML editor: CLEditor v1.3.0 (yay!)
+* Added the :as option when rendering CMS content tags (available options are :string, :text and :html)
+* Using RaccoonTip v1.0.8
+* Copying image assets to public/images/rich/cms
+* Finetuned the label of the edit CMS content form
+* Added some manual source file requirements
+* Tweaked Cleditor assets
+* Telling SeatHolder not to react on focus events when marking CMS content
+* Changed the formtastic gem dependency to '1.0.1'
+
 == Version 2.0.6 (October 8, 2010)
 
 * Providing control after logging in or out as Rich-CMS admin
