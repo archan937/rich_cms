@@ -1,6 +1,9 @@
-
+require "authlogic"
 require "jzip"
 require "sass/plugin"
+
+require "formtastic"
+ActionView::Base.send :include, Formtastic::SemanticFormHelper
 
 require "config/routes"
 require "rich/cms/actionpack"
