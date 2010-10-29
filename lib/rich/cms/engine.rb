@@ -20,17 +20,17 @@ module Rich
           ActiveSupport::Dependencies.autoload_once_paths.delete path
         end
 
-        ::Jzip::Engine.add_template_location({File.join(File.dirname(__FILE__), "..", "..", "assets", "jzip") => File.join(RAILS_ROOT, "public", "javascripts")})
-        ::Sass::Plugin.add_template_location( File.join(File.dirname(__FILE__), "..", "..", "assets", "sass"),   File.join(RAILS_ROOT, "public", "stylesheets") )
+        ::Jzip::Engine.add_template_location({File.join(File.dirname(__FILE__), "..", "..", "assets", "jzip") => File.join(Rails.root, "public", "javascripts")})
+        ::Sass::Plugin.add_template_location( File.join(File.dirname(__FILE__), "..", "..", "assets", "sass"),   File.join(Rails.root, "public", "stylesheets") )
 
         copy_assets
       end
 
       def copy_assets
-        return if RAILS_ENV == "test"
+        return if Rails.env == "test"
 
         source_dir = File.join File.dirname(__FILE__), "..", "..", "assets", "images", "."
-        target_dir = File.join RAILS_ROOT, "public", "images", "rich", "cms"
+        target_dir = File.join Rails.root, "public", "images", "rich", "cms"
 
         FileUtils.rm_r    target_dir if File.exists? target_dir
         FileUtils.mkdir_p target_dir
