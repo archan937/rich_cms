@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Paul Engel"]
-  s.date = %q{2010-10-20}
+  s.date = %q{2010-10-29}
   s.description = %q{Rich-CMS is a module of E9s (http://github.com/archan937/e9s) which provides a frontend for your CMS content. You can use this gem to manage CMS content or translations (in an internationalized application). The installation and setup process is very easily done. You will have to register content at the Rich-CMS engine and also you will have to specify the authentication mechanism. Both are one-liners.}
   s.email = %q{paul.engel@holder.nl}
   s.extra_rdoc_files = [
@@ -23,16 +23,10 @@ Gem::Specification.new do |s|
      "Rakefile",
      "VERSION",
      "init.rb",
-     "install.rb",
-     "lib/app/controllers/rich/._cms_controller.rb",
      "lib/app/controllers/rich/cms_controller.rb",
-     "lib/app/views/._rich_cms.html.erb",
      "lib/app/views/rich/cms/_dock.html.erb",
-     "lib/app/views/rich/cms/dock/.__menu.html.erb",
-     "lib/app/views/rich/cms/dock/.__panel.html.erb",
      "lib/app/views/rich/cms/dock/_menu.html.erb",
      "lib/app/views/rich/cms/dock/_panel.html.erb",
-     "lib/app/views/rich/cms/dock/panel/.__login.html.erb",
      "lib/app/views/rich/cms/dock/panel/_edit.html.erb",
      "lib/app/views/rich/cms/dock/panel/_login.html.erb",
      "lib/app/views/rich_cms.html.erb",
@@ -69,9 +63,7 @@ Gem::Specification.new do |s|
      "lib/assets/sass/tools/_mixins.sass",
      "lib/config/routes.rb",
      "lib/rich/cms/actionpack.rb",
-     "lib/rich/cms/actionpack/action_controller/._base.rb",
      "lib/rich/cms/actionpack/action_controller/base.rb",
-     "lib/rich/cms/actionpack/action_view/._base.rb",
      "lib/rich/cms/actionpack/action_view/base.rb",
      "lib/rich/cms/content/group.rb",
      "lib/rich/cms/content/item.rb",
@@ -90,8 +82,7 @@ Gem::Specification.new do |s|
      "rich_cms.gemspec",
      "tasks/rich_cms_tasks.rake",
      "test/engine_test.rb",
-     "test/test_helper.rb",
-     "uninstall.rb"
+     "test/test_helper.rb"
   ]
   s.homepage = %q{http://codehero.es/rails_gems_plugins/rich_cms}
   s.rdoc_options = ["--charset=UTF-8"]
