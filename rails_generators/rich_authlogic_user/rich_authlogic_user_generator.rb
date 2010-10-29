@@ -13,12 +13,12 @@ class RichAuthlogicUserGenerator < Rails::Generator::Base
       m.migration_template "migration.rb", "db/migrate", :migration_file_name => migration_file_name
     end
   end
-  
+
   def after_generate
     File.open(destination_path("config/initializers/enrichments.rb"), "a+") do |file|
       file << "\nRich::Cms::Engine.authenticate(:authlogic, {:class_name => \"#{model_class_name}\", :identifier => :email})"
     end
-    
+
     system "rake db:migrate" if options[:migrate]
   end
 
@@ -29,7 +29,7 @@ class RichAuthlogicUserGenerator < Rails::Generator::Base
   def model_class_name
     @name.classify
   end
-  
+
   def table_name
     model_file_name.gsub("/", "_").pluralize
   end
@@ -49,7 +49,7 @@ protected
     opt.separator "Options:"
     opt.on("-m", "--migrate", "Run 'rake db:migrate' after generating model and migration.") { options[:migrate] = true }
   end
-  
+
   def banner
     <<-EOS
 Creates Authlogic model and migration and also registers authenticated model to Rich-CMS.
