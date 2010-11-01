@@ -10,7 +10,7 @@ module ActionController
       ::Rich::Cms::Engine.current_controller = nil
     end
 
-    view_path = File.join File.dirname(__FILE__), "..", "..", "..", "..", "app", "views"
+    view_path = File.expand_path("../../../../../../app/views", __FILE__)
     if respond_to? :append_view_path
       self.append_view_path view_path
     elsif respond_to? :view_paths

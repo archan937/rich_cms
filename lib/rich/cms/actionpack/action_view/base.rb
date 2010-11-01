@@ -2,7 +2,7 @@ module ActionView
   class Base
 
   	def rich_cms
-  	  render :file => File.join(File.dirname(__FILE__), "..", "..", "..", "..", "app", "views", "rich_cms.html.erb") if display_rich_cms?
+      render :file => File.expand_path("../../../../../../app/views/rich_cms.html.erb", __FILE__)
   	end
 
     def display_rich_cms?
