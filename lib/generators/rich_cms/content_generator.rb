@@ -11,6 +11,12 @@ module RichCms
 
       argument :model_name, :type => :string, :default => 'cms_content'
 
+      def after_generate
+        File.open("config/initializers/enrichments.rb", "a+") do |file|
+          file << "\nRich::Cms::Engine.register(\".#{model_file_name}\", {:class_name => \"#{model_class_name}\"})"
+        end
+      end
+
       desc "Generates the necessary migration"
 
       def self.next_migration_number(path)
@@ -23,12 +29,20 @@ module RichCms
 
       protected
 
-      def migration_class_name
+      def model_file_name
+        model_name.underscore
+      end
+
+      def model_class_name
         model_name.classify
       end
 
+      def migration_class_name
+        migration_file_name.pluralize.camelize
+      end
+
       def table_name
-        model_name.underscore.gsub("/", "_").pluralize
+        model_file_name.underscore.gsub("/", "_").pluralize
       end
 
     end
