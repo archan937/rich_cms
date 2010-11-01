@@ -32,6 +32,10 @@ module RichCms
         # check if exists
       end
 
+      def generate_session
+        template 'authlogic_session.rb', "app/models/#{model_file_name}_session.rb"
+      end
+
       protected
 
       def model_file_name
