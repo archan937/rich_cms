@@ -85,4 +85,4 @@ module Rich
   end
 end
 
-# Rich::Cms::Engine.init
+Rich::Cms::Engine.init
