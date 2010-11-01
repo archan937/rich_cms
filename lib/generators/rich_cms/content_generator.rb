@@ -24,7 +24,7 @@ module RichCms
       end
 
       def create_content
-        migration_template 'migration.rb', 'db/migrate/create_cms_contents'
+        migration_template 'migration.rb', "db/migrate/create_#{table_name}"
       end
 
       def generate_model
