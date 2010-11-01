@@ -59,7 +59,7 @@ module Rich
       end
 
       def self.editable_content_javascript_hash
-          "{#{@@editable_content.collect{|k, v| v.to_javascript_hash}.join ", "}}"
+        "{#{@@editable_content.collect{|k, v| v.to_javascript_hash}.join ", "}}".html_safe
       end
 
       def self.can_render_metadata?

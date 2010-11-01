@@ -65,7 +65,7 @@ module Rich
             attrs << data          .collect{|k, v| "data-#{k}=\"#{::ERB::Util.html_escape v}\""}.join(" ")
           end
 
-          "<#{tag} #{attrs.join(" ")}>#{value.blank? ? default : value}</#{tag}>"
+          "<#{tag} #{attrs.join(" ")}>#{value.blank? ? default : value}</#{tag}>".html_safe
         end
 
       end
