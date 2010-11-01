@@ -1,19 +1,13 @@
-# TODO: add routes the right way as this is evil
-class << ActionController::Routing::Routes;self;end.class_eval do
-  define_method :clear!, lambda {}
-end
-# END
+Rails.application.routes.draw do
 
-ActionController::Routing::Routes.draw do |map|
-  map.namespace :rich, :path_prefix => "" do |rich|
-    
+  namespace 'rich' do
     %w(login logout update).each do |action|
-      rich.send "cms_#{action}", "cms/#{action}", :controller => "cms", :action => action
+      match "/cms/#{action}" => "cms##{action}"
     end
-    
-    rich.cms      "cms"         , :controller => "cms", :action => "display", :display => true
-    rich.cms_hide "cms/hide"    , :controller => "cms", :action => "display", :display => false
-    rich.connect  "cms/position", :controller => "cms", :action => "position"
-    
+    match '/cms' => 'cms#display', :display => true
+    match '/cms/hide' => 'cms#display', :display => false
+    match '/cms/position' => 'cms#position'
   end
+
 end
+
