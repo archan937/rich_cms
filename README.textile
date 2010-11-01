@@ -28,7 +28,7 @@ h3. Using Rich-CMS as plugin
 Install the Rich-CMS plugin:
 
 <pre>
-  ./script/plugin install git://github.com/archan937/rich_cms.git 
+  ./script/plugin install git://github.com/archan937/rich_cms.git
 </pre>
 
 h2. Use the provided Rails generators
@@ -80,7 +80,7 @@ Provide the mechanism as a symbol (e.g. @:authlogic@) and the authenticated clas
 
 <pre>
   Rich::Cms::Engine.authenticate(:authlogic, {:class_name => "User", :identifier => :email})
-</pre>      
+</pre>
 
 Unfortunately, only AuthLogic ("http://github.com/binarylogic/authlogic":http://github.com/binarylogic/authlogic) is supported, but we are working hard on making Rich-CMS compatible with other mechanisms.
 
@@ -168,11 +168,11 @@ When specifying a custom after update Javascript function, you probably want to 
 
 <pre>
   class Translation < ActiveRecord::Base
-  
+
     def to_rich_cms_response(params)
       {:value => value, :translations => Hash[*params[:derivative_keys].split(";").uniq.collect{|x| [x, x.t]}.flatten]}
     end
-  
+
   end
 </pre>
 

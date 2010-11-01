@@ -4,5 +4,5 @@ class <%= model_class_name %> < ActiveRecord::Base
     c.login_field            = :email
     c.crypted_password_field = :crypted_password
   end
-  
+
 end

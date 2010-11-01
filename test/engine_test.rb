@@ -9,7 +9,7 @@ module Rich
         #   assert true
         # end
       end
-    
+
     end
   end
 end

@@ -15,7 +15,7 @@ class <%= migration_class_name %> < ActiveRecord::Migration
       t.datetime :last_login_at
       t.timestamps
     end
-    
+
     add_index :<%= table_name %>, :email
   end
 

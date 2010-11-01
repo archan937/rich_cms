@@ -5,7 +5,7 @@ class <%= migration_class_name %> < ActiveRecord::Migration
       t.text   :value
       t.timestamps
     end
-    
+
     add_index :<%= table_name %>, :key
   end
 
