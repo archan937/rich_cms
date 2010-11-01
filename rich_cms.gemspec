@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Paul Engel"]
-  s.date = %q{2010-10-29}
+  s.date = %q{2010-11-01}
   s.description = %q{Rich-CMS is a module of E9s (http://github.com/archan937/e9s) which provides a frontend for your CMS content. You can use this gem to manage CMS content or translations (in an internationalized application). The installation and setup process is very easily done. You will have to register content at the Rich-CMS engine and also you will have to specify the authentication mechanism. Both are one-liners.}
   s.email = %q{paul.engel@holder.nl}
   s.extra_rdoc_files = [
@@ -22,7 +22,6 @@ Gem::Specification.new do |s|
      "README.textile",
      "Rakefile",
      "VERSION",
-     "init.rb",
      "lib/app/controllers/rich/cms_controller.rb",
      "lib/app/views/rich/cms/_dock.html.erb",
      "lib/app/views/rich/cms/dock/_menu.html.erb",
@@ -69,7 +68,6 @@ Gem::Specification.new do |s|
      "lib/rich/cms/content/item.rb",
      "lib/rich/cms/engine.rb",
      "lib/rich_cms.rb",
-     "rails/init.rb",
      "rails_generators/rich_authlogic_user/rich_authlogic_user_generator.rb",
      "rails_generators/rich_authlogic_user/templates/config.rb",
      "rails_generators/rich_authlogic_user/templates/migration.rb",
@@ -100,18 +98,18 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<authlogic>, [">= 0"])
-      s.add_runtime_dependency(%q<formtastic>, ["= 1.0.1"])
+      s.add_runtime_dependency(%q<formtastic>, [">= 1.1.0"])
       s.add_runtime_dependency(%q<haml>, [">= 3"])
       s.add_runtime_dependency(%q<jzip>, [">= 1.0.10"])
     else
       s.add_dependency(%q<authlogic>, [">= 0"])
-      s.add_dependency(%q<formtastic>, ["= 1.0.1"])
+      s.add_dependency(%q<formtastic>, [">= 1.1.0"])
       s.add_dependency(%q<haml>, [">= 3"])
       s.add_dependency(%q<jzip>, [">= 1.0.10"])
     end
   else
     s.add_dependency(%q<authlogic>, [">= 0"])
-    s.add_dependency(%q<formtastic>, ["= 1.0.1"])
+    s.add_dependency(%q<formtastic>, [">= 1.1.0"])
     s.add_dependency(%q<haml>, [">= 3"])
     s.add_dependency(%q<jzip>, [">= 1.0.10"])
   end
