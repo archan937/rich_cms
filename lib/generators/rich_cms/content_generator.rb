@@ -27,6 +27,10 @@ module RichCms
         migration_template 'migration.rb', 'db/migrate/create_cms_contents'
       end
 
+      def generate_model
+        invoke "active_record:model", [model_file_name], :migration => false
+      end
+
       protected
 
       def model_file_name
