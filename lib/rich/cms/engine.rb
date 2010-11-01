@@ -2,11 +2,11 @@ module Rich
   module Cms
     class Engine < Rails::Engine
 
-      attr_reader :authentication, :editable_content
+      cattr_reader :authentication, :editable_content
 
       def self.init
-        @authentication   = AuthenticationSpecs.new
-        @editable_content = {}
+        @@authentication   = AuthenticationSpecs.new
+        @@editable_content = {}
 
           %w(controllers).each do |dir|
             path = File.join File.dirname(__FILE__), "..", "..", "app", dir
@@ -33,20 +33,20 @@ module Rich
       end
 
       def self.current_controller=(current_controller)
-        @current_controller  = current_controller
-        @can_render_metadata = nil
+        @@current_controller  = current_controller
+        @@can_render_metadata = nil
       end
 
       def self.authenticate(logic, specs)
-        @authentication = AuthenticationSpecs.new(logic, specs)
+        @@authentication = AuthenticationSpecs.new(logic, specs)
       end
 
       def self.register(*args)
         (editables = args.first.is_a?(Hash) ? args.first : Hash[*args]).each do |selector, specs|
-          if @editable_content.keys.include?(selector)
+          if @@editable_content.keys.include?(selector)
             raise RichCmsError, "Already registered editable content identified with #{selector.inspect}"
           else
-            @editable_content[selector] = Cms::Content::Group.build(selector, specs)
+            @@editable_content[selector] = Cms::Content::Group.build(selector, specs)
           end
         end
       end
@@ -56,19 +56,19 @@ module Rich
       end
 
       def self.editable_content_javascript_hash
-          "{#{@editable_content.collect{|k, v| v.to_javascript_hash}.join ", "}}"
+          "{#{@@editable_content.collect{|k, v| v.to_javascript_hash}.join ", "}}"
       end
 
       def self.can_render_metadata?
-        if @can_render_metadata.nil?
-          @can_render_metadata = case authentication.logic
+        if @@can_render_metadata.nil?
+          @@can_render_metadata = case authentication.logic
                                  when :authlogic
-                                   @current_controller.try :current_rich_cms_admin
+                                   @@current_controller.try :current_rich_cms_admin
                                  when nil
                                    true
                                  end
         else
-          @can_render_metadata
+          @@can_render_metadata
         end
       end
 
@@ -86,3 +86,4 @@ module Rich
 end
 
 Rich::Cms::Engine.init
+
