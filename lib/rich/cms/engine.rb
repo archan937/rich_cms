@@ -8,17 +8,20 @@ module Rich
         @@authentication   = AuthenticationSpecs.new
         @@editable_content = {}
 
-          %w(controllers).each do |dir|
-            path = File.join File.dirname(__FILE__), "..", "..", "app", dir
-            $LOAD_PATH << path
-            ActiveSupport::Dependencies.autoload_paths << path
-            ActiveSupport::Dependencies.autoload_once_paths.delete path
-          end
+        %w(controllers).each do |dir|
+          path = File.join File.dirname(__FILE__), "..", "..", "app", dir
+          $LOAD_PATH << path
+          ActiveSupport::Dependencies.autoload_paths << path
+          ActiveSupport::Dependencies.autoload_once_paths.delete path
+        end
 
-          # ::Jzip::Engine.add_template_location({File.join(File.dirname(__FILE__), "..", "..", "assets", "jzip") => File.join(Rails.root, "public", "javascripts")})
-          # ::Sass::Plugin.add_template_location( File.join(File.dirname(__FILE__), "..", "..", "assets", "sass"),   File.join(Rails.root, "public", "stylesheets") )
+        config.after_initialize do
+          ::Jzip::Engine.add_template_location({File.expand_path("../../../../assets/jzip", __FILE__) => File.join(Rails.root, 'public', 'javascripts')})
+          ::Sass::Plugin.add_template_location(File.expand_path("../../../../assets/sass", __FILE__), File.join(Rails.root, 'public', 'stylesheets'))
 
+          # disable for now
           # copy_assets
+        end
       end
 
       def self.copy_assets
