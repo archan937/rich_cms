@@ -1,3 +1,4 @@
+
 $.extend({
   ie:  jQuery.browser.msie,
   ie6: jQuery.browser.msie    && parseInt(jQuery.browser.version, 10) == 6,

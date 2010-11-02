@@ -1,3 +1,4 @@
+
 module Rich
   module Cms
     module Content

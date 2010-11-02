@@ -1,3 +1,4 @@
+
 Rich.Cms.Dock = (function() {
   var bind = function() {
     if (!$.ie6) {
