@@ -1,5 +1,0 @@
-
-//= require ../components/core
-//= require ../components/widget
-//= require ../components/mouse
-//= require ../components/draggable

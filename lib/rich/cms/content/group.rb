@@ -1,4 +1,3 @@
-
 module Rich
   module Cms
     module Content
@@ -52,7 +51,7 @@ module Rich
                 end
               end
             end.compact.join(", ")
-          }}"
+          }}".html_safe
         end
 
       private
