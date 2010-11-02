@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Paul Engel"]
-  s.date = %q{2010-11-01}
+  s.date = %q{2010-11-02}
   s.description = %q{Rich-CMS is a module of E9s (http://github.com/archan937/e9s) which provides a frontend for your CMS content. You can use this gem to manage CMS content or translations (in an internationalized application). The installation and setup process is very easily done. You will have to register content at the Rich-CMS engine and also you will have to specify the authentication mechanism. Both are one-liners.}
   s.email = %q{paul.engel@holder.nl}
   s.extra_rdoc_files = [
@@ -61,11 +61,11 @@ Gem::Specification.new do |s|
      "assets/sass/tools/_css3.sass",
      "assets/sass/tools/_mixins.sass",
      "config/routes.rb",
-     "init.rb",
      "lib/generators/rich_cms/authlogic_generator.rb",
      "lib/generators/rich_cms/content_generator.rb",
      "lib/generators/rich_cms/templates/authlogic_migration.rb",
      "lib/generators/rich_cms/templates/authlogic_model.rb",
+     "lib/generators/rich_cms/templates/authlogic_session.rb",
      "lib/generators/rich_cms/templates/content_migration.rb",
      "lib/rich/cms/actionpack.rb",
      "lib/rich/cms/actionpack/action_controller/base.rb",
