@@ -9,26 +9,44 @@ Rich-CMS is a module of E9s ("http://github.com/archan937/e9s":http://github.com
 
 h2. Installation
 
-h3. Using Rich-CMS as gem
+h3. Using Rich-CMS as gem in Rails 3
 
-Install the Rich-CMS gem:
+Add Rich-CMS in @Gemfile@ as a gem dependency:
 
 <pre>
-  sudo gem install rich_cms
+  gem "rich_cms"
 </pre>
 
-Add rich_cms in @environment.rb@ as a gem dependency:
+Run the following in your console to install with Bundler:
+
+<pre>
+  bundle install
+</pre>
+
+h3. Using Rich-CMS as gem in Rails 2
+
+Add Rich-CMS in @environment.rb@ as a gem dependency:
 
 <pre>
   config.gem "rich_cms"
 </pre>
 
-h3. Using Rich-CMS as plugin
-
-Install the Rich-CMS plugin:
+Run the following in your console:
 
 <pre>
-  ./script/plugin install git://github.com/archan937/rich_cms.git
+  sudo rake gems:install
+</pre>
+
+h3. Using Rich-CMS as plugin in Rails 3
+
+<pre>
+  rails plugin install git://github.com/archan937/rich_cms.git
+</pre>
+
+h3. Using Rich-CMS as plugin in Rails 2
+
+<pre>
+  script/plugin install git://github.com/archan937/rich_cms.git
 </pre>
 
 h2. Use the provided Rails generators
@@ -42,32 +60,52 @@ Fortunately, Rich-CMS is provided with two Rails generators with which you can g
 
 h3. Authlogic user
 
+h4. In Rails 3
+
 Run the following in your console:
 
 <pre>
-  script/generate rich_authlogic_user
+  rails g rich:authlogic_user -m
 </pre>
 
 *Note*: At default, it will create both the @User@ and @UserSession@ classes and @CreateUsers@ migration. You can alter the class names with the following:
 
 <pre>
-  script/generate rich_authlogic_user CodeHeroes::User --migrate
+  rails g rich:authlogic_user CodeHeroes::User -m
 </pre>
 
 *Note*: Both generators have the @-m@ or @--migrate@ option which runs @rake db:migrate@ after creating the files.
 
-h3. CMS content
+h4. In Rails 2
 
 Run the following in your console:
 
 <pre>
-  script/generate rich_cms_content
+  script/generate rich_authlogic_user -m
+</pre>
+
+h3. CMS content
+
+h4. In Rails 3
+
+Run the following in your console:
+
+<pre>
+  rails g rich:cms_content -m
 </pre>
 
 *Note*: At default, it will create the @CmsContent@ model and @CreateCmsContents@ migration. You can alter the class name with the following:
 
 <pre>
-  script/generate rich_cms_content CmsItem
+  rails g rich:cms_content CmsItem -m
+</pre>
+
+h4. In Rails 2
+
+Run the following in your console:
+
+<pre>
+  script/generate rich_cms_content -m
 </pre>
 
 In case you have used the Rails generators, you can skip the *Create required entities manually* section and go straight to *Render Rich-CMS in your views*.
