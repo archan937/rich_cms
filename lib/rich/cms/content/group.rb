@@ -52,7 +52,7 @@ module Rich
                 end
               end
             end.compact.join(", ")
-          }}".html_safe
+          }}"
         end
 
       private
