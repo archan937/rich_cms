@@ -255,6 +255,10 @@ SeatHolder<br>
 CLEditor<br>
 "http://premiumsoftware.net/cleditor/index.html":http://premiumsoftware.net/cleditor/index.html
 
+h2. Contributors
+
+Mark Mulder - "@bitterzoet":http://twitter.com/bitterzoet - "http://ikbenbitterzoet.com":http://ikbenbitterzoet.com
+
 h2. ToDo's
 
 * Provide better conventions for content rendering
