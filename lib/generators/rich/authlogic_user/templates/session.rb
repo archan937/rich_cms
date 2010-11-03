@@ -5,4 +5,3 @@ class <%= model_class_name %>Session < Authlogic::Session::Base
   params_key "user_credentials"
 
 end
-

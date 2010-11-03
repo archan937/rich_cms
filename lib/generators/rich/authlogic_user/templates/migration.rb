@@ -23,4 +23,3 @@ class <%= migration_class_name %> < ActiveRecord::Migration
     drop_table :<%= table_name %>
   end
 end
-
