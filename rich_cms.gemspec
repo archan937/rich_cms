@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{rich_cms}
-  s.version = "2.0.7"
+  s.version = "2.0.8"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Paul Engel"]
-  s.date = %q{2010-11-02}
+  s.date = %q{2010-11-03}
   s.description = %q{Rich-CMS is a module of E9s (http://github.com/archan937/e9s) which provides a frontend for your CMS content. You can use this gem to manage CMS content or translations (in an internationalized application). The installation and setup process is very easily done. You will have to register content at the Rich-CMS engine and also you will have to specify the authentication mechanism. Both are one-liners.}
   s.email = %q{paul.engel@holder.nl}
   s.extra_rdoc_files = [
@@ -61,26 +61,52 @@ Gem::Specification.new do |s|
      "assets/sass/tools/_css3.sass",
      "assets/sass/tools/_mixins.sass",
      "config/routes.rb",
-     "lib/generators/rich_cms/authlogic_generator.rb",
-     "lib/generators/rich_cms/content_generator.rb",
-     "lib/generators/rich_cms/templates/authlogic_migration.rb",
-     "lib/generators/rich_cms/templates/authlogic_model.rb",
-     "lib/generators/rich_cms/templates/authlogic_session.rb",
-     "lib/generators/rich_cms/templates/content_migration.rb",
+     "init.rb",
+     "install.rb",
+     "lib/generators/rich.rb",
+     "lib/generators/rich/authlogic_user/authlogic_user_generator.rb",
+     "lib/generators/rich/authlogic_user/templates/migration.rb",
+     "lib/generators/rich/authlogic_user/templates/model.rb",
+     "lib/generators/rich/authlogic_user/templates/session.rb",
+     "lib/generators/rich/cms_content/cms_content_generator.rb",
+     "lib/generators/rich/cms_content/templates/migration.rb",
      "lib/rich/cms/actionpack.rb",
      "lib/rich/cms/actionpack/action_controller/base.rb",
      "lib/rich/cms/actionpack/action_view/base.rb",
+     "lib/rich/cms/activesupport.rb",
+     "lib/rich/cms/activesupport/active_support/dependencies.rb",
      "lib/rich/cms/content/group.rb",
      "lib/rich/cms/content/item.rb",
+     "lib/rich/cms/core.rb",
+     "lib/rich/cms/core/string.rb",
+     "lib/rich/cms/core/string/html_safe.rb",
      "lib/rich/cms/engine.rb",
+     "lib/rich/cms/rails.rb",
+     "lib/rich/cms/rails/engine.rb",
      "lib/rich_cms.rb",
-     "rich_cms.gemspec"
+     "rails/init.rb",
+     "rails_generators/rich_authlogic_user/rich_authlogic_user_generator.rb",
+     "rails_generators/rich_authlogic_user/templates/config.rb",
+     "rails_generators/rich_authlogic_user/templates/migration.rb",
+     "rails_generators/rich_authlogic_user/templates/model.rb",
+     "rails_generators/rich_authlogic_user/templates/session.rb",
+     "rails_generators/rich_cms_content/rich_cms_content_generator.rb",
+     "rails_generators/rich_cms_content/templates/config.rb",
+     "rails_generators/rich_cms_content/templates/migration.rb",
+     "rails_generators/rich_cms_content/templates/model.rb",
+     "rich_cms.gemspec",
+     "tasks/rich_cms_tasks.rake",
+     "test/engine_test.rb",
+     "uninstall.rb"
   ]
   s.homepage = %q{http://codehero.es/rails_gems_plugins/rich_cms}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{Enrichments (e9s) module for a pluggable CMS frontend}
+  s.test_files = [
+    "test/engine_test.rb"
+  ]
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
