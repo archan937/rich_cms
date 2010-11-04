@@ -1,5 +1,5 @@
 
-if Rails::VERSION::MAJOR < 3
+unless defined?(Rails::Engine)
   class Rails::Engine
   end
 end
