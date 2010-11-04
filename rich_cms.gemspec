@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Paul Engel"]
-  s.date = %q{2010-11-03}
+  s.date = %q{2010-11-04}
   s.description = %q{Rich-CMS is a module of E9s (http://github.com/archan937/e9s) which provides a frontend for your CMS content. You can use this gem to manage CMS content or translations (in an internationalized application). The installation and setup process is very easily done. You will have to register content at the Rich-CMS engine and also you will have to specify the authentication mechanism. Both are one-liners.}
   s.email = %q{paul.engel@holder.nl}
   s.extra_rdoc_files = [
@@ -113,21 +113,21 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<authlogic>, [">= 0"])
+      s.add_runtime_dependency(%q<authlogic>, [">= 2.1.2"])
       s.add_runtime_dependency(%q<formtastic>, [">= 1.1.0"])
       s.add_runtime_dependency(%q<haml>, [">= 3"])
-      s.add_runtime_dependency(%q<jzip>, [">= 1.0.10"])
+      s.add_runtime_dependency(%q<jzip>, [">= 1.0.11"])
     else
-      s.add_dependency(%q<authlogic>, [">= 0"])
+      s.add_dependency(%q<authlogic>, [">= 2.1.2"])
       s.add_dependency(%q<formtastic>, [">= 1.1.0"])
       s.add_dependency(%q<haml>, [">= 3"])
-      s.add_dependency(%q<jzip>, [">= 1.0.10"])
+      s.add_dependency(%q<jzip>, [">= 1.0.11"])
     end
   else
-    s.add_dependency(%q<authlogic>, [">= 0"])
+    s.add_dependency(%q<authlogic>, [">= 2.1.2"])
     s.add_dependency(%q<formtastic>, [">= 1.1.0"])
     s.add_dependency(%q<haml>, [">= 3"])
-    s.add_dependency(%q<jzip>, [">= 1.0.10"])
+    s.add_dependency(%q<jzip>, [">= 1.0.11"])
   end
 end
 
