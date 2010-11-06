@@ -177,8 +177,8 @@ When using a combined key for content identification, just call it as follows:
 
 We have also provided you a helper method to render Rich-CMS content tags. It is provided with several options:
 
-* @:as@ (default: auto-detect @:string@ or @:text@) - Specify the input type shown in the edit form (@:string@ for an input text, @:text@ for a textarea and @:html@ for a WYSIWYG HTML editor).
-* @:tag@ (default: @:div@) - The HTML tag used for content items.
+* @:as@ (default: auto-determine @:string@ or @:text@) - Specify the input type shown in the edit form (@:string@ for an input text, @:text@ for a textarea and @:html@ for a WYSIWYG HTML editor).
+* @:tag@ (default: auto-determine @:div@ or @:span@) - The HTML tag used for content items.
 * @:html@ (default: @{}@) - HTML attributes added to the content tag (e.g. @:id@, @:class@)
 
 <pre>
