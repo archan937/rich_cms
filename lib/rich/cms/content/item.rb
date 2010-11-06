@@ -64,7 +64,7 @@ module Rich
             attrs << data          .collect{|k, v| "data-#{k}=\"#{::ERB::Util.html_escape v}\""}.join(" ")
           end
 
-          tag = options[:tag] || @group.tag || (%w(text html).include?(data[:editable_input_type]) ? :div : :span)
+          tag = options[:tag] || @group.tag || (%w(text html).include?(data.try :fetch, :editable_input_type, nil) ? :div : :span)
 
           "<#{tag} #{attrs.join(" ")}>#{value.blank? ? default : value}</#{tag}>".html_safe
         end
