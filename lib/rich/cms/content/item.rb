@@ -45,9 +45,7 @@ module Rich
         end
 
         def to_tag(options = {})
-          tag   = options[:tag] || @group.tag || :div
-          attrs = []
-
+          attrs   = []
           default = @group.identifiers.size == 1 ? @object.send(@group.identifiers.first) : @object.attributes.values_at(*@group.identifiers).inspect
           value   = @object.send(@group.value)
 
@@ -65,6 +63,8 @@ module Rich
             attrs << options[:html].collect{|k, v|      "#{k}=\"#{::ERB::Util.html_escape v}\""}.join(" ") if options[:html]
             attrs << data          .collect{|k, v| "data-#{k}=\"#{::ERB::Util.html_escape v}\""}.join(" ")
           end
+
+          tag = options[:tag] || @group.tag || (%w(text html).include?(data[:editable_input_type]) ? :div : :span)
 
           "<#{tag} #{attrs.join(" ")}>#{value.blank? ? default : value}</#{tag}>".html_safe
         end
