@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{rich_cms}
-  s.version = "2.0.8"
+  s.version = "2.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Paul Engel"]
-  s.date = %q{2010-11-04}
+  s.date = %q{2010-11-08}
   s.description = %q{Rich-CMS is a module of E9s (http://github.com/archan937/e9s) which provides a frontend for your CMS content. You can use this gem to manage CMS content or translations (in an internationalized application). The installation and setup process is very easily done. You will have to register content at the Rich-CMS engine and also you will have to specify the authentication mechanism. Both are one-liners.}
   s.email = %q{paul.engel@holder.nl}
   s.extra_rdoc_files = [
@@ -28,6 +28,10 @@ Gem::Specification.new do |s|
      "app/views/rich/cms/dock/_panel.html.erb",
      "app/views/rich/cms/dock/panel/_edit.html.erb",
      "app/views/rich/cms/dock/panel/_login.html.erb",
+     "app/views/rich/cms/dock/panel/edit/_rails2.html.erb",
+     "app/views/rich/cms/dock/panel/edit/_rails3.html.erb",
+     "app/views/rich/cms/dock/panel/login/_rails2.html.erb",
+     "app/views/rich/cms/dock/panel/login/_rails3.html.erb",
      "app/views/rich_cms.html.erb",
      "assets/images/cleditor/buttons.gif",
      "assets/images/cleditor/toolbar.gif",
@@ -96,7 +100,7 @@ Gem::Specification.new do |s|
      "rails_generators/rich_cms_content/templates/model.rb",
      "rich_cms.gemspec",
      "tasks/rich_cms_tasks.rake",
-     "test/engine_test.rb",
+     "test/test_helper.rb",
      "uninstall.rb"
   ]
   s.homepage = %q{http://codehero.es/rails_gems_plugins/rich_cms}
@@ -105,7 +109,7 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{Enrichments (e9s) module for a pluggable CMS frontend}
   s.test_files = [
-    "test/engine_test.rb"
+    "test/test_helper.rb"
   ]
 
   if s.respond_to? :specification_version then
