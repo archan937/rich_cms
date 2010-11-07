@@ -11,7 +11,4 @@ require "rich/cms/engine"
 require "rich/cms/content/group"
 require "rich/cms/content/item"
 
-if Rails::VERSION::MAJOR < 3
-  require "config/routes"
-  ActionView::Base.send :include, Formtastic::SemanticFormHelper unless ActionView::Base.included_modules.include? Formtastic::SemanticFormHelper # still required?
-end
+require "config/routes" if Rails::VERSION::MAJOR < 3
