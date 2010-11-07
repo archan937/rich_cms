@@ -1,15 +1,1 @@
-<div class="login">
-  <%= semantic_form_for rich_cms_authenticated_class.new, :url => rich_cms_login_path, :html => {:class => "ajaxify"} do |form| %>
-
-    <%= form.inputs do %>
-      <% rich_cms_authentication_inputs.each do |input| %>
-        <%= form.input input, :input_html => {:size => ""} %>
-      <% end %>
-    <% end %>
-
-    <%= form.buttons do %>
-      <%= form.submit "Login" %>
-    <% end %>
-
-  <% end %>
-</div>
+<%= render :partial => "rich/cms/dock/panel/login/rails#{Rails::VERSION::MAJOR}" %>
