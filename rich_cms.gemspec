@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{rich_cms}
-  s.version = "2.1.0"
+  s.version = "2.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Paul Engel"]
@@ -67,13 +67,13 @@ Gem::Specification.new do |s|
      "config/routes.rb",
      "init.rb",
      "install.rb",
-     "lib/generators/rich.rb",
      "lib/generators/rich/authlogic_user/authlogic_user_generator.rb",
      "lib/generators/rich/authlogic_user/templates/migration.rb",
      "lib/generators/rich/authlogic_user/templates/model.rb",
      "lib/generators/rich/authlogic_user/templates/session.rb",
      "lib/generators/rich/cms_content/cms_content_generator.rb",
      "lib/generators/rich/cms_content/templates/migration.rb",
+     "lib/generators/rich_cms.rb",
      "lib/rich/cms/actionpack.rb",
      "lib/rich/cms/actionpack/action_controller/base.rb",
      "lib/rich/cms/actionpack/action_view/base.rb",
