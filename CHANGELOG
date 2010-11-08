@@ -1,5 +1,9 @@
 = Rich-CMS CHANGELOG
 
+== Version 2.1.1 (November 8, 2010)
+
+* Fixed the Rails 3 generators which conflicted with Rich-I18n
+
 == Version 2.1.0 (November 8, 2010)
 
 * Made Rich-CMS Rails 2 and 3 compatible (woot!) Thanks Mark Mulder (@bitterzoet) for contributing
