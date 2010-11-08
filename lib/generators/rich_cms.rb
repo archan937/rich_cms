@@ -1,6 +1,6 @@
 require "rails/generators/named_base"
 
-module Rich
+module RichCms
   module Generators
 
     class Base < Rails::Generators::Base

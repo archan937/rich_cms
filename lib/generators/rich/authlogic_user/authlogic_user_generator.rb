@@ -1,12 +1,12 @@
-require "generators/rich"
+require "generators/rich_cms"
 
 module Rich
   module Generators
 
-    class AuthlogicUserGenerator < Base
+    class AuthlogicUserGenerator < ::RichCms::Generators::Base
 
       include Rails::Generators::Migration
-      include Rich::Generators::Migration
+      include RichCms::Generators::Migration
 
       desc         "Creates Authlogic model and migration and also registers authenticated model to Rich-CMS."
       argument     :model_name, :type => :string , :default => "user"
@@ -16,7 +16,7 @@ module Rich
         filename = "config/initializers/enrichments.rb"
         line     = "\nRich::Cms::Engine.authenticate(:authlogic, {:class_name => \"#{model_class_name}\", :identifier => :email})"
 
-        return if File.open(filename, "a+").readlines.include? line.strip
+        return if File.open(filename).readlines.collect(&:strip).include? line.strip
 
         File.open(filename, "a+") do |file|
           file << line
