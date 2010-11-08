@@ -5,8 +5,10 @@ module Rich
       module String
         module HtmlSafe
 
-          def html_safe
-            self
+          unless ::String.new.respond_to? :html_safe
+            def html_safe
+              self
+            end
           end
 
         end
