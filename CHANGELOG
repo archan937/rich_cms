@@ -1,5 +1,14 @@
 = Rich-CMS CHANGELOG
 
+== Version 2.1.0 (November 8, 2010)
+
+* Made Rich-CMS Rails 2 and 3 compatible (woot!) Thanks Mark Mulder (@bitterzoet) for contributing
+* Not using :div tag as default for cms content anymore: only use :div when content is rendered as :text or :html
+* Corrected Rich::Cms::Content::Item.to_tag
+* Perfected the Rails generators (for both Rails 2 and 3)
+* Removed explicit inclusion of Formtastic::SemanticFormHelper
+* Updated gem dependencies
+
 == Version 2.0.7 (October 20, 2010)
 
 * Being able to edit content with the WYSIWYG HTML editor: CLEditor v1.3.0 (yay!)
