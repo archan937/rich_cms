@@ -265,7 +265,6 @@ h2. ToDo's
 * Provide tools to use Textile, MarkDown, image files upload and models (e.g. products)
 * Provide compatibility with other authentication mechanisms other than AuthLogic
 * Add cache feature which uses the standard Rails cache (rich_cms_tag ".cms_content", "test_content", :cache => true)
-* Make Rich-CMS compatible with Rails 3
 
 h2. Enrichments
 
