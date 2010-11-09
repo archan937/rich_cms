@@ -1,5 +1,10 @@
 = Rich-CMS CHANGELOG
 
+== Version 2.1.2 (November 9, 2010)
+
+* Defining the 'to_key' method in the correct file (which fixes Authlogic in Rails 3)
+* Fixed the Rails generators once and for all
+
 == Version 2.1.1 (November 8, 2010)
 
 * Fixed the Rails 3 generators which conflicted with Rich-I18n
