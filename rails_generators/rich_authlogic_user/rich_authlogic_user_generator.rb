@@ -15,9 +15,12 @@ class RichAuthlogicUserGenerator < Rails::Generator::Base
   end
 
   def after_generate
-    File.open(destination_path("config/initializers/enrichments.rb"), "a+") do |file|
-      file << "\nRich::Cms::Engine.authenticate(:authlogic, {:class_name => \"#{model_class_name}\", :identifier => :email})"
-    end
+    filename = destination_path("config/initializers/enrichments.rb")
+    line     = "\nRich::Cms::Engine.authenticate(:authlogic, {:class_name => \"#{model_class_name}\", :identifier => :email})"
+
+    File.open(filename, "a+") do |file|
+      file << line
+    end unless File.open(filename).readlines.collect(&:strip).include? line.strip
 
     system "rake db:migrate" if options[:migrate]
   end

@@ -16,6 +16,7 @@ module Rich
         filename = "config/initializers/enrichments.rb"
         line     = "\nRich::Cms::Engine.register(\".#{model_file_name}\", {:class_name => \"#{model_class_name}\"})"
 
+        create_file filename unless File.exists?(filename)
         return if File.open(filename).readlines.collect(&:strip).include? line.strip
 
         File.open(filename, "a+") do |file|
