@@ -100,7 +100,7 @@ Rich.Cms.Editor = (function() {
               inputs.append("<textarea id='cleditor_input' name='" + name + "' style='width: 500px; height: 300px'>" + value + "</textarea>"); break;
           }
         } else {
-            inputs.append("<input name='" + name + "' type='hidden' value='" + value + "'/>");
+          inputs.append("<input name='" + name + "' type='hidden' value='" + value + "'/>");
         }
       }
     });
