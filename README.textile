@@ -258,6 +258,7 @@ CLEditor<br>
 h2. Contributors
 
 Mark Mulder - "@bitterzoet":http://twitter.com/bitterzoet - "http://ikbenbitterzoet.com":http://ikbenbitterzoet.com
+Stephan Kaag - "@stephankaag":http://twitter.com/stephankaag - "http://hollandonrails.nl":http://hollandonrails.nl
 
 h2. ToDo's
 
