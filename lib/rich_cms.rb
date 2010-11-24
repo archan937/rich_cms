@@ -11,4 +11,4 @@ require "rich/cms/engine"
 require "rich/cms/content/group"
 require "rich/cms/content/item"
 
-require "config/routes" if Rails::VERSION::MAJOR < 3
+require File.expand_path("../../config/routes", __FILE__) if Rails::VERSION::MAJOR < 3

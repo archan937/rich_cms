@@ -1,5 +1,9 @@
 = Rich-CMS CHANGELOG
 
+== Version 2.1.7 (November 24, 2010)
+
+* Fixed loading the correct config/routes.rb when using a Rails 2 application with another gem / plugin also containing config/routes.rb
+
 == Version 2.1.6 (November 24, 2010)
 
 * Going back to the Haml gem instead of Sass
