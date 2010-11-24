@@ -1,7 +1,7 @@
 require "authlogic"
 require "formtastic"
 require "jzip"
-require "sass"
+require "haml"
 
 require "rich/cms/core"
 require "rich/cms/activesupport"

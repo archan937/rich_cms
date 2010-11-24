@@ -14,7 +14,7 @@ begin
 
     gemspec.add_dependency "authlogic" , ">= 2.1.2"
     gemspec.add_dependency "formtastic", ">= 1.1.0"
-    gemspec.add_dependency "sass"
+    gemspec.add_dependency "haml"      , ">= 3"
     gemspec.add_dependency "jzip"      , ">= 1.0.11"
   end
   Jeweler::GemcutterTasks.new

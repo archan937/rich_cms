@@ -1,5 +1,9 @@
 = Rich-CMS CHANGELOG
 
+== Version 2.1.6 (November 24, 2010)
+
+* Going back to the Haml gem instead of Sass
+
 == Version 2.1.5 (November 16, 2010)
 
 * Not requiring 'sass/plugin' explicitly which fixes the 'Rails.root is nil!' error
