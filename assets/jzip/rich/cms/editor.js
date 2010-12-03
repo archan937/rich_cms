@@ -11,6 +11,12 @@ Rich.Cms.Editor = (function() {
   };
 
   var bind = function() {
+    $("#rich_cms_panel .edit form fieldset.inputs div.keys a.toggler").live("click", function(event) {
+      event.preventDefault();
+      var toggler = $(event.target);
+      toggler.hide().closest(".keys").find("select[name=" + toggler.attr("data-name") + "]").show();
+    });
+    
     $("#rich_cms_panel .edit a.close").bind("click", function(event) {
       event.preventDefault();
       RaccoonTip.close();
@@ -18,7 +24,7 @@ Rich.Cms.Editor = (function() {
 
     RaccoonTip.register("." + content_class + "." + mark_class, "#rich_cms_panel", {
                           beforeShow: edit,
-                          canHide: function() { return !$("#cleditor_input").length },
+                          canHide: function() { return !$("#cleditor_input").length; },
                           afterHide: function(content) { content.hide(); }
                         });
 
@@ -67,7 +73,7 @@ Rich.Cms.Editor = (function() {
 
   var edit = function() {
     var content_item = $(this).closest(".rich_cms_content");
-    var label        = $("#rich_cms_panel .edit form fieldset.inputs label");
+    var keys         = $("#rich_cms_panel .edit form fieldset.inputs div.keys");
     var inputs       = $("#rich_cms_panel .edit form fieldset.inputs");
 
     var attrs        = content_item.get(0).attributes;
@@ -76,8 +82,7 @@ Rich.Cms.Editor = (function() {
                        })[0];
     var specs        = editable_content[selector];
 
-    label.html("Editing:&nbsp; " + $.map(specs.keys, function(key) { return "<strong>" + content_item.attr(key) + "</strong>"; }).join(", "));
-
+    keys.find("select,a,span").remove();
     inputs.find(":input,div.cleditorMain").remove();
     inputs.append("<input name='content_item[__selector__]' type='hidden' value='" + selector + "'/>");
 
@@ -99,10 +104,39 @@ Rich.Cms.Editor = (function() {
             case "html":
               inputs.append("<textarea id='cleditor_input' name='" + name + "' style='width: 500px; height: 300px'>" + value + "</textarea>"); break;
           }
+        } else if (specs.keys.indexOf(attr) != -1) {
+          var available_keys = $.map(value.split(","), function(key) { return $.trim(key); });
+          var default_key    = available_keys[0];
+          
+          if (specs.keys.length > 1 && keys.find("select").length > 0) {
+            keys.append("<span>, <span>");
+          }
+          
+          keys.append(available_keys.length == 1 ?
+                        "<span>" + default_key + "<span>" :
+                        "<a href='#' class='toggler' data-attr='" + attr + "' data-name='" + name + "'>" + default_key + "</a>");
+          keys.append("<select name='" + name + "' style='display: none'>" + 
+                         $.map(available_keys, function(key) { return "<option value='" + key + "'>" + key + "</option>"; }).join("") +
+                      "</select>");
         } else {
           inputs.append("<input name='" + name + "' type='hidden' value='" + value + "'/>");
         }
       }
+    });
+    
+    $("#rich_cms_panel .edit form fieldset.inputs div.keys select").bind("blur", function(event) {
+      var select  = $(event.target);
+      var toggler = select.hide().closest(".keys").find(".toggler[data-name=" + select.attr("name") + "]").html(select.val()).show();
+      var values  = [select.val()];
+
+      $.map(select.find("option"), function(option) {
+        var value = $(option).val();
+        if (value != values[0]) {
+          values.push(value);
+        }
+      });
+      
+      content_item.attr(toggler.attr("data-attr"), values.join(", "));
     });
 
     if (specs.beforeEdit) {
@@ -125,7 +159,7 @@ Rich.Cms.Editor = (function() {
   var afterUpdate = function(form, response) {
     var selector   = response["__selector__"];
     var specs      = editable_content[selector];
-    var identifier = $.map(specs.keys, function(key) { return "[" + key + "=" + response["__identifier__"][key.replace(/^data-/, "")] + "]"; }).join("");
+    var identifier = $.map(specs.keys, function(key) { return "[" + key + "^=" + response["__identifier__"][key.replace(/^data-/, "")] + "]"; }).join("");
 
     var defaultFunction = function(form, response, selector, specs, identifier) {
       $(identifier).html(response[specs.value.replace(/^data-/, "")]);
