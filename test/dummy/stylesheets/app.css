@@ -1,0 +1,100 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  outline: 0; }
+
+html, body {
+  height: 100%; }
+
+body {
+  color: #111;
+  font-family: Myriad Pro, Arial;
+  font-size: 18px;
+  line-height: 120%;
+  text-shadow: white 0 2px 0;
+  background: #E0E0E0; }
+
+ol, ul {
+  list-style: none; }
+
+a {
+  padding-bottom: 1px;
+  color: #111;
+  cursor: pointer;
+  text-decoration: none; }
+
+a:hover {
+  text-decoration: underline; }
+
+abbr, fieldset, img {
+  border: 0; }
+
+textarea {
+  font-family: Myriad Pro, Arial; }
+
+#page {
+  width: 750px;
+  min-height: 100%;
+  margin: 0 auto; }
+
+#page div.locales {
+  padding-top: 80px;
+  text-align: center; }
+
+#page div.locales a img {
+  margin: 0 2px;
+  padding: 2px; }
+
+#page div.locales a.selected img {
+  padding: 1px;
+  border: 1px solid #06F; }
+
+#page div.content {
+  padding-top: 80px;
+  clear: both; }
+
+#page div.content div.left {
+  width: 515px;
+  float: left; }
+
+#page div.content div.left h1 {
+  margin-bottom: 35px; }
+
+#page div.content div.left h3 {
+  font-size: 22px;
+  margin-bottom: 22px; }
+
+#page div.content div.left p {
+  margin-bottom: 30px;
+  font-size: 18px;
+  line-height: 150%; }
+
+#page div.content div.left form label {
+  display: block;
+  font-weight: bold; }
+
+#page div.content div.left form .inputs input {
+  margin-bottom: 15px;
+  width: 350px;
+  font-size: 16px; }
+
+#page div.content div.left form .inputs textarea {
+  width: 400px;
+  height: 150px;
+  font-size: 18px; }
+
+#page div.content div.left form .buttons {
+  padding: 15px 0 60px 0; }
+
+#page div.content div.left form .buttons input {
+  margin-right: 6px;
+  font-size: 16px; }
+
+#page div.content div.left form .buttons a {
+  font-size: 14px; }
+
+#page div.content ul {
+  width: 175px;
+  font-weight: bold;
+  float: right; }

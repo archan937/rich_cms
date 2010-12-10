@@ -25,12 +25,30 @@ end
 desc "Default: run unit tests."
 task :default => :test
 
-desc "Test the rich_cms plugin."
-Rake::TestTask.new(:test) do |t|
-  t.libs    << "lib"
-  t.libs    << "test"
-  t.pattern  = "test/**/*_test.rb"
-  t.verbose  = true
+task :test do
+  Rake::Task["test:all"].execute
+end
+
+namespace :test do
+  desc "Test the rich_cms plugin in Rails 2 and 3."
+  task :all do
+    system "rake test:rails-2"
+    system "rake test:rails-3"
+  end
+  desc "Test the rich_cms plugin in Rails 2."
+  Rake::TestTask.new(:"rails-2") do |t|
+    t.libs    << "lib"
+    t.libs    << "test"
+    t.pattern  = "test/rails-2/{,/*/**}/*_test.rb"
+    t.verbose  = true
+  end
+  desc "Test the rich_cms plugin in Rails 3."
+  Rake::TestTask.new(:"rails-3") do |t|
+    t.libs    << "lib"
+    t.libs    << "test"
+    t.pattern  = "test/rails-3/{,/*/**}/*_test.rb"
+    t.verbose  = true
+  end
 end
 
 desc "Generate documentation for the rich_cms plugin."

@@ -1,0 +1,11 @@
+source "http://rubygems.org"
+
+gem "rails", "2.3.10"
+gem "sqlite3-ruby", :require => "sqlite3"
+
+gem "shoulda"
+gem "mocha"
+gem "capybara-envjs"
+gem "launchy"
+
+gem "rich_cms", :path => File.join(File.dirname(__FILE__), "..", "..", "..")
