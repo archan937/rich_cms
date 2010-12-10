@@ -1,5 +1,6 @@
-
 var onRaccoonTipReady = function() {
+//= require native/extensions
+
 //= require jquery/extensions/ajaxify
 //= require jquery/extensions/modules
 //= require jquery/extensions/object
