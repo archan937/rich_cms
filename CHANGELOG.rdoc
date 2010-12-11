@@ -1,5 +1,9 @@
 = Rich-CMS CHANGELOG
 
+== Version 2.1.8 (December xx, 2010)
+
+* Implemented Array.indexOf for our IE friends. Thanks Mark Mulder (@bitterzoet) for contributing
+
 == Version 2.1.7 (November 24, 2010)
 
 * Fixed loading the correct config/routes.rb when using a Rails 2 application with another gem / plugin also containing config/routes.rb
