@@ -1,6 +1,6 @@
 = Rich-CMS CHANGELOG
 
-== Version 2.1.8 (December xx, 2010)
+== Version 2.1.8 (xxxxxxxx xx, xxxx)
 
 * Implemented Array.indexOf for our IE friends. Thanks Mark Mulder (@bitterzoet) for contributing
 
