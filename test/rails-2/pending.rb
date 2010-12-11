@@ -1,3 +1,5 @@
+# https://github.com/jm/pending/blob/master/lib/pending.rb
+
 module Test
   module Unit
     class TestCase
