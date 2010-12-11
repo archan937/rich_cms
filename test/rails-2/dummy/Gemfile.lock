@@ -39,6 +39,8 @@ GEM
       ffi (~> 0.6.3)
     configuration (1.2.0)
     culerity (0.2.12)
+    devise (1.0.9)
+      warden (~> 0.10.3)
     envjs (0.3.8)
       johnson (>= 2.0.0.pre3)
     ffi (0.6.3)
@@ -80,6 +82,8 @@ GEM
     shoulda (2.11.3)
     sqlite3-ruby (1.3.2)
     stackdeck (0.2.0)
+    warden (0.10.7)
+      rack (>= 1.0.0)
     xpath (0.1.2)
       nokogiri (~> 1.3)
 
@@ -88,6 +92,7 @@ PLATFORMS
 
 DEPENDENCIES
   capybara-envjs
+  devise (~> 1.0.9)
   launchy
   mocha
   rails (= 2.3.10)
