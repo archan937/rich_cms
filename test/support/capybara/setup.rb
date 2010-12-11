@@ -9,5 +9,5 @@ module ActionController
   end
 end
 
-Capybara.default_driver = :envjs
-# Capybara.default_driver = :selenium
+# Capybara.default_driver = :envjs
+Capybara.default_driver = :selenium

@@ -5,8 +5,10 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path("../dummy/config/environment.rb", __FILE__)
 require "rails/test_help"
 
-require File.expand_path("../../integration_test_helper" , __FILE__)
-require File.expand_path("../../../lib/rich_cms"         , __FILE__)
+Dir[File.expand_path("../../support/**/*.rb", __FILE__)].each do |file|
+  require file
+end
+require File.expand_path("../../../lib/rich_cms", __FILE__)
 include Rich::Cms
 
 puts "\nRunning Rails #{Rails::VERSION::STRING}\n\n"
