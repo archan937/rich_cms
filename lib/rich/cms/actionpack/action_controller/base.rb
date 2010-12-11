@@ -1,4 +1,3 @@
-
 module ActionController
   class Base
 
