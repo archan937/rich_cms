@@ -1,5 +1,7 @@
 .DS_Store
 pkg/*
+test/rails-2/dummy/db/*.sqlite3
+test/rails-3/dummy/db/*.sqlite3
 test/rails-2/dummy/log/*.log
 test/rails-3/dummy/log/*.log
 test/rails-2/dummy/tmp/*
