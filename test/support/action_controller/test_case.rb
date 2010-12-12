@@ -4,7 +4,7 @@ module ActionController
   protected
 
     def assert_named_route(result, name)
-      assert_equal result, named_routes["#{name}"]
+      assert_equal result, named_routes[name.to_s]
     end
 
     def named_routes
