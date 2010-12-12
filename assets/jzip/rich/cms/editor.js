@@ -148,10 +148,10 @@ Rich.Cms.Editor = (function() {
 
     setTimeout(function() {
       if ($("#cleditor_input").length) {
-        $("#cleditor_input").cleditor({
+        $("#cleditor_input").data("cleditor", $("#cleditor_input").cleditor({
           width : 500,
           height: 300
-        })[0].focus();
+        })[0].focus());
       }
     }, 250);
   };
