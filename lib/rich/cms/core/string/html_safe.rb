@@ -1,4 +1,3 @@
-
 module Rich
   module Cms
     module Core

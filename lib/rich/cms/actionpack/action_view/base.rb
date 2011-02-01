@@ -1,4 +1,3 @@
-
 module ActionView
   class Base
 
