@@ -1,4 +1,3 @@
-
 module Rich
   class CmsController < ::ApplicationController
 
