@@ -3,6 +3,8 @@ source "http://rubygems.org"
 gem "rails", "3.0.3"
 gem "sqlite3-ruby", :require => "sqlite3"
 
+gem "authlogic"
+gem "devise"
 gem "rich_cms", :path => File.join(File.dirname(__FILE__), "..", "..", "..")
 
 gem "shoulda"

@@ -1,8 +1,8 @@
 <div class="login">
-  <%= form_for rich_cms_authenticated_class.new, :url => rich_cms_login_path, :html => {:class => "ajaxify"} do |form| %>
+  <%= form_for rich_cms_admin_class.new, :url => rich_cms_login_path, :html => {:class => "ajaxify"} do |form| %>
     <fieldset class="inputs">
       <ol>
-        <% rich_cms_authentication_inputs.each do |input| %>
+        <% rich_cms_admin_inputs.each do |input| %>
           <li class="<%= input.to_s =~ /password/ ? "password" : "string" %> required">
             <%= form.label input, "#{input.to_s.humanize} <abbr title='required'>*</abbr>".html_safe %>
             <%= form.send :"#{input.to_s =~ /password/ ? "password" : "text"}_field", input, :html => {:size => ""} %>

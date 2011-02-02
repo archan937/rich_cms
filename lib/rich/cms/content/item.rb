@@ -48,7 +48,7 @@ module Rich
           default = @group.identifiers.size == 1 ? @object.send(@group.identifiers.first) : @object.attributes.values_at(*@group.identifiers).inspect
           value   = @object.send(@group.value)
 
-          if Engine.can_render_metadata?
+          if Engine.render_metadata?
             default = "< #{default} >"
             keys    = @group.keys << @group.value.to_s
             data    = @object.attributes.reject{|k, v| !keys.include?(k.to_s)}

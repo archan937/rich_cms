@@ -48,11 +48,6 @@ Devise.setup do |config|
   # Setup a pepper to generate the encrypted password.
   config.pepper = "b57fdc3ba6288df70ca46cf2f7a6c168408e2fd602a185deda0340db3f1b4427d7c02e94880ec3786a26c248ff40b12f4e39d3315bb7ddf5541b9efb27ecd8f7"
 
-  # ==> Configuration for :invitable
-  # Time interval where the invitation token is valid (default: 0).
-  # If invite_for is 0 or nil, the invitation will never expire.
-  # config.invite_for = 1.week
-
   # ==> Configuration for :confirmable
   # The time you want to give your user to confirm his account. During this time
   # he will be able to access your application without confirming. Default is nil.
@@ -144,4 +139,4 @@ Devise.setup do |config|
   #   end
   #   manager.default_strategies(:scope => :user).unshift :twitter_oauth
   # end
-end if false
+end

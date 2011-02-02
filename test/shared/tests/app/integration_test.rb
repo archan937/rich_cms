@@ -6,7 +6,7 @@ module App
 
       setup do
         @scenario = proc {
-          unless Rich::Cms::Engine.authentication[:logic].nil?
+          if Rich::Cms::Auth.enabled?
             visit "/"
             assert page.has_no_css? "div#rich_cms_dock"
             assert page.has_no_css? ".cms_content"
@@ -16,7 +16,7 @@ module App
 
           visit "/cms"
 
-          unless Rich::Cms::Engine.authentication[:logic].nil?
+          if Rich::Cms::Auth.enabled?
             assert page.has_css? "div#rich_cms_dock"
             assert page.has_no_css? ".cms_content"
 
@@ -58,7 +58,7 @@ module App
           assert page.has_css? "div#rich_cms_dock"
           assert page.has_css? ".cms_content"
 
-          unless Rich::Cms::Engine.authentication[:logic].nil?
+          if Rich::Cms::Auth.enabled?
             logout
             assert page.has_no_css? "div#rich_cms_dock"
             assert page.has_no_css? ".cms_content"
@@ -66,6 +66,10 @@ module App
             assert_equal "Lorem ipsum dolor sit amet.", find(".left div p").text
           end
         }
+      end
+
+      teardown do
+        CmsContent.destroy_all
       end
 
       should "behave as expected" do
@@ -77,17 +81,18 @@ module App
           fixtures :"auth_#{lib}_users"
 
           setup do
-            Dir[File.expand_path("../../../../shared/dummy/auth/#{lib}/*.rb", __FILE__)].each do |file|
-              require file
+            Rich::Cms::Auth.setup do |config|
+              config.logic      = lib.downcase.to_sym
+              config.klass      = "Auth#{lib.classify}User"
+              config.identifier = :email
             end
-            Rich::Cms::Engine.authenticate lib.downcase.to_sym, {:class_name => "Auth::#{lib.classify}::User", :identifier => :email}
           end
 
           should "behave as expected" do
             @scenario.call
           end
         end
-      end unless skip = true
+      end
 
     end
   end

@@ -1,23 +1,25 @@
 <ul id="rich_cms_menu">
-  <% unless current_rich_cms_admin %>
+  <% if requires_rich_cms_admin? %>
     <li>
       Rich-CMS
     </li>
     <li class="last">
-      <%= link "Login" %>
+      <%= link_to "Login", "#", :class => "login" %>
     </li>
   <% else %>
     <li>
-      <%= current_rich_cms_admin_name %>
+      <%= current_rich_cms_admin.try(:send, Rich::Cms::Auth.identifier) || "Rich-CMS" %>
     </li>
     <li>
-      <%= link "Mark content", :class => "mark" %>
+      <%= link_to "Mark content", "#", :class => "mark" %>
     </li>
-    <li>
+    <li class="<%= "last" unless Rich::Cms::Auth.enabled? %>">
       <%= link_to "Hide"  , rich_cms_hide_path   %>
     </li>
-    <li class="last">
-      <%= link_to "Logout", rich_cms_logout_path %>
-    </li>
+    <% if Rich::Cms::Auth.enabled? %>
+      <li class="last">
+        <%= link_to "Logout", rich_cms_logout_path %>
+      </li>
+    <% end %>
   <% end %>
 </ul>

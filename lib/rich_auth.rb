@@ -1,1 +1,0 @@
-require "rich/auth/engine"

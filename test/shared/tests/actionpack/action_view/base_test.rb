@@ -9,14 +9,6 @@ module Actionpack
           assert ::ActionView::Base.new.respond_to? :rich_cms
         end
 
-        should "respond to :display_rich_cms?" do
-          assert ::ActionView::Base.new.respond_to? :display_rich_cms?
-        end
-
-        should "respond to :link" do
-          assert ::ActionView::Base.new.respond_to? :link
-        end
-
         should "respond to :rich_cms_tag" do
           assert ::ActionView::Base.new.respond_to? :rich_cms_tag
         end
