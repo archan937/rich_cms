@@ -1,1 +1,1 @@
-../../../dummy/db/schema.rb
+../../../shared/dummy/db/schema.rb

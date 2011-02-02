@@ -2,8 +2,8 @@ require File.expand_path("../../../test_helper.rb", __FILE__)
 
 module App
   class IntegrationTest < ActionController::IntegrationTest
-    fixtures :authlogic_users
-    fixtures :devise_users
+    fixtures :auth_authlogic_users
+    fixtures :auth_devise_users
 
     context "Rich-CMS" do
       setup do
@@ -67,7 +67,7 @@ module App
         context "using #{lib}" do
           setup do
             Capybara.current_driver = :"selenium_firefox"
-            Rich::Cms::Engine.authenticate lib.downcase.to_sym, {:class_name => "#{lib}::User", :identifier => :email}
+            Rich::Cms::Engine.authenticate lib.downcase.to_sym, {:class_name => "Auth::#{lib}::User", :identifier => :email}
           end
 
           should "behave as expected" do

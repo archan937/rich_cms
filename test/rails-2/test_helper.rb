@@ -5,7 +5,7 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path("../dummy/config/environment.rb",  __FILE__)
 require "test_help"
 
-Dir[File.expand_path("../../support/**/*.rb", __FILE__)].each do |file|
+Dir[File.expand_path("../../shared/support/**/*.rb", __FILE__)].each do |file|
   require file
 end
 require File.expand_path("../pending", __FILE__)
