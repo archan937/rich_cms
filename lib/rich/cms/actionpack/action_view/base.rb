@@ -24,6 +24,10 @@ module ActionView
     def current_rich_cms_admin
       Rich::Cms::Auth.admin
     end
+    
+    def current_rich_cms_admin_label
+      Rich::Cms::Auth.admin_label
+    end
 
     # //////////////////////////////////
     # // Rich::Cms::Engine related

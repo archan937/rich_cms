@@ -8,7 +8,7 @@
     </li>
   <% else %>
     <li>
-      <%= current_rich_cms_admin.try(:send, Rich::Cms::Auth.identifier) || "Rich-CMS" %>
+      <%= current_rich_cms_admin_label %>
     </li>
     <li>
       <%= link_to "Mark content", "#", :class => "mark" %>
