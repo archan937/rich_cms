@@ -80,7 +80,7 @@ module App
             Dir[File.expand_path("../../../../shared/dummy/auth/#{lib}/*.rb", __FILE__)].each do |file|
               require file
             end
-            Rich::Cms::Engine.authenticate lib.downcase.to_sym, {:class_name => "Auth::#{lib}::User", :identifier => :email}
+            Rich::Cms::Engine.authenticate lib.downcase.to_sym, {:class_name => "Auth::#{lib.classify}::User", :identifier => :email}
           end
 
           should "behave as expected" do
