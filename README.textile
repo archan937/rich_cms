@@ -234,9 +234,6 @@ jQuery<br>
 AuthLogic<br>
 "http://github.com/binarylogic/authlogic":http://github.com/binarylogic/authlogic
 
-Formtastic<br>
-"http://github.com/justinfrench/formtastic":http://github.com/justinfrench/formtastic
-
 SASS<br>
 "http://sass-lang.com":http://sass-lang.com
 

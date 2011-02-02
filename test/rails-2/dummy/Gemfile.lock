@@ -1,5 +1,5 @@
 PATH
-  remote: /Users/paulengel/Sites/e9s-plugins/vendor/plugins/rich_cms
+  remote: /Users/paulengel/Sites/enrichments/vendor/foo/rich_cms
   specs:
     rich_cms (2.1.7)
       authlogic (>= 2.1.2)
@@ -21,9 +21,40 @@ GEM
     activesupport (2.3.10)
     authlogic (2.1.6)
       activesupport
+    capybara (0.4.1.1)
+      celerity (>= 0.7.9)
+      culerity (>= 0.2.4)
+      mime-types (>= 1.16)
+      nokogiri (>= 1.3.3)
+      rack (>= 1.0.0)
+      rack-test (>= 0.5.4)
+      selenium-webdriver (>= 0.0.27)
+      xpath (~> 0.1.3)
+    celerity (0.8.7)
+    childprocess (0.1.6)
+      ffi (~> 0.6.3)
+    configuration (1.2.0)
+    culerity (0.2.15)
+    ffi (0.6.3)
+      rake (>= 0.8.7)
+    git (1.2.5)
     haml (3.0.25)
+    jeweler (1.5.2)
+      bundler (~> 1.0.0)
+      git (>= 1.2.5)
+      rake
+    json_pure (1.5.1)
     jzip (1.0.11)
+    launchy (0.3.7)
+      configuration (>= 0.0.5)
+      rake (>= 0.8.1)
+    mime-types (1.16)
+    mocha (0.9.10)
+      rake
+    nokogiri (1.4.4)
     rack (1.1.0)
+    rack-test (0.5.7)
+      rack (>= 1.0)
     rails (2.3.10)
       actionmailer (= 2.3.10)
       actionpack (= 2.3.10)
@@ -32,14 +63,28 @@ GEM
       activesupport (= 2.3.10)
       rake (>= 0.8.3)
     rake (0.8.7)
+    rubyzip (0.9.4)
+    selenium-webdriver (0.1.2)
+      childprocess (~> 0.1.5)
+      ffi (~> 0.6.3)
+      json_pure
+      rubyzip
+    shoulda (2.11.3)
     sqlite3 (1.3.3)
     sqlite3-ruby (1.3.3)
       sqlite3 (>= 1.3.3)
+    xpath (0.1.3)
+      nokogiri (~> 1.3)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  capybara
+  jeweler
+  launchy
+  mocha
   rails (= 2.3.10)
   rich_cms!
+  shoulda
   sqlite3-ruby

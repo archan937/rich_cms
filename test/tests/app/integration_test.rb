@@ -64,16 +64,14 @@ module App
       end
 
       %w(Authlogic).each do |lib|
-        %w(firefox).each do |browser|
-          context "using #{lib}" do
-            setup do
-              Capybara.current_driver = :"selenium_#{browser}"
-              Rich::Cms::Engine.authenticate lib.downcase.to_sym, {:class_name => "#{lib}::User", :identifier => :email}
-            end
+        context "using #{lib}" do
+          setup do
+            Capybara.current_driver = :"selenium_firefox"
+            Rich::Cms::Engine.authenticate lib.downcase.to_sym, {:class_name => "#{lib}::User", :identifier => :email}
+          end
 
-            should "behave as expected" do
-              @scenario.call
-            end
+          should "behave as expected" do
+            @scenario.call
           end
         end
       end
