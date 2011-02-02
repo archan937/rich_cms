@@ -2,27 +2,30 @@ require File.expand_path("../../../test_helper.rb", __FILE__)
 
 module App
   class IntegrationTest < ActionController::IntegrationTest
-    fixtures :auth_authlogic_users
-    fixtures :auth_devise_users
-
     context "Rich-CMS" do
+
       setup do
         @scenario = proc {
-          visit "/"
-          assert page.has_no_css? "div#rich_cms_dock"
-          assert page.has_no_css? ".cms_content"
-          assert_equal "header"   , find(".left h1" ).text
-          assert_equal "paragraph", find(".left div").text
+          unless Rich::Cms::Engine.authentication[:logic].nil?
+            visit "/"
+            assert page.has_no_css? "div#rich_cms_dock"
+            assert page.has_no_css? ".cms_content"
+            assert_equal "header"   , find(".left h1" ).text
+            assert_equal "paragraph", find(".left div").text
+          end
 
           visit "/cms"
-          assert page.has_css? "div#rich_cms_dock"
-          assert page.has_no_css? ".cms_content"
 
-          visit "/cms/hide"
-          assert page.has_no_css? "div#rich_cms_dock"
-          assert page.has_no_css? ".cms_content"
+          unless Rich::Cms::Engine.authentication[:logic].nil?
+            assert page.has_css? "div#rich_cms_dock"
+            assert page.has_no_css? ".cms_content"
 
-          login
+            visit "/cms/hide"
+            assert page.has_no_css? "div#rich_cms_dock"
+            assert page.has_no_css? ".cms_content"
+            login
+          end
+
           assert page.has_css? "div#rich_cms_dock"
           assert page.has_content? "Mark content"
           assert_equal "< header >"   , find(".left h1.cms_content" ).text
@@ -55,18 +58,25 @@ module App
           assert page.has_css? "div#rich_cms_dock"
           assert page.has_css? ".cms_content"
 
-          logout
-          assert page.has_no_css? "div#rich_cms_dock"
-          assert page.has_no_css? ".cms_content"
-          assert_equal "Try out Rich-CMS!"          , find(".left h1"   ).text
-          assert_equal "Lorem ipsum dolor sit amet.", find(".left div p").text
+          unless Rich::Cms::Engine.authentication[:logic].nil?
+            logout
+            assert page.has_no_css? "div#rich_cms_dock"
+            assert page.has_no_css? ".cms_content"
+            assert_equal "Try out Rich-CMS!"          , find(".left h1"   ).text
+            assert_equal "Lorem ipsum dolor sit amet.", find(".left div p").text
+          end
         }
       end
 
-      %w(Authlogic).each do |lib|
+      should "behave as expected" do
+        @scenario.call
+      end
+
+      AUTHS.each do |lib|
         context "using #{lib}" do
+          fixtures :"auth_#{lib}_users"
+
           setup do
-            Capybara.current_driver = :"selenium_firefox"
             Rich::Cms::Engine.authenticate lib.downcase.to_sym, {:class_name => "Auth::#{lib}::User", :identifier => :email}
           end
 
@@ -74,8 +84,8 @@ module App
             @scenario.call
           end
         end
-      end
-    end
+      end unless skip = true
 
+    end
   end
 end
