@@ -35,11 +35,11 @@ module Rich
       end
 
       def admin
-        current_controller.try :send, specs.current_admin_method if specs.current_admin_method
+        current_controller.try :send, specs.current_admin_method if enabled? && specs.current_admin_method
       end
       
       def admin_label
-        admin.try(:send, specs.identifier) || "Rich-CMS"
+        (admin.try(:send, specs.identifier) if enabled?) || "Rich-CMS"
       end
 
     private
@@ -52,6 +52,7 @@ module Rich
         attr_accessor :logic, :klass, :inputs, :identifier, :current_admin_method
 
         def klass
+          return unless [:devise, :authlogic].include? logic
           case @klass.class.name
           when "String"
             @klass.constantize
@@ -61,19 +62,19 @@ module Rich
         end
       
         def klass_symbol
-          klass.name.underscore.gsub("/", "_").to_sym
+          klass.name.underscore.gsub("/", "_").to_sym if klass
         end
 
         def inputs
-          @inputs || [:email, :password]
+          @inputs || [:email, :password] if klass
         end
 
         def identifier
-          @identifier || inputs.first
+          @identifier || inputs.first if klass
         end
         
         def current_admin_method
-          @current_admin_method || :"current_#{klass_symbol}"
+          @current_admin_method || :"current_#{klass_symbol}" if klass
         end
       end
 
