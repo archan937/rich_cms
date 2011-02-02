@@ -77,6 +77,9 @@ module App
           fixtures :"auth_#{lib}_users"
 
           setup do
+            Dir[File.expand_path("../../../../shared/dummy/auth/#{lib}/*.rb", __FILE__)].each do |file|
+              require file
+            end
             Rich::Cms::Engine.authenticate lib.downcase.to_sym, {:class_name => "Auth::#{lib}::User", :identifier => :email}
           end
 
