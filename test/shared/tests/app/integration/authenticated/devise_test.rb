@@ -11,7 +11,7 @@ module App
             DatabaseCleaner.start
             Rich::Cms::Auth.setup do |config|
               config.logic = :devise
-              config.klass = AuthDeviseUser
+              config.klass = "AuthDeviseUser"
             end
             visit "/cms/logout"
           end

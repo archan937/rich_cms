@@ -11,7 +11,7 @@ module App
             DatabaseCleaner.start
             Rich::Cms::Auth.setup do |config|
               config.logic = :authlogic
-              config.klass = AuthAuthlogicUser
+              config.klass = "AuthAuthlogicUser"
             end
             visit "/cms/logout"
           end
