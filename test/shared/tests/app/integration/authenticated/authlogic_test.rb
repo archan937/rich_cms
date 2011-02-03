@@ -15,26 +15,26 @@ module App
             end
             visit "/cms/logout"
           end
-        
+
           teardown do
             DatabaseCleaner.clean
           end
-        
+
           should "behave as expected" do
-            # visit "/"
-            # assert page.has_no_css? "div#rich_cms_dock"
-            # assert page.has_no_css? ".cms_content"
-            # assert_equal "header"   , find(".left h1" ).text
-            # assert_equal "paragraph", find(".left div").text
-            # 
-            # visit "/cms"
-            # 
-            # assert page.has_css? "div#rich_cms_dock"
-            # assert page.has_no_css? ".cms_content"
-            # 
-            # visit "/cms/hide"
-            # assert page.has_no_css? "div#rich_cms_dock"
-            # assert page.has_no_css? ".cms_content"
+            visit "/"
+            assert page.has_no_css? "div#rich_cms_dock"
+            assert page.has_no_css? ".cms_content"
+            assert_equal "header"   , find(".left h1" ).text
+            assert_equal "paragraph", find(".left div").text
+
+            visit "/cms"
+
+            assert page.has_css? "div#rich_cms_dock"
+            assert page.has_no_css? ".cms_content"
+
+            visit "/cms/hide"
+            assert page.has_no_css? "div#rich_cms_dock"
+            assert page.has_no_css? ".cms_content"
             login
 
             assert page.has_css? "div#rich_cms_dock"

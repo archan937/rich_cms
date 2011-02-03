@@ -7,13 +7,16 @@ module App
       context "Rich-CMS without authentication" do
         setup do
           DatabaseCleaner.start
+          Rich::Cms::Auth.setup do |config|
+            # no authentication
+          end
           visit "/cms/logout"
         end
-        
+
         teardown do
           DatabaseCleaner.clean
         end
-        
+
         should "behave as expected" do
           visit "/"
           assert page.has_no_css? "div#rich_cms_dock"
@@ -26,10 +29,10 @@ module App
 
           mark_content
           assert page.has_css? ".cms_content.marked"
-          
+
           visit "/cms"
           mark_content
-          
+
           edit_content "header"
           assert_equal ".cms_content", find("#raccoon_tip input[name='content_item[__selector__]']").value
           assert_equal ""            , find("#raccoon_tip input[name='content_item[value]']"       ).value
@@ -45,13 +48,13 @@ module App
           fill_in_and_submit "#raccoon_tip", {:"content_item[value]" => "<p>Lorem ipsum dolor sit amet.</p>"}, "Save"
           assert_equal "Try out Rich-CMS!"          , find(".left h1.cms_content"   ).text
           assert_equal "Lorem ipsum dolor sit amet.", find(".left div.cms_content p").text
-          
+
           hide_dock
           assert page.has_no_css? "div#rich_cms_dock"
           assert page.has_css? ".cms_content"
         end
       end
-      
+
     end
   end
 end
