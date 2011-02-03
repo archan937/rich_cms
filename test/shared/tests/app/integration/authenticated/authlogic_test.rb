@@ -8,16 +8,12 @@ module App
 
         context "Rich-CMS implemented with Authlogic" do
           setup do
-            DatabaseCleaner.start
+            CmsContent.destroy_all
             Rich::Cms::Auth.setup do |config|
               config.logic = :authlogic
               config.klass = "AuthlogicUser"
             end
             visit "/cms/logout"
-          end
-
-          teardown do
-            DatabaseCleaner.clean
           end
 
           should "behave as expected" do

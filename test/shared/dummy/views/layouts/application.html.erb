@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Test Application - Rails <%= Rails::VERSION::STRING %></title>
+    <title>Test Application - Rails <%= Rails::VERSION::STRING %> - <%= Rich::Cms::Auth.logic.try(:to_s).try(:classify) || "Non authenticated" %></title>
     <%= stylesheet_link_tag "app" %>
   </head>
   <body>

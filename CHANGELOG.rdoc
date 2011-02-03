@@ -1,7 +1,24 @@
 = Rich-CMS CHANGELOG
 
-== Version 2.1.8 (xxxxxxxx xx, xxxx)
+== Version 3.0.0 (February 3, 2011)
 
+* Refactored the authentication code. Being to run Rich-CMS with:
+** no authentication
+** Devise 1.0.x (for Rails 2)
+** Devise 1.1.x (for Rails 3)
+** Authlogic 2.1.x
+* Altered configurating the authentication setup
+* Altered the login/logout Rich-CMS routes
+* Altered the admin generator (this was rich:autlogic_user at first, but it is rich:cms_admin now)
+* Updated gem dependencies (not using Formtastic and Authlogic anymore)
+* Improved the test suite. Being able to test Rich-CMS with:
+** Rails 2 without authentication
+** Rails 2 with Devise 1.0.x
+** Rails 2 with Authlogic 2.1.x
+** Rails 3 without authentication
+** Rails 3 with Devise 1.1.x
+** Rails 3 with Authlogic 2.1.x
+* Altered file encoding of cleditor.js which removes the weird characters within rich_cms.js
 * Implemented Array.indexOf for our IE friends. Thanks Mark Mulder (@bitterzoet) for contributing
 
 == Version 2.1.7 (November 24, 2010)

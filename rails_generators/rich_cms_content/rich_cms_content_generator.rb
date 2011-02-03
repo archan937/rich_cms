@@ -6,9 +6,9 @@ class RichCmsContentGenerator < Rails::Generator::Base
 
   def manifest
     record do |m|
-      m.directory                          "app/models"
-      m.template               "model.rb", "app/models/#{model_file_name}.rb"
-      m.template              "config.rb", "config/initializers/enrichments.rb", {:collision => :skip}
+      m.directory          "app/models"
+      m.template           "model.rb"    , "app/models/#{model_file_name}.rb"
+      m.template           "config.rb"   , "config/initializers/enrichments.rb", {:collision => :skip}
       m.migration_template "migration.rb", "db/migrate", :migration_file_name => migration_file_name
     end
   end
@@ -23,6 +23,24 @@ class RichCmsContentGenerator < Rails::Generator::Base
 
     system "rake db:migrate" if options[:migrate]
   end
+
+protected
+
+  def add_options!(opt)
+    opt.separator ""
+    opt.separator "Options:"
+    opt.on("-m", "--migrate", "Run 'rake db:migrate' after generating model and migration.") { options[:migrate] = true }
+  end
+
+  def banner
+    <<-BANNER
+      Creates Rich-CMS content model and migration and also registers content to Rich-CMS.
+
+      USAGE: #{$0} #{spec.name} [model_name]
+    BANNER
+  end
+
+private
 
   def model_file_name
     @name.underscore
@@ -42,22 +60,6 @@ class RichCmsContentGenerator < Rails::Generator::Base
 
   def migration_class_name
     migration_file_name.camelize
-  end
-
-protected
-
-  def add_options!(opt)
-    opt.separator ""
-    opt.separator "Options:"
-    opt.on("-m", "--migrate", "Run 'rake db:migrate' after generating model and migration.") { options[:migrate] = true }
-  end
-
-  def banner
-    <<-EOS
-Creates Rich-CMS content model and migration and also registers content to Rich-CMS.
-
-USAGE: #{$0} #{spec.name} [model_name]
-EOS
   end
 
 end

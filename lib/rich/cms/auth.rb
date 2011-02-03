@@ -5,7 +5,7 @@ module Rich
 
       extend self
 
-      delegate :klass, :klass_symbol, :inputs, :to => :specs
+      delegate :logic, :klass, :klass_symbol, :inputs, :to => :specs
 
       def setup
         @specs = Specs.new

@@ -12,9 +12,8 @@ begin
     gemspec.homepage    = "http://codehero.es/rails_gems_plugins/rich_cms"
     gemspec.author      = "Paul Engel"
 
-    gemspec.add_dependency "authlogic" , ">= 2.1.2"
-    gemspec.add_dependency "haml"      , ">= 3"
-    gemspec.add_dependency "jzip"      , ">= 1.0.11"
+    gemspec.add_dependency "haml", "~> 3.0.25"
+    gemspec.add_dependency "jzip", "~> 1.0.11"
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError

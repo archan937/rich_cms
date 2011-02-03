@@ -8,16 +8,12 @@ module App
 
         context "Rich-CMS implemented with Devise" do
           setup do
-            DatabaseCleaner.start
+            CmsContent.destroy_all
             Rich::Cms::Auth.setup do |config|
               config.logic = :devise
               config.klass = "DeviseUser"
             end
             visit "/cms/logout"
-          end
-
-          teardown do
-            DatabaseCleaner.clean
           end
 
           should "behave as expected" do
@@ -38,6 +34,7 @@ module App
             login
 
             assert page.has_css? "div#rich_cms_dock"
+            sleep 1
             assert page.has_content? "Mark content"
             assert_equal "< header >"   , find(".left h1.cms_content" ).text
             assert_equal "< paragraph >", find(".left div.cms_content").text

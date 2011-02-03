@@ -20,7 +20,7 @@ Add Rich-CMS in @Gemfile@ as a gem dependency:
 Run the following in your console to install with Bundler:
 
 <pre>
-  sudo bundle install
+  bundle install
 </pre>
 
 h3. Using Rich-CMS as gem in Rails 2
@@ -37,51 +37,51 @@ Run the following in your console:
   sudo rake gems:install
 </pre>
 
-h3. Using Rich-CMS as plugin in Rails 3
-
-<pre>
-  rails plugin install git://github.com/archan937/rich_cms.git
-</pre>
-
-h3. Using Rich-CMS as plugin in Rails 2
-
-<pre>
-  script/plugin install git://github.com/archan937/rich_cms.git
-</pre>
-
 h2. Use the provided Rails generators
 
-Rich-CMS requires two entities:
+Rich-CMS requires one entity:
 
-* An @Authlogic@ authenticated user model
 * An @ActiveRecord@ model used for CMS content storage
 
-Fortunately, Rich-CMS is provided with two Rails generators with which you can generate both entities.
+For (optional) authentication, Rich-CMS requires one of the following:
 
-h3. Authlogic user
+* An @Devise@ authenticated admin model
+* An @Authlogic@ authenticated admin model
+
+Fortunately, Rich-CMS is provided with two Rails generators with which you can generate those entities.
+
+h3. CMS admin
 
 h4. In Rails 3
 
 Run the following in your console:
 
 <pre>
-  rails g rich:authlogic_user -m
+  rails g rich:cms_admin -m
 </pre>
 
-*Note*: At default, it will create both the @User@ and @UserSession@ classes and @CreateUsers@ migration. You can alter the class names with the following:
+*Note*: At default, it will create the (Devise powered) @User@ model, the @CreateUsers@ migration and it will configure your routes. You can alter the class names with the following:
 
 <pre>
-  rails g rich:authlogic_user CodeHeroes::User -m
+  rails g rich:cms_admin CodeHeroes::User -m
 </pre>
 
 *Note*: Both generators have the @-m@ or @--migrate@ option which runs @rake db:migrate@ after creating the files.
+
+*Using Authlogic*
+
+You can alter the authenticated logic by specifying the @-l@ or @--logic@ option:
+
+<pre>
+  rails g rich:cms_admin CodeHeroes::User -l=Authlogic -m
+</pre>
 
 h4. In Rails 2
 
 Run the following in your console:
 
 <pre>
-  script/generate rich_authlogic_user -m
+  script/generate rich_cms_admin -m
 </pre>
 
 h3. CMS content
@@ -114,13 +114,22 @@ h2. Create required entities manually
 
 h3. Specify the authentication mechanism
 
-Provide the mechanism as a symbol (e.g. @:authlogic@) and the authenticated class along with the attribute used to identify the instance in a hash.
+Rich-CMS can be used without an authentication mechanism (which is the default by the way), you just have to open "/cms" in your browser and you are ready to go.
+But it is common to have authentication and Rich-CMS support "Devise":http://github.com/plataformatec/devise and "Authlogic":http://github.com/binarylogic/authlogic.
+Provide the authentication logic as a symbol (e.g. @:devise@) and the authenticated class as follows:
 
 <pre>
-  Rich::Cms::Engine.authenticate(:authlogic, {:class_name => "User", :identifier => :email})
+  Rich::Cms::Auth.setup do |config|
+    config.logic = :devise
+    config.klass = "User"
+  end
 </pre>
 
-Unfortunately, only AuthLogic ("http://github.com/binarylogic/authlogic":http://github.com/binarylogic/authlogic) is supported, but we are working hard on making Rich-CMS compatible with other mechanisms.
+The following specifications are optional as Rich-Cms uses defaults:
+
+* @:inputs@ (default: @[:email, :password]@) - The attributes used for the login panel of Rich-CMS
+* @:identifier@ (default: based on @inputs@) - The method used for displaying the identity of the current Rich-CMS admin (this is the first entry of @inputs@, so usually @:email@)
+* @:current_admin_method@ (default: based on @klass@) - The controller method used to retrieve the current Rich-CMS admin (e.g. @current_user@ when configured @User@ as authenticated class)
 
 h3. Register CMS content
 
@@ -157,25 +166,25 @@ Add the following line at the beginning of the @<body>@ tag:
 
 h3. Use the Rich-CMS helper method
 
-Rich-CMS requires a rendered DOM element provided with meta data of the content instance. Fortunately, you can call a method provided by Rich-CMS. Just specify the identifier of the content type and the key of the CMS content instance in question:
+Rich-CMS requires a rendered DOM element provided with meta data of the content instance. Fortunately, you can call a helper method to render Rich-CMS content tags. Just specify the identifier of the content type and the key of the CMS content instance in question:
 
 <pre>
   >> key = "test_content"
   => "test_content"
-  >> Rich::Cms::Engine.to_content_tag(".cms_content", key)
+  >> rich_cms_tag(".cms_content", key)
   => "<div class='cms_content' data-key='test_content' data-value='Hello world!'>Hello world!</div>"
 </pre>
 
 When using a combined key for content identification, just call it as follows:
 
 <pre>
-  >> Rich::Cms::Engine.to_content_tag(".cms_content", {:key => key, :locale => I18n.locale})
+  >> rich_cms_tag(".cms_content", {:key => key, :locale => I18n.locale})
   => "<div class='cms_content' data-key='test_content' data-locale='nl' data-value='Hallo wereld!'>Hallo wereld!</div>"
 </pre>
 
 *Note*: In this case, the content was registered with @Rich::Cms::Engine.register(".cms_content", {:class_name => "Cms::StaticContent", :key => [:key, :locale]})@
 
-We have also provided you a helper method to render Rich-CMS content tags. It is provided with several options:
+The helper method is provided with the following options:
 
 * @:as@ (default: auto-determine @:string@ or @:text@) - Specify the input type shown in the edit form (@:string@ for an input text, @:text@ for a textarea and @:html@ for a WYSIWYG HTML editor).
 * @:tag@ (default: auto-determine @:div@ or @:span@) - The HTML tag used for content items.
@@ -231,7 +240,10 @@ This Rails gem / plugin depends on:
 jQuery<br>
 "http://jquery.com":http://jquery.com
 
-AuthLogic<br>
+Devise (optional)<br>
+"http://github.com/plataformatec/devise":http://github.com/plataformatec/devise
+
+AuthLogic (optional)<br>
 "http://github.com/binarylogic/authlogic":http://github.com/binarylogic/authlogic
 
 SASS<br>
@@ -261,7 +273,6 @@ h2. ToDo's
 
 * Provide better conventions for content rendering
 * Provide tools to use Textile, MarkDown, image files upload and models (e.g. products)
-* Provide compatibility with other authentication mechanisms other than AuthLogic
 * Add cache feature which uses the standard Rails cache (rich_cms_tag ".cms_content", "test_content", :cache => true)
 
 h2. Enrichments

@@ -1,6 +1,6 @@
 module Rich
   class CmsController < ::ApplicationController
-    before_filter :require_login, :except => [:display, :position]
+    # before_filter :require_login, :except => [:display, :position]
 
     def display
       (session[:rich_cms] ||= {})[:display] = params[:display]

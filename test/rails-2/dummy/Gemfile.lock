@@ -1,10 +1,9 @@
 PATH
   remote: /Users/paulengel/Sites/enrichments/vendor/foo/rich_cms
   specs:
-    rich_cms (2.1.7)
-      authlogic (>= 2.1.2)
-      haml (>= 3)
-      jzip (>= 1.0.11)
+    rich_cms (3.0.0)
+      haml (~> 3.0.25)
+      jzip (~> 1.0.11)
 
 GEM
   remote: http://rubygems.org/
@@ -49,6 +48,7 @@ GEM
     mime-types (1.16)
     mocha (0.9.10)
       rake
+    mysql2 (0.2.6)
     nokogiri (1.4.4)
     rack (1.1.0)
     rack-test (0.5.7)
@@ -83,9 +83,10 @@ DEPENDENCIES
   authlogic
   capybara
   database_cleaner
-  devise (= 1.0.8)
+  devise (~> 1.0.8)
   launchy
   mocha
+  mysql2
   rails (= 2.3.10)
   rich_cms!
   shoulda
