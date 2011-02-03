@@ -23,13 +23,20 @@ module Rich
       def login
         case specs.logic
         when :authlogic
-          session = "#{klass.name}Session".constantize.new(params[klass_symbol])
-          session.save
+          user_session = "#{klass.name}Session".constantize.new params[klass_symbol]
+          user_session.save
         when :devise
-          puts authenticate(:scope => klass_symbol).inspect
-          # if resource = current_controller.authenticate(klass_symbol)
-          #   current_controller.sign_in klass_symbol, resource
-          # end
+          if Devise.mappings[klass_symbol].respond_to?(:controllers)
+            begin
+              sessions = Devise.mappings[klass_symbol].controllers[:sessions]
+              Devise.mappings[klass_symbol].controllers[:sessions] = "rich/cms_sessions"
+              warden.authenticate(:scope => klass_symbol)
+            ensure
+              Devise.mappings[klass_symbol].controllers[:sessions] = session
+            end
+          else
+            authenticate(:scope => klass_symbol)
+          end
         end if enabled?
         !!admin
       end
@@ -37,19 +44,19 @@ module Rich
       def logout
         case specs.logic
         when :authlogic
-          session = "#{klass.name}Session".constantize.find
-          session.try :destroy
+          user_session = "#{klass.name}Session".constantize.find
+          user_session.try :destroy
         when :devise
-          current_controller.sign_out klass_symbol
+          sign_out klass_symbol
         end if enabled?
-        current_controller.session[:rich_cms] = nil
+        session[:rich_cms] = nil
       end
 
       def admin
         case specs.logic
         when :authlogic
-          session = "#{klass.name}Session".constantize.find
-          session.try klass_symbol
+          user_session = "#{klass.name}Session".constantize.find
+          user_session.try klass_symbol
         when :devise
           current_controller.try :send, specs.current_admin_method if enabled? && specs.current_admin_method
         end if enabled?
@@ -61,7 +68,7 @@ module Rich
 
     private
 
-      delegate :authenticate, :params, :to => :current_controller
+      delegate :warden, :authenticate, :sign_out, :params, :session, :to => :current_controller
 
       def specs
         @specs ||= Specs.new
