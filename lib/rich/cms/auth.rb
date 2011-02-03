@@ -5,7 +5,7 @@ module Rich
 
       extend self
 
-      delegate :klass, :inputs, :to => :specs
+      delegate :klass, :klass_symbol, :inputs, :to => :specs
 
       def setup
         @specs = Specs.new
@@ -16,26 +16,38 @@ module Rich
         !!specs.logic
       end
       
-      def login(params)
-        begin
-          current_controller.sign_in specs.klass_symbol, klass.new(params[specs.klass_symbol])
-          true
-        rescue ::Exception => e
-          puts e.message
-        end
+      def login
+        case specs.logic
+        when :authlogic
+          session = "#{klass.name}Session".constantize.new(current_controller.params[klass_symbol])
+          session.save
+        when :devise
+          if resource = current_controller.authenticate(klass_symbol)
+            current_controller.sign_in klass_symbol, resource
+          end
+        end if enabled?
+        !!admin
       end
       
       def logout
-        begin
-          current_controller.sign_out specs.klass_symbol
-          true
-        rescue ::Exception => e
-          puts e.message
-        end
+        case specs.logic
+        when :authlogic
+          session = "#{klass.name}Session".constantize.find
+          session.try :destroy
+        when :devise
+          current_controller.sign_out klass_symbol
+        end if enabled?
+        current_controller.session[:rich_cms] = nil
       end
 
       def admin
-        current_controller.try :send, specs.current_admin_method if enabled? && specs.current_admin_method
+        case specs.logic
+        when :authlogic
+          session = "#{klass.name}Session".constantize.find
+          session.try klass_symbol
+        when :devise
+          current_controller.try :send, specs.current_admin_method if enabled? && specs.current_admin_method
+        end if enabled?
       end
       
       def admin_label
