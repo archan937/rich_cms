@@ -26,8 +26,7 @@ module Rich
         end
 
         def render_metadata?
-          return true unless Auth.enabled?
-          false
+          !Auth.login_required?
         end
 
       private

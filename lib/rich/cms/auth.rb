@@ -15,20 +15,25 @@ module Rich
       def enabled?
         !!specs.logic
       end
-      
+
+      def login_required?
+        enabled? && admin.nil?
+      end
+
       def login
         case specs.logic
         when :authlogic
-          session = "#{klass.name}Session".constantize.new(current_controller.params[klass_symbol])
+          session = "#{klass.name}Session".constantize.new(params[klass_symbol])
           session.save
         when :devise
-          if resource = current_controller.authenticate(klass_symbol)
-            current_controller.sign_in klass_symbol, resource
-          end
+          puts authenticate(:scope => klass_symbol).inspect
+          # if resource = current_controller.authenticate(klass_symbol)
+          #   current_controller.sign_in klass_symbol, resource
+          # end
         end if enabled?
         !!admin
       end
-      
+
       def logout
         case specs.logic
         when :authlogic
@@ -49,17 +54,19 @@ module Rich
           current_controller.try :send, specs.current_admin_method if enabled? && specs.current_admin_method
         end if enabled?
       end
-      
+
       def admin_label
         (admin.try(:send, specs.identifier) if enabled?) || "Rich-CMS"
       end
 
     private
 
+      delegate :authenticate, :params, :to => :current_controller
+
       def specs
         @specs ||= Specs.new
       end
-    
+
       class Specs
         attr_accessor :logic, :klass, :inputs, :identifier, :current_admin_method
 
@@ -72,7 +79,7 @@ module Rich
             @klass
           end
         end
-      
+
         def klass_symbol
           klass.name.underscore.gsub("/", "_").to_sym if klass
         end
@@ -84,7 +91,7 @@ module Rich
         def identifier
           @identifier || inputs.first if klass
         end
-        
+
         def current_admin_method
           @current_admin_method || :"current_#{klass_symbol}" if klass
         end

@@ -9,8 +9,8 @@ module ActionView
     # // Rich::Cms::Auth related
     # //////////////////////////////////
 
-    def requires_rich_cms_admin?
-      Rich::Cms::Auth.enabled? && current_rich_cms_admin.nil?
+    def rich_cms_login_required?
+      Rich::Cms::Auth.login_required?
     end
 
     def rich_cms_admin_class
@@ -24,7 +24,7 @@ module ActionView
     def current_rich_cms_admin
       Rich::Cms::Auth.admin
     end
-    
+
     def current_rich_cms_admin_label
       Rich::Cms::Auth.admin_label
     end
