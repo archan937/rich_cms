@@ -4,14 +4,14 @@ module App
   module Integration
     module Authenticated
       class DeviseTest < ActionController::IntegrationTest
-        fixtures :auth_devise_users
+        fixtures :devise_users
 
         context "Rich-CMS implemented with Devise" do
           setup do
             DatabaseCleaner.start
             Rich::Cms::Auth.setup do |config|
               config.logic = :devise
-              config.klass = "AuthDeviseUser"
+              config.klass = "DeviseUser"
             end
             visit "/cms/logout"
           end

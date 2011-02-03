@@ -2,9 +2,9 @@
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 #
 # Examples:
-#   
+#
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Major.create(:name => 'Daley', :city => cities.first)
 
-AuthAuthlogicUser.create :email => "paul.engel@holder.nl", :password => "testrichcms"
-AuthDeviseUser   .create :email => "paul.engel@holder.nl", :password => "testrichcms"
+AuthlogicUser.create :email => "paul.engel@holder.nl", :password => "testrichcms", :password_confirmation => "testrichcms"
+DeviseUser   .create :email => "paul.engel@holder.nl", :password => "testrichcms"

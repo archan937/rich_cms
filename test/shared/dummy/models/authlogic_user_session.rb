@@ -1,5 +1,5 @@
-class AuthAuthlogicUserSession < ::Authlogic::Session::Base
-  authenticate_with AuthAuthlogicUser
+class AuthlogicUserSession < ::Authlogic::Session::Base
+  authenticate_with AuthlogicUser
   generalize_credentials_error_messages true
   params_key "user_credentials"
 
