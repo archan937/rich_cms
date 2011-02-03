@@ -25,10 +25,6 @@ module Rich
           end
         end
 
-        def render_metadata?
-          !Auth.login_required?
-        end
-
       private
 
         def append_to_load_path
