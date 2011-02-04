@@ -118,9 +118,9 @@ h2. Create required entities manually
 
 h3. Specify the authentication mechanism
 
-Rich-CMS can be used without an authentication mechanism (which is the default by the way), you just have to open "/cms" in your browser and you are ready to go.
-But it is common to have authentication and Rich-CMS support "Devise":http://github.com/plataformatec/devise and "Authlogic":http://github.com/binarylogic/authlogic.
-Provide the authentication logic as a symbol (e.g. @:devise@) and the authenticated class as follows:
+Rich-CMS can be used without an authentication mechanism (which is the default by the way), you just have to open "/cms" in your browser and you are ready to go. But it is common to have authentication and Rich-CMS support "Devise":http://github.com/plataformatec/devise and "Authlogic":http://github.com/binarylogic/authlogic.
+
+Provide the authentication logic as a symbol (e.g. @:devise@) and the authenticated class like this:
 
 <pre>
   Rich::Cms::Auth.setup do |config|
