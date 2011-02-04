@@ -51,6 +51,15 @@ namespace :test do
     t.pattern  = "test/rails-3/{,/*/**}/*_test.rb"
     t.verbose  = true
   end
+  desc "Run all integration tests (non-authenticated, with Devise, with Authlogic) in Rails 2 and 3."
+  task :integration do
+    system "ruby test/rails-2/rich_cms/app/integration/non_authenticated.rb"
+    system "ruby test/rails-2/rich_cms/app/integration/authenticated/devise_test.rb"
+    system "ruby test/rails-2/rich_cms/app/integration/authenticated/authlogic.rb"
+    system "ruby test/rails-3/rich_cms/app/integration/non_authenticated.rb"
+    system "ruby test/rails-3/rich_cms/app/integration/authenticated/devise_test.rb"
+    system "ruby test/rails-3/rich_cms/app/integration/authenticated/authlogic.rb"
+  end
 end
 
 namespace :restore do
