@@ -2,6 +2,7 @@ class RichCmsAdminGenerator < Rails::Generator::Base
   def initialize(runtime_args, runtime_options = {})
     super
     @name = @args.first || "user"
+    options[:logic] ||= "Devise"
   end
 
   def manifest
@@ -41,8 +42,9 @@ protected
   def add_options!(opt)
     opt.separator ""
     opt.separator "Options:"
-    opt.on("-l", "--logic"  , "Specify which authentication logic is requested (either 'Devise' or 'Authlogic')") { options[:logic  ] = "Devise" }
-    opt.on("-m", "--migrate", "Run 'rake db:migrate' after generating model and migration."                     ) { options[:migrate] = true     }
+    opt.on("-d", "--devise"   , "Request Devise as authentication logic."                    ) { options[:logic  ] = "Devise"    }
+    opt.on("-a", "--authlogic", "Request Authlogic as authentication logic."                 ) { options[:logic  ] = "Authlogic" }
+    opt.on("-m", "--migrate"  , "Run 'rake db:migrate' after generating model and migration.") { options[:migrate] = true        }
   end
 
   def banner
