@@ -60,7 +60,9 @@ Run the following in your console:
   rails g rich:cms_admin -m
 </pre>
 
-*Note*: At default, it will create a ("Devise":http://github.com/plataformatec/devise powered) @User@ model, the @CreateUsers@ migration and it will configure your routes. You can alter the class names with the following:
+*Note*: At default, it will create a ("Devise":http://github.com/plataformatec/devise powered) @User@ model, the @CreateUsers@ migration and it will configure your routes.
+
+You can alter the class name as follows:
 
 <pre>
   rails g rich:cms_admin CodeHeroes::User -m
