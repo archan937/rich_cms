@@ -97,7 +97,7 @@ private
   def replace(file, replacement)
     content = case replacement
               when :gemfile
-                <<-CONTENT.gsub(/^ {18}/, '')
+                <<-CONTENT.gsub(/^ {18}/, "")
                   source "http://rubygems.org"
 
                   gem "rails", "#{{2 => "2.3.10", 3 => "3.0.3"}[major_rails_version]}"
@@ -116,7 +116,7 @@ private
               when :routes
                 case major_rails_version
                 when 2
-                  <<-CONTENT.gsub(/^ {20}/, '')
+                  <<-CONTENT.gsub(/^ {20}/, "")
                     ActionController::Routing::Routes.draw do |map|
                       map.root :controller => "application"
                       map.connect ':controller/:action/:id'
@@ -124,7 +124,7 @@ private
                     end
                   CONTENT
                 when 3
-                  <<-CONTENT.gsub(/^ {20}/, '')
+                  <<-CONTENT.gsub(/^ {20}/, "")
                     Dummy::Application.routes.draw do
                       root :to => "application#index"
                     end
@@ -171,6 +171,7 @@ private
     puts description
     command = "cd #{root_dir} && #{command}"
     puts command
+    puts "\n"
     `#{command}`
   end
 
