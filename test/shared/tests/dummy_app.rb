@@ -87,10 +87,8 @@ private
 
   def delete(string)
     Dir[expand_path(string)].each do |file|
-      if File.exists?(file)
-        puts "Deleting  #{file.inspect}"
-        File.delete file
-      end
+      puts "Deleting #{file.inspect}"
+      File.delete file
     end
   end
 
