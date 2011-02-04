@@ -2,7 +2,7 @@
 
 == Version 3.0.0 (February 3, 2011)
 
-* Refactored the authentication code. Being to run Rich-CMS with:
+* Refactored the authentication code. Being able to run Rich-CMS with:
   - no authentication
   - Devise 1.0.x (for Rails 2)
   - Devise 1.1.x (for Rails 3)
