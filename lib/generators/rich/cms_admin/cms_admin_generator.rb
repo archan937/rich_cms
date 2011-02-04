@@ -16,7 +16,7 @@ module Rich
       class_option :migrate   , :type => :boolean, :default => false, :aliases => "-m", :desc => "Run 'rake db:migrate' after generating model and migration"
 
       def derive_authentication_logic
-        options[:logic] = options[:devise] || !options[:authlogic] ? "Devise" : "Authlogic"
+        @logic = options[:devise] || !options[:authlogic] ? "Devise" : "Authlogic"
       end
 
       def register_authentication
@@ -28,7 +28,7 @@ module Rich
 
         File.open(filename, "a+") do |file|
           file << line
-          file << "  config.logic = :#{options[:logic].underscore}"
+          file << "  config.logic = :#{@logic.underscore}"
           file << "  config.klass = \"#{model_class_name}\""
           file << "end"
         end
@@ -36,10 +36,10 @@ module Rich
 
       def generate_authenticated_model
         if options[:bundle]
-          gem options[:logic].underscore, {"devise" => "~> 1.1.5", "authlogic" => "~> 2.1.6"}[options[:logic].underscore]
+          gem @logic.underscore, {"devise" => "~> 1.1.5", "authlogic" => "~> 2.1.6"}[@logic.underscore]
           run "bundle install"
         end
-        send :"generate_#{options[:logic].underscore}_assets"
+        send :"generate_#{@logic.underscore}_assets"
       end
 
       def migrate
