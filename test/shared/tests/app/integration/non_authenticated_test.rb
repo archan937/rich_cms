@@ -1,6 +1,8 @@
 require File.expand_path("../../../dummy_app.rb", __FILE__)
-DummyApp.rails_generate
-require File.expand_path("../../../../test_helper.rb", __FILE__)
+
+DummyApp.setup do |app|
+  app.run_generators
+end
 
 module App
   module Integration

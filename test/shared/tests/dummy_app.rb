@@ -1,6 +1,13 @@
 module DummyApp
   extend self
 
+  def setup(stash_files = true, &block)
+    @prepared = true
+    stash_all  if stash_files
+    yield self if block_given?
+    require File.expand_path("../../test_helper.rb", __FILE__)
+  end
+
   def stash_all
     stash "Gemfile", :gemfile
     stash "Gemfile.lock"
@@ -11,15 +18,21 @@ module DummyApp
     puts "\n"
   end
 
-  def restore_all
-    restore "app/models/*.#{STASHED_EXT}"
+  def restore_all(force = nil)
+    if @prepared
+      unless force
+        puts "Cannot (non-forced) restore files after having prepared the dummy app" unless force.nil?
+        return
+      end
+    end
+
+    delete  "db/migrate/*.rb"
+    restore "app/models/*.rb.#{STASHED_EXT}"
     restore "**/*.#{STASHED_EXT}"
     puts "\n"
   end
 
-  def rails_generate(logic = nil)
-    stash_all
-    return
+  def run_generators(logic = :devise)
     generate_cms_admin logic
     generate_cms_content
   end
@@ -64,8 +77,8 @@ private
 
   def restore(string)
     Dir[expand_path(string)].each do |file|
-      delete target(file)
       if File.exists?(stashed(file))
+        delete target(file)
         puts "Restoring #{stashed(file).inspect}"
         File.rename stashed(file), target(file)
       end
@@ -75,7 +88,7 @@ private
   def delete(string)
     Dir[expand_path(string)].each do |file|
       if File.exists?(file)
-        puts "Deleting #{file.inspect}"
+        puts "Deleting  #{file.inspect}"
         File.delete file
       end
     end
@@ -124,30 +137,41 @@ private
     end if content
   end
 
-  def generate_cms_admin(logic)
-    option = {:devise => "d", :authlogic => "a"}[logic]
+  def generate_cms_admin(logic = :devise, *options)
+    logic_option = {:devise => "d", :authlogic => "a"}[logic]
 
-    if option
-      puts "Generating #{logic.to_s.classify}User"
-      case major_rails_version
-      when 2
-        `cd #{root_dir} && script/generate rich_cms_admin #{logic.to_s.classify}User -#{option}`
-      when 3
-        `cd #{root_dir} && rails g rich:cms_admin #{logic.to_s.classify}User -#{option}`
-      end
+    if logic_option
+      klass   = "#{logic.to_s.capitalize}User"
+      options = (options << "-#{logic_option}").collect(&:to_s).join " "
+
+      run "Generating #{klass}",
+          case major_rails_version
+          when 2
+            "script/generate rich_cms_admin #{klass} #{options}"
+          when 3
+            "rails g rich:cms_admin #{klass} #{options}"
+          end
     end
   end
 
-  def generate_cms_content
-    puts "Generating CmsContent"
-    case major_rails_version
-    when 2
-      `cd #{root_dir} && script/generate rich_cms_content CmsContent -m`
-    when 3
-      `cd #{root_dir} && rails g rich:cms_content CmsContent -m`
-    end
+  def generate_cms_content(klass = "CmsContent", *options)
+    options = options.collect(&:to_s).join " "
+
+    run "Generating #{klass}",
+        case major_rails_version
+        when 2
+          "script/generate rich_cms_content #{klass} #{options}"
+        when 3
+          "rails g rich:cms_content #{klass} #{options}"
+        end
+  end
+
+  def run(description, command)
+    return if command.to_s.gsub(/\s/, "").size == 0
+    puts description
+    command = "cd #{root_dir} && #{command}"
+    puts command
+    `#{command}`
   end
 
 end
-
-DummyApp.restore_all
