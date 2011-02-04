@@ -28,9 +28,9 @@ class RichCmsAdminGenerator < Rails::Generator::Base
     line     = "Rich::Cms::Auth.setup do |config|"
 
     File.open(filename, "a+") do |file|
-      file << line
-      file << "  config.logic = :#{options[:logic].underscore}"
-      file << "  config.klass = \"#{model_class_name}\""
+      file << "#{line}\n"
+      file << "  config.logic = :#{options[:logic].underscore}\n"
+      file << "  config.klass = \"#{model_class_name}\"\n"
       file << "end"
     end unless File.open(filename).readlines.collect(&:strip).include? line.strip
 

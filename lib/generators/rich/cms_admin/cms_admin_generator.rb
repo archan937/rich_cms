@@ -27,9 +27,9 @@ module Rich
         return if File.open(filename).readlines.collect(&:strip).include? line.strip
 
         File.open(filename, "a+") do |file|
-          file << line
-          file << "  config.logic = :#{@logic.underscore}"
-          file << "  config.klass = \"#{model_class_name}\""
+          file << "#{line}\n"
+          file << "  config.logic = :#{@logic.underscore}\n"
+          file << "  config.klass = \"#{model_class_name}\"\n"
           file << "end"
         end
       end
