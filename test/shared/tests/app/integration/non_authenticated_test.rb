@@ -1,4 +1,6 @@
-require File.expand_path("../test_helper.rb", __FILE__)
+require File.expand_path("../../../dummy_app.rb", __FILE__)
+DummyApp.rails_generate
+require File.expand_path("../../../../test_helper.rb", __FILE__)
 
 module App
   module Integration
@@ -6,11 +8,14 @@ module App
 
       context "Rich-CMS without authentication" do
         setup do
-          CmsContent.destroy_all
           Rich::Cms::Auth.setup do |config|
             # no authentication
           end
           visit "/cms/logout"
+        end
+
+        teardown do
+          DummyApp.restore_all
         end
 
         should "behave as expected" do
@@ -48,8 +53,6 @@ module App
           hide_dock
           assert page.has_no_css? "div#rich_cms_dock"
           assert page.has_css? ".cms_content"
-
-          # DummyApp.restore
         end
       end
 

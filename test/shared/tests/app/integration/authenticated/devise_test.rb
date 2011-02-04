@@ -1,3 +1,5 @@
+require File.expand_path("../../../../dummy_app.rb", __FILE__)
+DummyApp.rails_generate :devise
 require File.expand_path("../../../../../test_helper.rb", __FILE__)
 
 module App
@@ -8,12 +10,15 @@ module App
 
         context "Rich-CMS implemented with Devise" do
           setup do
-            CmsContent.destroy_all
             Rich::Cms::Auth.setup do |config|
               config.logic = :devise
               config.klass = "DeviseUser"
             end
             visit "/cms/logout"
+          end
+
+          teardown do
+            DummyApp.restore_all
           end
 
           should "behave as expected" do
