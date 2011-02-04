@@ -17,7 +17,7 @@ module App
         end
 
         teardown do
-          DummyApp.restore_all
+          DummyApp.restore_all true
         end
 
         should "behave as expected" do
