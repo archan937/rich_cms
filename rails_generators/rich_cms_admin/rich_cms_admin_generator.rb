@@ -2,24 +2,23 @@ class RichCmsAdminGenerator < Rails::Generator::Base
   def initialize(runtime_args, runtime_options = {})
     super
     @name = @args.first || "user"
-    options[:logic] ||= "Devise"
   end
 
   def manifest
-    unless defined?(Devise) || options[:logic].underscore != "devise"
+    unless defined?(Devise) || options[:logic].to_s.underscore != "devise"
       puts <<-WARNING
         Please install the Devise 1.0.8 gem first. Aborting...
       WARNING
       return
     end
-    unless defined?(Authlogic) || options[:logic].underscore != "authlogic"
+    unless defined?(Authlogic) || options[:logic].to_s.underscore != "authlogic"
       puts <<-WARNING
         Don't forget to install Authlogic 2.1.6!
       WARNING
       return
     end
     record do |m|
-      send :"generate_#{options[:logic].underscore}_assets", m
+      send :"generate_#{options[:logic].underscore}_assets", m if options[:logic]
     end
   end
 
@@ -56,6 +55,10 @@ protected
   end
 
 private
+
+  def generate_devise_assets(m)
+    system "script/generate devise #{model_class_name}"
+  end
 
   def generate_authlogic_assets(m)
     m.directory          "app/models"
