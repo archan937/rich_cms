@@ -1,8 +1,6 @@
 require File.expand_path("../../../dummy_app.rb", __FILE__)
 
-DummyApp.setup do |app|
-  app.run_generators
-end
+DummyApp.setup
 
 module App
   module Integration
@@ -10,6 +8,7 @@ module App
 
       context "Rich-CMS without authentication" do
         setup do
+          DatabaseCleaner.clean
           Rich::Cms::Auth.setup do |config|
             # no authentication
           end

@@ -1,6 +1,8 @@
 require File.expand_path("../../../../dummy_app.rb", __FILE__)
-DummyApp.rails_generate :devise
-require File.expand_path("../../../../../test_helper.rb", __FILE__)
+
+DummyApp.setup do |app|
+  app.run_generators
+end
 
 module App
   module Integration
@@ -10,6 +12,7 @@ module App
 
         context "Rich-CMS implemented with Devise" do
           setup do
+            DatabaseCleaner.clean
             Rich::Cms::Auth.setup do |config|
               config.logic = :devise
               config.klass = "DeviseUser"
@@ -18,7 +21,7 @@ module App
           end
 
           teardown do
-            DummyApp.restore_all
+            DummyApp.restore_all true
           end
 
           should "behave as expected" do

@@ -1,15 +1,18 @@
 require File.expand_path("../../../../dummy_app.rb", __FILE__)
-DummyApp.rails_generate :authlogic
-require File.expand_path("../../../../../test_helper.rb", __FILE__)
+
+DummyApp.setup do |app|
+  app.run_generators :authlogic
+end
 
 module App
   module Integration
     module Authenticated
-      class DeviseTest < ActionController::IntegrationTest
+      class AuthlogicTest < ActionController::IntegrationTest
         fixtures :authlogic_users
 
         context "Rich-CMS implemented with Authlogic" do
           setup do
+            DatabaseCleaner.clean
             Rich::Cms::Auth.setup do |config|
               config.logic = :authlogic
               config.klass = "AuthlogicUser"
@@ -18,7 +21,7 @@ module App
           end
 
           teardown do
-            DummyApp.restore_all
+            DummyApp.restore_all true
           end
 
           should "behave as expected" do
