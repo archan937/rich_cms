@@ -27,6 +27,8 @@ module DummyApp
     end
 
     delete  "db/migrate/*.rb"
+    delete  "test/fixtures/cms_contents.yml"
+    delete  "test/unit/*.rb"
     restore "app/models/*.rb.#{STASHED_EXT}"
     restore "**/*.#{STASHED_EXT}"
     puts "\n"
