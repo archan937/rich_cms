@@ -15,7 +15,6 @@ module DummyApp
     stash "config/initializers/enrichments.rb"
     stash "config/routes.rb", :routes
     stash "db/migrate/*.rb"
-    puts "\n"
   end
 
   def restore_all(force = nil)
@@ -31,7 +30,6 @@ module DummyApp
     delete  "test/unit/*.rb"
     restore "app/models/*.rb.#{STASHED_EXT}"
     restore "**/*.#{STASHED_EXT}"
-    puts "\n"
   end
 
   def run_generators(logic = :devise)
@@ -170,10 +168,9 @@ private
 
   def run(description, command)
     return if command.to_s.gsub(/\s/, "").size == 0
-    puts description
+    puts "\n#{description}"
     command = "cd #{root_dir} && #{command}"
-    puts command
-    puts "\n"
+    puts "#{command}\n"
     `#{command}`
   end
 
