@@ -45,8 +45,8 @@ Rich-CMS requires one entity:
 
 For (optional) authentication, Rich-CMS requires one of the following:
 
-* An @Devise@ authenticated admin model
-* An @Authlogic@ authenticated admin model
+* A @Devise@ authenticated admin model
+* A @Authlogic@ authenticated admin model
 
 Fortunately, Rich-CMS is provided with two Rails generators with which you can generate those entities.
 
@@ -60,7 +60,7 @@ Run the following in your console:
   rails g rich:cms_admin -m
 </pre>
 
-*Note*: At default, it will create the (Devise powered) @User@ model, the @CreateUsers@ migration and it will configure your routes. You can alter the class names with the following:
+*Note*: At default, it will create a ("Devise":http://github.com/plataformatec/devise powered) @User@ model, the @CreateUsers@ migration and it will configure your routes. You can alter the class names with the following:
 
 <pre>
   rails g rich:cms_admin CodeHeroes::User -m
@@ -70,11 +70,13 @@ Run the following in your console:
 
 *Using Authlogic*
 
-You can alter the authenticated logic by specifying the @-l@ or @--logic@ option:
+You can use Authlogic by specifying the @-a@ or @--authlogic@ option:
 
 <pre>
-  rails g rich:cms_admin CodeHeroes::User -l=Authlogic -m
+  rails g rich:cms_admin CodeHeroes::User -a -m
 </pre>
+
+*Note*: As mentioned earlier, Devise is the default authentication logic. Having that said, you can explicitly specify Devise with the @-d@ or @--devise@ option.
 
 h4. In Rails 2
 
