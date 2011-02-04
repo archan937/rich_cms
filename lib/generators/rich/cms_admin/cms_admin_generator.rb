@@ -16,7 +16,8 @@ module Rich
       class_option :migrate   , :type => :boolean, :default => false, :aliases => "-m", :desc => "Run 'rake db:migrate' after generating model and migration"
 
       def derive_authentication_logic
-        @logic = options[:devise] || !options[:authlogic] ? "Devise" : "Authlogic"
+        @logic = "Devise"
+        @logic = "Authlogic" if options[:authlogic]
       end
 
       def register_authentication
