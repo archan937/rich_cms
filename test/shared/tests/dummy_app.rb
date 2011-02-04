@@ -14,7 +14,6 @@ module DummyApp
     stash "app/models/*.rb"
     stash "config/initializers/enrichments.rb"
     stash "config/routes.rb", :routes
-    stash "db/migrate/*.rb"
   end
 
   def restore_all(force = nil)
