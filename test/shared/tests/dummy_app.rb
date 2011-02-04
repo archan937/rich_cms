@@ -9,11 +9,13 @@ module DummyApp
   end
 
   def stash_all
-    stash "Gemfile", :gemfile
-    stash "Gemfile.lock"
-    stash "app/models/*.rb"
-    stash "config/initializers/enrichments.rb"
-    stash "config/routes.rb", :routes
+    stash  "Gemfile", :gemfile
+    stash  "Gemfile.lock"
+    stash  "app/models/*.rb"
+    stash  "config/initializers/enrichments.rb"
+    stash  "config/routes.rb", :routes
+    stash  "test/fixtures/*_users.yml"
+    delete "db/migrate/*.rb"
   end
 
   def restore_all(force = nil)
@@ -31,9 +33,37 @@ module DummyApp
     restore "**/*.#{STASHED_EXT}"
   end
 
-  def run_generators(logic = :devise)
-    generate_cms_admin logic
-    generate_cms_content
+  def restore_admin_fixtures
+    puts "\n"
+    restore "test/fixtures/*.yml.#{STASHED_EXT}"
+  end
+
+  def generate_cms_admin(logic = :devise)
+    logic_option = {:devise => "d", :authlogic => "a"}[logic]
+
+    if logic_option
+      klass = "#{logic.to_s.capitalize}User"
+
+      run "Generating #{klass}",
+          case major_rails_version
+          when 2
+            "script/generate rich_cms_admin #{klass} -#{logic_option}"
+          when 3
+            "rails g rich:cms_admin #{klass} -#{logic_option}"
+          end
+    end
+  end
+
+  def generate_cms_content
+    klass = "CmsContent"
+
+    run "Generating #{klass}",
+        case major_rails_version
+        when 2
+          "script/generate rich_cms_content #{klass}"
+        when 3
+          "rails g rich:cms_content #{klass}"
+        end
   end
 
 private
@@ -132,35 +162,6 @@ private
     File.open target(file), "w" do |file|
       file << content
     end if content
-  end
-
-  def generate_cms_admin(logic = :devise, *options)
-    logic_option = {:devise => "d", :authlogic => "a"}[logic]
-
-    if logic_option
-      klass   = "#{logic.to_s.capitalize}User"
-      options = (options << "-#{logic_option}").collect(&:to_s).join " "
-
-      run "Generating #{klass}",
-          case major_rails_version
-          when 2
-            "script/generate rich_cms_admin #{klass} #{options}"
-          when 3
-            "rails g rich:cms_admin #{klass} #{options}"
-          end
-    end
-  end
-
-  def generate_cms_content(klass = "CmsContent", *options)
-    options = options.collect(&:to_s).join " "
-
-    run "Generating #{klass}",
-        case major_rails_version
-        when 2
-          "script/generate rich_cms_content #{klass} #{options}"
-        when 3
-          "rails g rich:cms_content #{klass} #{options}"
-        end
   end
 
   def run(description, command)

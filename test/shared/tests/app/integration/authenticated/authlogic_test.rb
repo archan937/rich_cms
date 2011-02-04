@@ -1,7 +1,9 @@
 require File.expand_path("../../../../dummy_app.rb", __FILE__)
 
 DummyApp.setup do |app|
-  app.run_generators :authlogic
+  app.generate_cms_admin :authlogic
+  app.restore_admin_fixtures
+  app.generate_cms_content
 end
 
 module App
@@ -21,7 +23,7 @@ module App
           end
 
           teardown do
-            DummyApp.restore_all true
+            # DummyApp.restore_all true
           end
 
           should "behave as expected" do

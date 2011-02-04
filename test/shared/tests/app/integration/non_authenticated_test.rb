@@ -1,6 +1,8 @@
 require File.expand_path("../../../dummy_app.rb", __FILE__)
 
-DummyApp.setup
+DummyApp.setup do |app|
+  app.generate_cms_content
+end
 
 module App
   module Integration
