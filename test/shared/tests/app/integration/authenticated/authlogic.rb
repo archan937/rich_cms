@@ -14,7 +14,6 @@ module App
 
         context "Rich-CMS implemented with Authlogic" do
           setup do
-            DatabaseCleaner.clean
             Rich::Cms::Auth.setup do |config|
               config.logic = :authlogic
               config.klass = "AuthlogicUser"

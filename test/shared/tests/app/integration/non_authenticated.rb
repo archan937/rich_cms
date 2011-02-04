@@ -10,7 +10,6 @@ module App
 
       context "Rich-CMS without authentication" do
         setup do
-          DatabaseCleaner.clean
           Rich::Cms::Auth.setup do |config|
             # no authentication
           end

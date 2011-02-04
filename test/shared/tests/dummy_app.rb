@@ -134,7 +134,6 @@ private
                   gem "devise", "~> #{{2 => "1.0.8", 3 => "1.1.5"}[major_rails_version]}"
                   gem "rich_cms", :path => File.join(File.dirname(__FILE__), "..", "..", "..")
 
-                  gem "database_cleaner"
                   gem "shoulda"
                   gem "mocha"
                   gem "capybara"

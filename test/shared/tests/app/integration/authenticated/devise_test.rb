@@ -14,7 +14,6 @@ module App
 
         context "Rich-CMS implemented with Devise" do
           setup do
-            DatabaseCleaner.clean
             Rich::Cms::Auth.setup do |config|
               config.logic = :devise
               config.klass = "DeviseUser"
