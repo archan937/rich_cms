@@ -1,6 +1,5 @@
 ---
 paul:
-  name: Paul Engel
   email: paul.engel@holder.nl
   password_salt: $2a$10$/9ONlwdXLV2HMShjEyiiw.
   encrypted_password: $2a$10$/9ONlwdXLV2HMShjEyiiw./F/mUCgfs7iDhYm4zlDpsjmmjXtDrQW
