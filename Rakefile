@@ -53,12 +53,24 @@ namespace :test do
   end
   desc "Run all integration tests (non-authenticated, with Devise, with Authlogic) in Rails 2 and 3."
   task :integration do
-    system "ruby test/rails-2/rich_cms/app/integration/non_authenticated.rb"
-    system "ruby test/rails-2/rich_cms/app/integration/authenticated/devise_test.rb"
-    system "ruby test/rails-2/rich_cms/app/integration/authenticated/authlogic.rb"
-    system "ruby test/rails-3/rich_cms/app/integration/non_authenticated.rb"
-    system "ruby test/rails-3/rich_cms/app/integration/authenticated/devise_test.rb"
-    system "ruby test/rails-3/rich_cms/app/integration/authenticated/authlogic.rb"
+    system "rake test:integration:rails-2"
+    system "rake test:integration:rails-3"
+  end
+  namespace :integration do
+    desc "Run all integration tests (non-authenticated, with Devise, with Authlogic) in Rails 2."
+    task :"rails-2" do
+      system "rake restore:rails-2"
+      %w(non_authenticated authenticated/devise_test authenticated/authlogic).each do |file|
+        system "ruby test/rails-2/rich_cms/app/integration/#{file}.rb"
+      end
+    end
+    desc "Run all integration tests (non-authenticated, with Devise, with Authlogic) in Rails 3."
+    task :"rails-3" do
+      system "rake restore:rails-3"
+      %w(non_authenticated authenticated/devise_test authenticated/authlogic).each do |file|
+        system "ruby test/rails-3/rich_cms/app/integration/#{file}.rb"
+      end
+    end
   end
 end
 
