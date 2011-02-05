@@ -35,7 +35,7 @@ module Rich
               Devise.mappings[klass_symbol].controllers[:sessions] = session
             end
           else
-            authenticate(:scope => klass_symbol)
+            warden.authenticate(:scope => klass_symbol)
           end
         end if enabled?
         !!admin
@@ -68,7 +68,7 @@ module Rich
 
     private
 
-      delegate :warden, :authenticate, :sign_out, :params, :session, :to => :current_controller
+      delegate :sign_out, :warden, :params, :session, :to => :current_controller
 
       def specs
         @specs ||= Specs.new
