@@ -118,9 +118,19 @@ private
 
   def delete(string)
     Dir[expand_path(string)].each do |file|
-      puts "Deleting #{file.inspect}"
+      puts "Deleting  #{file.inspect}"
       File.delete file
     end
+
+    dirname = expand_path File.dirname(string)
+
+    return unless File.exists?(dirname)
+    Dir.glob("#{dirname}/*", File::FNM_DOTMATCH) do |file|
+      return unless %w(. ..).include? File::basename(file)
+    end
+
+    puts "Deleting  #{dirname.inspect}"
+    Dir.delete dirname
   end
 
   def replace(file, replacement)
