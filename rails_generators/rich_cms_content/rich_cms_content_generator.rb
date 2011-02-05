@@ -24,23 +24,9 @@ class RichCmsContentGenerator < Rails::Generator::Base
     system "rake db:migrate" if options[:migrate]
   end
 
-protected
-
-  def add_options!(opt)
-    opt.separator ""
-    opt.separator "Options:"
-    opt.on("-m", "--migrate", "Run 'rake db:migrate' after generating model and migration.") { options[:migrate] = true }
-  end
-
-  def banner
-    <<-BANNER
-      Creates Rich-CMS content model and migration and also registers content to Rich-CMS.
-
-      USAGE: #{$0} #{spec.name} [model_name]
-    BANNER
-  end
-
-private
+  # //////////////////////////////////
+  # // Helper methods
+  # //////////////////////////////////
 
   def model_file_name
     @name.underscore
@@ -60,6 +46,22 @@ private
 
   def migration_class_name
     migration_file_name.camelize
+  end
+
+protected
+
+  def add_options!(opt)
+    opt.separator ""
+    opt.separator "Options:"
+    opt.on("-m", "--migrate", "Run 'rake db:migrate' after generating model and migration.") { options[:migrate] = true }
+  end
+
+  def banner
+    <<-BANNER.gsub(/^ {7}/, "")
+      Creates Rich-CMS content model and migration and also registers content to Rich-CMS.
+
+      USAGE: #{$0} #{spec.name} [model_name]
+    BANNER
   end
 
 end

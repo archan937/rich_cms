@@ -7,7 +7,7 @@ class RichCmsAdminGenerator < Rails::Generator::Base
   def manifest
     unless defined?(Devise) || options[:logic].to_s.underscore != "devise"
       puts <<-WARNING
-        Please install the Devise 1.0.8 gem first. Aborting...
+        Please install the Devise 1.0.9 gem first. Aborting...
       WARNING
       return
     end
@@ -34,6 +34,30 @@ class RichCmsAdminGenerator < Rails::Generator::Base
     end unless File.open(filename).readlines.collect(&:strip).include? line.strip
 
     system "rake db:migrate" if options[:migrate]
+  end
+
+  # //////////////////////////////////
+  # // Helper methods
+  # //////////////////////////////////
+
+  def model_file_name
+    @name.underscore
+  end
+
+  def model_class_name
+    @name.classify
+  end
+
+  def table_name
+    model_file_name.gsub("/", "_").pluralize
+  end
+
+  def migration_file_name
+    "create_#{table_name}"
+  end
+
+  def migration_class_name
+    migration_file_name.camelize
   end
 
 protected
@@ -66,26 +90,6 @@ private
     m.template           "authlogic/session.rb"  , "app/models/#{model_file_name}_session.rb"
     m.template           "authlogic/config.rb"   , "config/initializers/enrichments.rb", {:collision => :skip}
     m.migration_template "authlogic/migration.rb", "db/migrate", :migration_file_name => migration_file_name
-  end
-
-  def model_file_name
-    @name.underscore
-  end
-
-  def model_class_name
-    @name.classify
-  end
-
-  def table_name
-    model_file_name.gsub("/", "_").pluralize
-  end
-
-  def migration_file_name
-    "create_#{table_name}"
-  end
-
-  def migration_class_name
-    migration_file_name.camelize
   end
 
 end
