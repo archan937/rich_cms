@@ -8,7 +8,7 @@ class RichCmsContentGenerator < Rails::Generator::Base
     record do |m|
       m.directory          "app/models"
       m.template           "model.rb"    , "app/models/#{model_file_name}.rb"
-      m.template           "config.rb"   , "config/initializers/enrichments.rb", {:collision => :skip}
+      m.file               "config.rb"   , "config/initializers/enrichments.rb", {:collision => :skip}
       m.migration_template "migration.rb", "db/migrate", :migration_file_name => migration_file_name
     end
   end
@@ -17,9 +17,11 @@ class RichCmsContentGenerator < Rails::Generator::Base
     filename = destination_path("config/initializers/enrichments.rb")
     line     = "\nRich::Cms::Engine.register(\".#{model_file_name}\", {:class_name => \"#{model_class_name}\"})"
 
+    return if File.open(filename).readlines.collect(&:strip).include? line.strip
+
     File.open(filename, "a+") do |file|
       file << line
-    end unless File.open(filename).readlines.collect(&:strip).include? line.strip
+    end
 
     system "rake db:migrate" if options[:migrate]
   end
