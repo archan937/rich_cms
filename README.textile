@@ -88,6 +88,8 @@ Run the following in your console:
   script/generate rich_cms_admin -m
 </pre>
 
+*Attention*: The @Devise@ Rails generator code is (practically) a copy of the "Devise 1.0.9 generator code":https://github.com/plataformatec/devise/tree/v1.0.9/generators/devise. For there are problems calling the original Devise generators in Rails 2. See also this "Stackoverflow issue":http://stackoverflow.com/questions/3366508/couldnt-find-devise-install-generator-rails-2-3-8-devise-1-0-8.
+
 h3. CMS content
 
 h4. In Rails 3
