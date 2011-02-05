@@ -4,7 +4,7 @@ gem "rails", "2.3.10"
 gem "mysql2"
 
 gem "authlogic"
-gem "devise", "~> 1.0.8"
+gem "devise", "~> 1.0.9"
 gem "rich_cms", :path => File.join(File.dirname(__FILE__), "..", "..", "..")
 
 gem "sqlite3-ruby", :require => "sqlite3"
