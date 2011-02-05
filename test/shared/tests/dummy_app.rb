@@ -12,6 +12,7 @@ module DummyApp
     stash  "Gemfile", :gemfile
     stash  "Gemfile.lock"
     stash  "app/models/*.rb"
+    stash  "config/initializers/devise.rb"
     stash  "config/initializers/enrichments.rb"
     stash  "config/routes.rb", :routes
     stash  "test/fixtures/*_users.yml"
@@ -26,6 +27,7 @@ module DummyApp
       end
     end
 
+    delete  "config/locales/devise.en.yml"
     delete  "db/migrate/*.rb"
     delete  "test/fixtures/cms_contents.yml"
     delete  "test/unit/*.rb"
