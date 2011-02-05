@@ -27,6 +27,10 @@ task :test do
   Rake::Task["test:all"].execute
 end
 
+task :stash do
+  Rake::Task["stash:all"].execute
+end
+
 task :restore do
   Rake::Task["restore:all"].execute
 end
@@ -71,6 +75,24 @@ namespace :test do
         system "ruby test/rails-3/rich_cms/app/integration/#{file}.rb"
       end
     end
+  end
+end
+
+namespace :stash do
+  desc "Stash the Rails 2 and 3 dummy apps."
+  task :all do
+    system "rake stash:rails-2"
+    system "rake stash:rails-3"
+  end
+  desc "Stash the Rails 2 dummy app."
+  task :"rails-2" do
+    require "test/rails-2/rich_cms/dummy_app.rb"
+    DummyApp.stash_all
+  end
+  desc "Stash the Rails 3 dummy app."
+  task :"rails-3" do
+    require "test/rails-3/rich_cms/dummy_app.rb"
+    DummyApp.stash_all
   end
 end
 
