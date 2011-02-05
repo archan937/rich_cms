@@ -8,7 +8,6 @@ gem "devise", "~> 1.0.9"
 gem "rich_cms", :path => File.join(File.dirname(__FILE__), "..", "..", "..")
 
 gem "sqlite3-ruby", :require => "sqlite3"
-gem "database_cleaner"
 gem "shoulda"
 gem "mocha"
 gem "capybara"

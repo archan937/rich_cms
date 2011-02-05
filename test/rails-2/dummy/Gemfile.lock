@@ -34,7 +34,6 @@ GEM
       ffi (~> 0.6.3)
     configuration (1.2.0)
     culerity (0.2.15)
-    database_cleaner (0.6.1)
     devise (1.0.9)
       warden (~> 0.10.3)
     ffi (0.6.3)
@@ -82,7 +81,6 @@ PLATFORMS
 DEPENDENCIES
   authlogic
   capybara
-  database_cleaner
   devise (~> 1.0.9)
   launchy
   mocha
