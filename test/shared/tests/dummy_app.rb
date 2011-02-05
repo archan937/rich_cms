@@ -126,7 +126,7 @@ private
 
     return unless File.exists?(dirname)
     Dir.glob("#{dirname}/*", File::FNM_DOTMATCH) do |file|
-      return unless %w(. ..).include? File::basename(file)
+      return unless %w(. ..).include? File.basename(file)
     end
 
     puts "Deleting  #{dirname.inspect}"
