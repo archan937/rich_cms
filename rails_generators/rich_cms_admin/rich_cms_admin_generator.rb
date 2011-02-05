@@ -62,25 +62,33 @@ class RichCmsAdminGenerator < Rails::Generator::Base
 
 protected
 
+  def banner
+    <<-BANNER.gsub(/^ {7}/, "")
+Creates Devise / Authlogic model and configures your Rails application for Rich-CMS authentication.
+
+USAGE: #{$0} #{spec.name} [model_name]
+    BANNER
+  end
+
   def add_options!(opt)
     opt.separator ""
     opt.separator "Options:"
-    opt.on("-d", "--devise"   , "Request Devise as authentication logic."                    ) { options[:logic  ] = "Devise"    }
-    opt.on("-a", "--authlogic", "Request Authlogic as authentication logic."                 ) { options[:logic  ] = "Authlogic" }
+    opt.on("-d", "--devise"   , "Use Devise as authentication logic (this is default)."      ) { options[:logic  ] = "Devise"    }
+    opt.on("-a", "--authlogic", "Use Authlogic as authentication logic."                     ) { options[:logic  ] = "Authlogic" }
     opt.on("-m", "--migrate"  , "Run 'rake db:migrate' after generating model and migration.") { options[:migrate] = true        }
-  end
-
-  def banner
-    <<-BANNER.gsub(/^ {7}/, "")
-      Creates Devise / Authlogic model and configures your Rails application for Rich-CMS authentication.
-
-      USAGE: #{$0} #{spec.name} [model_name]
-    BANNER
   end
 
 private
 
   def generate_devise_assets(m)
+    if defined?(Devise)
+      m.directory          "config/initializers"
+      m.directory          "config/locales"
+      m.template           "devise/devise.rb", "config/initializers/devise.rb"
+      m.file               "devise/en.yml"   , "config/locales/devise.en.yml"
+      m.readme             "devise/README"
+    end
+
     m.directory          "app/models"
     m.template           "devise/model.rb"    , "app/models/#{model_file_name}.rb"
     m.migration_template "devise/migration.rb", "db/migrate", :migration_file_name => "devise_#{migration_file_name}"

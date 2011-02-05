@@ -8,12 +8,12 @@ module Rich
       include Rails::Generators::Migration
       include RichCms::Generators::Migration
 
-      desc         "Creates Devisie / Authlogic model and configures your Rails application for Rich-CMS authentication."
+      desc         "Creates Devise / Authlogic model and configures your Rails application for Rich-CMS authentication."
       argument     :model_name, :type => :string , :default => "user"
-      class_option :bundle    , :type => :string , :default => false, :aliases => "-b", :desc => "Add Devise or Authlogic to Gemfile and run 'bundle install'"
-      class_option :devise    , :type => :boolean, :default => true , :aliases => "-d", :desc => "Request Devise as authentication logic"
-      class_option :authlogic , :type => :boolean, :default => false, :aliases => "-a", :desc => "Request Authlogic as authentication logic"
-      class_option :migrate   , :type => :boolean, :default => false, :aliases => "-m", :desc => "Run 'rake db:migrate' after generating model and migration"
+      class_option :bundle    , :type => :string , :default => false, :aliases => "-b", :desc => "Add Devise or Authlogic to Gemfile and run 'bundle install'."
+      class_option :devise    , :type => :boolean, :default => true , :aliases => "-d", :desc => "Use Devise as authentication logic (this is default)."
+      class_option :authlogic , :type => :boolean, :default => false, :aliases => "-a", :desc => "Use Authlogic as authentication logic."
+      class_option :migrate   , :type => :boolean, :default => false, :aliases => "-m", :desc => "Run 'rake db:migrate' after generating model and migration."
 
       def derive_authentication_logic
         @logic = "Devise"

@@ -50,18 +50,18 @@ class RichCmsContentGenerator < Rails::Generator::Base
 
 protected
 
+  def banner
+    <<-BANNER.gsub(/^ {7}/, "")
+Creates Rich-CMS content model and migration and also registers content to Rich-CMS.
+
+USAGE: #{$0} #{spec.name} [model_name]
+    BANNER
+  end
+
   def add_options!(opt)
     opt.separator ""
     opt.separator "Options:"
     opt.on("-m", "--migrate", "Run 'rake db:migrate' after generating model and migration.") { options[:migrate] = true }
-  end
-
-  def banner
-    <<-BANNER.gsub(/^ {7}/, "")
-      Creates Rich-CMS content model and migration and also registers content to Rich-CMS.
-
-      USAGE: #{$0} #{spec.name} [model_name]
-    BANNER
   end
 
 end
