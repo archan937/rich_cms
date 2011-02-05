@@ -2,8 +2,9 @@ module DummyApp
   extend self
 
   def setup(stash_files = true, &block)
+    restore_all
+    stash_all if stash_files
     @prepared = true
-    stash_all  if stash_files
     yield self if block_given?
     require File.expand_path("../../test_helper.rb", __FILE__)
   end
