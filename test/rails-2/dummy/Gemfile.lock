@@ -38,7 +38,12 @@ GEM
       warden (~> 0.10.3)
     ffi (0.6.3)
       rake (>= 0.8.7)
+    git (1.2.5)
     haml (3.0.25)
+    jeweler (1.5.2)
+      bundler (~> 1.0.0)
+      git (>= 1.2.5)
+      rake
     json_pure (1.5.1)
     jzip (1.0.11)
     launchy (0.3.7)
@@ -82,6 +87,7 @@ DEPENDENCIES
   authlogic
   capybara
   devise (~> 1.0.9)
+  jeweler
   launchy
   mocha
   mysql2
