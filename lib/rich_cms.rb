@@ -1,5 +1,6 @@
 require "jzip"
 require "haml"
+require "devise/version" if defined?(Devise)
 
 require "rich/cms/core"
 require "rich/cms/activesupport"
