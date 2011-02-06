@@ -50,6 +50,7 @@ module Rich
     protected
 
       def generate_devise_assets
+        generate "devise:install"
         generate "devise", model_class_name
       end
 
