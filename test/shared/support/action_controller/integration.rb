@@ -48,6 +48,7 @@ module ActionController
         end
       end
       find(selector).find_button(submit).click
+      sleep 2
     end
 
   end
