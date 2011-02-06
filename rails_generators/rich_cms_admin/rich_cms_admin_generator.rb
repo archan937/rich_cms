@@ -3,22 +3,15 @@ require File.expand_path("../lib/devise/route_devise.rb", __FILE__)
 class RichCmsAdminGenerator < Rails::Generator::Base
   def initialize(runtime_args, runtime_options = {})
     super
-    @name = @args.first || "user"
+    @name  = @args.first || "user"
+    @logic = options[:logic] || "Devise"
   end
 
   def manifest
-    unless defined?(Devise)    || options[:logic].to_s.underscore != "devise"
-      puts <<-WARNING.gsub(/^ {9}/, "")
-        Don't forget to install Devise 1.0.9!
-      WARNING
-    end
-    unless defined?(Authlogic) || options[:logic].to_s.underscore != "authlogic"
-      puts <<-WARNING.gsub(/^ {9}/, "")
-        Don't forget to install Authlogic 2.1.6!
-      WARNING
-    end
+    check_for_warnings
     record do |m|
-      send :"generate_#{options[:logic].underscore}_assets", m if options[:logic]
+      m.file "config.rb", "config/initializers/enrichments.rb", {:collision => :skip}
+      send :"generate_#{@logic.underscore}_assets", m
     end
   end
 
@@ -26,12 +19,14 @@ class RichCmsAdminGenerator < Rails::Generator::Base
     filename = destination_path("config/initializers/enrichments.rb")
     line     = "Rich::Cms::Auth.setup do |config|"
 
+    return if File.open(filename).readlines.collect(&:strip).include? line.strip
+
     File.open(filename, "a+") do |file|
       file << "#{line}\n"
-      file << "  config.logic = :#{options[:logic].underscore}\n"
+      file << "  config.logic = :#{@logic.underscore}\n"
       file << "  config.klass = \"#{model_class_name}\"\n"
       file << "end"
-    end unless File.open(filename).readlines.collect(&:strip).include? line.strip
+    end
 
     system "rake db:migrate" if options[:migrate]
   end
@@ -80,6 +75,19 @@ USAGE: #{$0} #{spec.name} [model_name]
 
 private
 
+  def check_for_warnings
+    unless defined?(Devise)    || @logic.to_s.underscore != "devise"
+      puts <<-WARNING.gsub(/^ {9}/, "")
+        Don't forget to install Devise 1.0.9!
+      WARNING
+    end
+    unless defined?(Authlogic) || @logic.to_s.underscore != "authlogic"
+      puts <<-WARNING.gsub(/^ {9}/, "")
+        Don't forget to install Authlogic 2.1.6!
+      WARNING
+    end
+  end
+
   def generate_devise_assets(m)
     if defined?(Devise)
       m.directory          "config/initializers"
@@ -99,7 +107,6 @@ private
     m.directory          "app/models"
     m.template           "authlogic/model.rb"    , "app/models/#{model_file_name}.rb"
     m.template           "authlogic/session.rb"  , "app/models/#{model_file_name}_session.rb"
-    m.template           "authlogic/config.rb"   , "config/initializers/enrichments.rb", {:collision => :skip}
     m.migration_template "authlogic/migration.rb", "db/migrate", :migration_file_name => migration_file_name
   end
 
