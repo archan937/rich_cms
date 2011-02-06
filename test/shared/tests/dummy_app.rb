@@ -1,23 +1,29 @@
 module DummyApp
   extend self
 
-  def setup(stash_files = true, &block)
+  def setup(description, &block)
+    puts "\nSetting up integration test: Rails #{major_rails_version} - #{description}\n\n"
+
     restore_all
-    stash_all if stash_files
-    @prepared = true
+    stash_all
     yield self if block_given?
+    prepare_database
+    @prepared = true
+
     require File.expand_path("../../test_helper.rb", __FILE__)
   end
 
-  def stash_all
-    stash  "Gemfile", :gemfile
-    stash  "Gemfile.lock"
-    stash  "app/models/*.rb"
-    stash  "config/initializers/devise.rb"
-    stash  "config/initializers/enrichments.rb"
-    stash  "config/routes.rb", :routes
-    stash  "test/fixtures/*_users.yml"
-    delete "db/migrate/*.rb"
+  def prepare_database
+    return if @db_prepared
+    if @ran_generator
+      puts  "\n"
+      stash "db/schema.rb", :schema
+      run   "Purging test database"  , "rake db:test:purge"
+      run   "Migrating test database", "RAILS_ENV=test rake db:migrate"
+    else
+      run   "Loading test database", "rake db:test:load"
+    end
+    @db_prepared = true
   end
 
   def restore_all(force = nil)
@@ -36,13 +42,19 @@ module DummyApp
     restore "**/*.#{STASHED_EXT}"
   end
 
-  def restore_admin_fixtures
-    puts "\n"
-    restore "test/fixtures/*.yml.#{STASHED_EXT}"
+  def stash_all
+    stash  "Gemfile", :gemfile
+    stash  "Gemfile.lock"
+    stash  "app/models/*.rb"
+    stash  "config/initializers/devise.rb"
+    stash  "config/initializers/enrichments.rb"
+    stash  "config/routes.rb", :routes
+    stash  "test/fixtures/*_users.yml"
+    delete "db/migrate/*.rb"
   end
 
   def generate_cms_admin(logic = :devise)
-    logic_option = {:devise => "d", :authlogic => "a"}[logic]
+    logic_option = {:devise => "d", :authlogic => "a"}[@logic = logic]
 
     if logic_option
       klass = "#{logic.to_s.capitalize}User"
@@ -55,6 +67,13 @@ module DummyApp
             "rails g rich:cms_admin #{klass} -#{logic_option}"
           end
     end
+
+    @ran_generator = true
+  end
+
+  def restore_admin_fixtures
+    puts "\n"
+    restore "test/fixtures/#{@logic}_users.yml.#{STASHED_EXT}"
   end
 
   def replace_devise_pepper
@@ -79,6 +98,8 @@ module DummyApp
         when 3
           "rails g rich:cms_content #{klass}"
         end
+
+    @ran_generator = true
   end
 
 private
@@ -109,22 +130,22 @@ private
       "#{file}.#{STASHED_EXT}"
   end
 
-  def stash(string, replacement = nil)
-    Dir[expand_path(string)].each do |file|
-      unless File.exists?(stashed(file))
-        puts "Stashing  #{target(file).inspect}"
-        File.rename target(file), stashed(file)
-        replace(file, replacement)
-      end
-    end
-  end
-
   def restore(string)
     Dir[expand_path(string)].each do |file|
       if File.exists?(stashed(file))
         delete target(file)
         puts "Restoring #{stashed(file).inspect}"
         File.rename stashed(file), target(file)
+      end
+    end
+  end
+
+  def stash(string, replacement = nil)
+    Dir[expand_path(string)].each do |file|
+      unless File.exists?(stashed(file))
+        puts "Stashing  #{target(file).inspect}"
+        File.rename target(file), stashed(file)
+        replace(file, replacement)
       end
     end
   end
@@ -163,6 +184,11 @@ private
                   gem "mocha"
                   gem "capybara"
                   gem "launchy"
+                CONTENT
+              when :schema
+                <<-CONTENT.gsub(/^ {18}/, "")
+                  ActiveRecord::Schema.define(:version => 19820801180828) do
+                  end
                 CONTENT
               when :routes
                 case major_rails_version

@@ -1,6 +1,6 @@
 require File.expand_path("../../../dummy_app.rb", __FILE__)
 
-DummyApp.setup do |app|
+DummyApp.setup "Non authenticated" do |app|
   app.generate_cms_content
 end
 

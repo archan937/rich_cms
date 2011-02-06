@@ -1,9 +1,9 @@
 ENV["RAILS_ENV"] = "test"
 
-require File.expand_path("../rich_cms/dummy_app.rb"  , __FILE__)
-DummyApp.restore_all
+require File.expand_path("../rich_cms/dummy_app.rb", __FILE__)
 
-`cd #{File.expand_path("../dummy", __FILE__)} && rake db:test:load`
+DummyApp.restore_all
+DummyApp.prepare_database
 
 require File.expand_path("../dummy/config/environment.rb", __FILE__)
 require "rails/test_help"
