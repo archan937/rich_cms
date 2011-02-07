@@ -4,9 +4,9 @@ module DummyApp
   extend self
 
   def setup(description, &block)
-    puts "\n".ljust 145, "="
-    puts "Setting up test environment for Rails #{major_rails_version} - #{description}\n"
-    puts "\n".rjust 145, "="
+    log "\n".ljust 145, "="
+    log "Setting up test environment for Rails #{major_rails_version} - #{description}\n"
+    log "\n".rjust 145, "="
 
     restore_all
     stash_all
@@ -14,7 +14,7 @@ module DummyApp
     prepare_database
     @prepared = true
 
-    puts "=".ljust 145, "="
+    log "=".ljust 145, "="
     require File.expand_path("../../test_helper.rb", __FILE__)
   end
 
@@ -33,7 +33,7 @@ module DummyApp
   def restore_all(force = nil)
     if @prepared
       unless force
-        puts "Cannot (non-forced) restore files after having prepared the dummy app" unless force.nil?
+        log "Cannot (non-forced) restore files after having prepared the dummy app" unless force.nil?
         return
       end
     end
@@ -135,7 +135,7 @@ private
     Dir[expand_path(string)].each do |file|
       if File.exists?(stashed(file))
         delete target(file)
-        puts "Restoring  #{stashed(file)}"
+        log "Restoring  #{stashed(file)}"
         File.rename stashed(file), target(file)
       end
     end
@@ -144,7 +144,7 @@ private
   def stash(string, replacement = nil)
     Dir[expand_path(string)].each do |file|
       unless File.exists?(stashed(file))
-        puts "Stashing   #{target(file)}"
+        log "Stashing   #{target(file)}"
         File.rename target(file), stashed(file)
         replace(file, replacement)
       end
@@ -153,7 +153,7 @@ private
 
   def delete(string)
     Dir[expand_path(string)].each do |file|
-      puts "Deleting   #{file}"
+      log "Deleting   #{file}"
       File.delete file
     end
 
@@ -164,7 +164,7 @@ private
       return unless %w(. ..).include? File.basename(file)
     end
 
-    puts "Deleting   #{dirname}"
+    log "Deleting   #{dirname}"
     Dir.delete dirname
   end
 
@@ -217,8 +217,12 @@ private
 
   def run(command)
     return if command.to_s.gsub(/\s/, "").size == 0
-    puts "Executing  #{command}"
+    log "Executing  #{command}"
     `cd #{root_dir} && #{command}`
+  end
+
+  def log(string)
+    puts string
   end
 
 end
