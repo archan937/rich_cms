@@ -1,8 +1,12 @@
+STDOUT.sync = true
+
 module DummyApp
   extend self
 
   def setup(description, &block)
-    puts "\nSetting up integration test: Rails #{major_rails_version} - #{description}\n\n"
+    puts "\n".ljust 145, "="
+    puts "Setting up test environment for Rails #{major_rails_version} - #{description}\n"
+    puts "\n".rjust 145, "="
 
     restore_all
     stash_all
@@ -10,18 +14,18 @@ module DummyApp
     prepare_database
     @prepared = true
 
+    puts "=".ljust 145, "="
     require File.expand_path("../../test_helper.rb", __FILE__)
   end
 
   def prepare_database
     return if @db_prepared
     if @ran_generator
-      puts  "\n"
       stash "db/schema.rb", :schema
-      run   "Purging test database"  , "rake db:test:purge"
-      run   "Migrating test database", "RAILS_ENV=test rake db:migrate"
+      run   "rake db:test:purge"
+      run   "RAILS_ENV=test rake db:migrate"
     else
-      run   "Loading test database", "rake db:test:load"
+      run   "rake db:test:load"
     end
     @db_prepared = true
   end
@@ -59,8 +63,7 @@ module DummyApp
     if logic_option
       klass = "#{logic.to_s.capitalize}User"
 
-      run "Generating #{klass}",
-          case major_rails_version
+      run case major_rails_version
           when 2
             "script/generate rich_cms_admin #{klass} -#{logic_option}"
           when 3
@@ -72,7 +75,6 @@ module DummyApp
   end
 
   def restore_admin_fixtures
-    puts "\n"
     restore "test/fixtures/#{@logic}_users.yml.#{STASHED_EXT}"
   end
 
@@ -91,8 +93,7 @@ module DummyApp
   def generate_cms_content
     klass = "CmsContent"
 
-    run "Generating #{klass}",
-        case major_rails_version
+    run case major_rails_version
         when 2
           "script/generate rich_cms_content #{klass}"
         when 3
@@ -134,7 +135,7 @@ private
     Dir[expand_path(string)].each do |file|
       if File.exists?(stashed(file))
         delete target(file)
-        puts "Restoring #{stashed(file).inspect}"
+        puts "Restoring  #{stashed(file)}"
         File.rename stashed(file), target(file)
       end
     end
@@ -143,7 +144,7 @@ private
   def stash(string, replacement = nil)
     Dir[expand_path(string)].each do |file|
       unless File.exists?(stashed(file))
-        puts "Stashing  #{target(file).inspect}"
+        puts "Stashing   #{target(file)}"
         File.rename target(file), stashed(file)
         replace(file, replacement)
       end
@@ -152,7 +153,7 @@ private
 
   def delete(string)
     Dir[expand_path(string)].each do |file|
-      puts "Deleting  #{file.inspect}"
+      puts "Deleting   #{file}"
       File.delete file
     end
 
@@ -163,7 +164,7 @@ private
       return unless %w(. ..).include? File.basename(file)
     end
 
-    puts "Deleting  #{dirname.inspect}"
+    puts "Deleting   #{dirname}"
     Dir.delete dirname
   end
 
@@ -214,12 +215,10 @@ private
     end if content
   end
 
-  def run(description, command)
+  def run(command)
     return if command.to_s.gsub(/\s/, "").size == 0
-    puts "\n#{description}"
-    command = "cd #{root_dir} && #{command}"
-    puts "#{command}\n"
-    `#{command}`
+    puts "Executing  #{command}"
+    `cd #{root_dir} && #{command}`
   end
 
 end
