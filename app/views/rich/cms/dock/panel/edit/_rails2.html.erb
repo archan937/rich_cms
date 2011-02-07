@@ -1,12 +1,12 @@
 <div class="edit">
-  <% form_tag rich_cms_update_path, :name => "rich_cms_content", :class => "ajaxify" do %>
+  <%  form_tag rich_cms_update_path, :name => "rich_cms_content", :class => "ajaxify" do %>
     <fieldset class="inputs">
       <div class="keys">
         <label>Editing:&nbsp; </label>
       </div>
     </fieldset>
     <fieldset class="buttons">
-      <%= submit_tag "Save" %> <%= link "Close" %>
+      <%= submit_tag "Save" %> <%= link_to "Close", "#", :class => "close" %>
     </fieldset>
   <% end %>
 </div>

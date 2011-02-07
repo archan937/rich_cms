@@ -1,1 +1,0 @@
-Rich::Cms::Engine.register(".cms_content", {:class_name => "CmsContent"})

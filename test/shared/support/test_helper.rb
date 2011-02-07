@@ -1,0 +1,1 @@
+AUTHS = %w(authlogic devise)

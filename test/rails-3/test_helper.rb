@@ -1,11 +1,14 @@
 ENV["RAILS_ENV"] = "test"
 
-`cd #{File.expand_path("../dummy", __FILE__)} && rake db:test:load`
+require File.expand_path("../rich_cms/dummy_app.rb", __FILE__)
+
+DummyApp.restore_all
+DummyApp.prepare_database
 
 require File.expand_path("../dummy/config/environment.rb", __FILE__)
 require "rails/test_help"
 
-Dir[File.expand_path("../../support/**/*.rb", __FILE__)].each do |file|
+Dir[File.expand_path("../../shared/support/**/*.rb", __FILE__)].each do |file|
   require file
 end
 require File.expand_path("../../../lib/rich_cms", __FILE__)

@@ -1,9 +1,9 @@
 module Rich
   module Cms
     module VERSION
-      MAJOR = 2
-      MINOR = 1
-      TINY  = 7
+      MAJOR = 3
+      MINOR = 0
+      TINY  = 0
 
       STRING = [MAJOR, MINOR, TINY].join(".")
     end

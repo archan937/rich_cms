@@ -6,9 +6,9 @@ class RichCmsContentGenerator < Rails::Generator::Base
 
   def manifest
     record do |m|
-      m.directory                          "app/models"
-      m.template               "model.rb", "app/models/#{model_file_name}.rb"
-      m.template              "config.rb", "config/initializers/enrichments.rb", {:collision => :skip}
+      m.directory          "app/models"
+      m.template           "model.rb"    , "app/models/#{model_file_name}.rb"
+      m.file               "config.rb"   , "config/initializers/enrichments.rb", {:collision => :skip}
       m.migration_template "migration.rb", "db/migrate", :migration_file_name => migration_file_name
     end
   end
@@ -17,12 +17,18 @@ class RichCmsContentGenerator < Rails::Generator::Base
     filename = destination_path("config/initializers/enrichments.rb")
     line     = "\nRich::Cms::Engine.register(\".#{model_file_name}\", {:class_name => \"#{model_class_name}\"})"
 
+    return if File.open(filename).readlines.collect(&:strip).include? line.strip
+
     File.open(filename, "a+") do |file|
       file << line
-    end unless File.open(filename).readlines.collect(&:strip).include? line.strip
+    end
 
     system "rake db:migrate" if options[:migrate]
   end
+
+  # //////////////////////////////////
+  # // Helper methods
+  # //////////////////////////////////
 
   def model_file_name
     @name.underscore
@@ -46,18 +52,18 @@ class RichCmsContentGenerator < Rails::Generator::Base
 
 protected
 
+  def banner
+    <<-BANNER.gsub(/^ {7}/, "")
+Creates Rich-CMS content model and migration and also registers content to Rich-CMS.
+
+USAGE: #{$0} #{spec.name} [model_name]
+    BANNER
+  end
+
   def add_options!(opt)
     opt.separator ""
     opt.separator "Options:"
     opt.on("-m", "--migrate", "Run 'rake db:migrate' after generating model and migration.") { options[:migrate] = true }
-  end
-
-  def banner
-    <<-EOS
-Creates Rich-CMS content model and migration and also registers content to Rich-CMS.
-
-USAGE: #{$0} #{spec.name} [model_name]
-EOS
   end
 
 end
