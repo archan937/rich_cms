@@ -5,7 +5,8 @@ A Rails gem (and also plugin) for a pluggable CMS frontend
 
 h2. Introduction
 
-Rich-CMS is a module of E9s ("http://github.com/archan937/e9s":http://github.com/archan937/e9s) which provides a frontend for your CMS content. Please check out an online demo of Rich-CMS at the "Rich-CMS CodeHero.es page":http://codehero.es/rails_gems_plugins/rich_cms or "E9s CodeHero.es page":http://codehero.es/rails_gems_plugins/e9s.
+Rich-CMS is a module of E9s ("http://github.com/archan937/e9s":http://github.com/archan937/e9s) which provides a frontend for your CMS content.
+Please check out an online demo of Rich-CMS at the "Rich-CMS":http://codehero.es/rails_gems_plugins/rich_cms or "E9s":http://codehero.es/rails_gems_plugins/e9s page at "http://codehero.es":http://codehero.es.
 
 h2. Installation
 
