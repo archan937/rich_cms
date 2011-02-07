@@ -277,6 +277,8 @@ Stephan Kaag - "@stephankaag":http://twitter.com/stephankaag - "http://hollandon
 
 h2. ToDo's
 
+* Support alternative ORM's and key/value stores (with "Toystore":https://github.com/newtoy/toystore and "Moneta":https://github.com/wycats/moneta probably)
+* Check out compatibility with Devise 1.2.0
 * Provide better conventions for content rendering
 * Provide tools to use Textile, MarkDown, image files upload and models (e.g. products)
 * Add cache feature which uses the standard Rails cache (rich_cms_tag ".cms_content", "test_content", :cache => true)
