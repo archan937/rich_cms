@@ -46,6 +46,8 @@ module DummyApp
     delete  "db/migrate/*.rb"
     delete  "test/fixtures/cms_contents.yml"
     delete  "test/fixtures/devise_users.yml"
+    delete  "test/unit/cms_content_test.rb"
+    delete  "test/unit/devise_user_test.rb"
     restore "app/models/*.rb.#{STASHED_EXT}"
     restore "**/*.#{STASHED_EXT}"
   end
@@ -57,8 +59,8 @@ module DummyApp
     stash  "config/initializers/devise.rb"
     stash  "config/initializers/enrichments.rb"
     stash  "config/routes.rb", :routes
-    stash  "test/fixtures/*_users.yml"
     delete "db/migrate/*.rb"
+    stash  "test/fixtures/*_users.yml"
   end
 
   def generate_cms_admin(logic = :devise)
