@@ -182,7 +182,7 @@ private
                 <<-CONTENT.gsub(/^ {18}/, "")
                   source "http://rubygems.org"
 
-                  gem "rails", "#{{2 => "2.3.10", 3 => "3.0.3"}[major_rails_version]}"
+                  gem "rails", "#{{2 => "2.3.11", 3 => "3.0.4"}[major_rails_version]}"
                   gem "mysql2"
 
                   gem "authlogic"
