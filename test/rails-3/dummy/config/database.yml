@@ -13,7 +13,7 @@ test:
   adapter: mysql2
   database: rich_cms_test
   username: root
-  password:
+  password: service
   host: 127.0.0.1
 
 production:

@@ -46,14 +46,14 @@ namespace :test do
   Rake::TestTask.new(:"rails-2") do |t|
     t.libs    << "lib"
     t.libs    << "test"
-    t.pattern  = "test/rails-2/{,/*/**}/*_test.rb"
+    t.pattern  = "test/rails-2/dummy/test/{,/*/**}/*_test.rb"
     t.verbose  = true
   end
   desc "Test the rich_cms plugin in Rails 3."
   Rake::TestTask.new(:"rails-3") do |t|
     t.libs    << "lib"
     t.libs    << "test"
-    t.pattern  = "test/rails-3/{,/*/**}/*_test.rb"
+    t.pattern  = "test/rails-3/dummy/test/{,/*/**}/*_test.rb"
     t.verbose  = true
   end
   desc "Run all integration tests (non-authenticated, with Devise, with Authlogic) in Rails 2 and 3."
@@ -86,12 +86,12 @@ namespace :restore do
   end
   desc "Restore the Rails 2 dummy app."
   task :"rails-2" do
-    require "test/rails-2/rich_cms/dummy_app.rb"
+    require "test/rails-2/dummy/test/support/dummy_app.rb"
     DummyApp.restore_all
   end
   desc "Restore the Rails 3 dummy app."
   task :"rails-3" do
-    require "test/rails-3/rich_cms/dummy_app.rb"
+    require "test/rails-3/dummy/test/support/dummy_app.rb"
     DummyApp.restore_all
   end
 end
@@ -104,12 +104,12 @@ namespace :stash do
   end
   desc "Stash the Rails 2 dummy app."
   task :"rails-2" do
-    require "test/rails-2/rich_cms/dummy_app.rb"
+    require "test/rails-2/dummy/test/support/dummy_app.rb"
     DummyApp.stash_all
   end
   desc "Stash the Rails 3 dummy app."
   task :"rails-3" do
-    require "test/rails-3/rich_cms/dummy_app.rb"
+    require "test/rails-3/dummy/test/support/dummy_app.rb"
     DummyApp.stash_all
   end
 end
@@ -123,4 +123,3 @@ Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_files.include "MIT-LICENSE"
   rdoc.rdoc_files.include "lib/**/*.rb"
 end
-
