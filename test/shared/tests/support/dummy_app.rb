@@ -187,7 +187,7 @@ private
 
                   gem "authlogic"
                   gem "devise", "~> #{{2 => "1.0.9", 3 => "1.1.5"}[major_rails_version]}"
-                  gem "rich_cms", :path => File.join(File.dirname(__FILE__), "..", "..", "..")
+                  gem "rich_cms", :path => File.expand_path("../../../..", __FILE__)
 
                   gem "shoulda"
                   gem "mocha"
