@@ -41,7 +41,6 @@ module DummyApp
     delete  "config/locales/devise.en.yml"
     delete  "db/migrate/*.rb"
     delete  "test/fixtures/cms_contents.yml"
-    delete  "test/unit/*.rb"
     restore "app/models/*.rb.#{STASHED_EXT}"
     restore "**/*.#{STASHED_EXT}"
   end
@@ -108,7 +107,7 @@ private
   STASHED_EXT = "stashed"
 
   def root_dir
-    @root_dir ||= File.expand_path("../../dummy/", __FILE__)
+    @root_dir ||= File.expand_path("../../../../dummy/", __FILE__)
   end
 
   def major_rails_version

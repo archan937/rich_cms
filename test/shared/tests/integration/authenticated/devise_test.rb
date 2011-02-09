@@ -1,4 +1,4 @@
-require File.expand_path("../../../../dummy_app.rb", __FILE__)
+require File.expand_path("../../../../test/support/dummy_app.rb", __FILE__)
 
 DummyApp.setup "Devise" do |app|
   app.generate_cms_admin
