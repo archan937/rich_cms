@@ -49,6 +49,7 @@ module DummyApp
     delete  "test/unit/cms_content_test.rb"
     delete  "test/unit/devise_user_test.rb"
     restore "app/models/*.rb.#{STASHED_EXT}"
+    restore "test/fixtures/*.yml.#{STASHED_EXT}"
     restore "**/*.#{STASHED_EXT}"
   end
 
