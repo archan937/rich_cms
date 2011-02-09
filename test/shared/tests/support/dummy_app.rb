@@ -1,5 +1,7 @@
 STDOUT.sync = true
 
+require "fileutils"
+
 module DummyApp
   extend self
 
@@ -14,7 +16,9 @@ module DummyApp
     prepare_database
     @prepared = true
 
-    log "=".ljust 145, "="
+    log "\n".rjust 145, "="
+    log "Environment for Rails #{major_rails_version} - #{description} is ready!"
+    log "=" .ljust 145, "="
     require File.expand_path("../../test_helper.rb", __FILE__)
   end
 
@@ -41,6 +45,7 @@ module DummyApp
     delete  "config/locales/devise.en.yml"
     delete  "db/migrate/*.rb"
     delete  "test/fixtures/cms_contents.yml"
+    delete  "test/fixtures/devise_users.yml"
     restore "app/models/*.rb.#{STASHED_EXT}"
     restore "**/*.#{STASHED_EXT}"
   end
@@ -73,8 +78,9 @@ module DummyApp
     @ran_generator = true
   end
 
-  def restore_admin_fixtures
-    restore "test/fixtures/#{@logic}_users.yml.#{STASHED_EXT}"
+  def correct_users_fixtures
+    copy "test/fixtures/rails-#{major_rails_version}_#{@logic}_users.yml.#{STASHED_EXT}",
+         "test/fixtures/#{@logic}_users.yml"
   end
 
   def replace_devise_pepper
@@ -212,6 +218,11 @@ private
     File.open target(file), "w" do |file|
       file << content
     end if content
+  end
+
+  def copy(source, destination)
+    log "Copying    #{source} -> #{destination}"
+    FileUtils.cp expand_path(source), expand_path(destination)
   end
 
   def run(command)

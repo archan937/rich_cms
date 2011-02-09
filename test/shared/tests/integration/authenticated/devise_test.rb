@@ -2,7 +2,7 @@ require File.expand_path("../../../../test/support/dummy_app.rb", __FILE__)
 
 DummyApp.setup "Devise" do |app|
   app.generate_cms_admin
-  app.restore_admin_fixtures
+  app.correct_users_fixtures
   app.replace_devise_pepper
   app.generate_cms_content
 end
