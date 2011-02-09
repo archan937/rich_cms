@@ -17,7 +17,7 @@ module DummyApp
     @prepared = true
 
     log "\n".rjust 145, "="
-    log "Environment for Rails #{major_rails_version} - #{description} is ready!"
+    log "Environment for Rails #{major_rails_version} - #{description} is ready for testing"
     log "=" .ljust 145, "="
     require File.expand_path("../../test_helper.rb", __FILE__)
   end

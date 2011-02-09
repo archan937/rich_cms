@@ -8,16 +8,16 @@ PATH
 GEM
   remote: http://rubygems.org/
   specs:
-    actionmailer (2.3.10)
-      actionpack (= 2.3.10)
-    actionpack (2.3.10)
-      activesupport (= 2.3.10)
+    actionmailer (2.3.11)
+      actionpack (= 2.3.11)
+    actionpack (2.3.11)
+      activesupport (= 2.3.11)
       rack (~> 1.1.0)
-    activerecord (2.3.10)
-      activesupport (= 2.3.10)
-    activeresource (2.3.10)
-      activesupport (= 2.3.10)
-    activesupport (2.3.10)
+    activerecord (2.3.11)
+      activesupport (= 2.3.11)
+    activeresource (2.3.11)
+      activesupport (= 2.3.11)
+    activesupport (2.3.11)
     authlogic (2.1.6)
       activesupport
     capybara (0.4.1.1)
@@ -50,19 +50,19 @@ GEM
       configuration (>= 0.0.5)
       rake (>= 0.8.1)
     mime-types (1.16)
-    mocha (0.9.10)
+    mocha (0.9.11)
       rake
     mysql2 (0.2.6)
     nokogiri (1.4.4)
     rack (1.1.0)
     rack-test (0.5.7)
       rack (>= 1.0)
-    rails (2.3.10)
-      actionmailer (= 2.3.10)
-      actionpack (= 2.3.10)
-      activerecord (= 2.3.10)
-      activeresource (= 2.3.10)
-      activesupport (= 2.3.10)
+    rails (2.3.11)
+      actionmailer (= 2.3.11)
+      actionpack (= 2.3.11)
+      activerecord (= 2.3.11)
+      activeresource (= 2.3.11)
+      activesupport (= 2.3.11)
       rake (>= 0.8.3)
     rake (0.8.7)
     rubyzip (0.9.4)
@@ -91,7 +91,7 @@ DEPENDENCIES
   launchy
   mocha
   mysql2
-  rails (= 2.3.10)
+  rails (= 2.3.11)
   rich_cms!
   shoulda
   sqlite3-ruby
