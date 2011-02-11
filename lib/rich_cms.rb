@@ -1,6 +1,15 @@
 require "jzip"
 require "haml"
-require "devise/version" if defined?(Devise)
+
+begin
+  require "authlogic"
+rescue MissingSourceFile
+end
+begin
+  require "devise"
+  require "devise/version"
+rescue MissingSourceFile
+end
 
 require "rich/cms/core"
 require "rich/cms/activesupport"
