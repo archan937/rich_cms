@@ -68,7 +68,7 @@ private
 
       keys     = [:time, :tests, :assertions, :failures, :errors]
       failures = integration_tests.inject(0) do |count, test|
-                   count += 1 if test[:failures].to_i + test[:errors].to_i > 0
+                   count += 1 if (test[:failures].to_i + test[:errors].to_i > 0) || test[:time].nil?
                    count
                  end
 
