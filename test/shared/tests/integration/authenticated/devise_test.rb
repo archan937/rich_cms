@@ -1,9 +1,9 @@
 require File.expand_path("../../../support/dummy_app.rb", __FILE__)
 
-DummyApp.setup "Devise" do |app|
+DummyApp.setup "Devise", :devise do |app|
   app.generate_cms_admin
   app.correct_users_fixtures
-  app.replace_devise_pepper
+  app.correct_authentication_assets
   app.generate_cms_content
 end
 

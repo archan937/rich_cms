@@ -5,11 +5,12 @@ require "fileutils"
 module DummyApp
   extend self
 
-  def setup(description, &block)
+  def setup(description, logic = nil, &block)
     log "\n".ljust 145, "="
     log "Setting up test environment for Rails #{major_rails_version} - #{description}\n"
     log "\n".rjust 145, "="
 
+    @logic = logic
     restore_all
     stash_all
     yield self if block_given?
@@ -64,17 +65,17 @@ module DummyApp
     stash  "test/fixtures/**/rails-*.yml"
   end
 
-  def generate_cms_admin(logic = :devise)
-    logic_option = {:devise => "d", :authlogic => "a"}[@logic = logic]
+  def generate_cms_admin
+    logic_option = {:devise => "d", :authlogic => "a"}[@logic]
 
     if logic_option
-      klass = "#{logic.to_s.capitalize}User"
+      klass = "#{@logic.to_s.capitalize}User"
 
       run case major_rails_version
           when 2
             "script/generate rich_cms_admin #{klass} -#{logic_option}"
           when 3
-            "rails g rich:cms_admin #{klass} -#{logic_option}"
+            "rails g rich:cms_admin #{klass} -b -#{logic_option}"
           end
     end
 
@@ -82,18 +83,27 @@ module DummyApp
   end
 
   def correct_users_fixtures
-    copy "test/fixtures/#{@logic}_users/rails-#{major_rails_version}.yml.#{STASHED_EXT}",
-         "test/fixtures/#{@logic}_users.yml"
+    if File.exists? expand_path(path = "test/fixtures/#{@logic}_users/rails-#{major_rails_version}.yml.#{STASHED_EXT}")
+      copy path, "test/fixtures/#{@logic}_users.yml"
+    end
   end
 
-  def replace_devise_pepper
-    devise_config = expand_path("config/initializers/devise.rb")
-    lines         = File.open(devise_config).readlines
-    pepper        = "b57fdc3ba6288df70ca46cf2f7a6c168408e2fd602a185deda0340db3f1b4427d7c02e94880ec3786a26c248ff40b12f4e39d3315bb7ddf5541b9efb27ecd8f7"
+  def correct_authentication_assets
+    return unless @logic == :devise
 
-    File.open(devise_config, "w") do |file|
-      lines.each do |line|
-        file << line.gsub(/(config\.pepper = ").*(")/, "config.pepper = \"#{pepper}\"")
+    case major_rails_version
+    when 2
+      restore "config/initializers/devise.rb"
+    when 3
+      devise_config = expand_path("config/initializers/devise.rb")
+      lines         = File.open(devise_config).readlines
+      pepper        = "b57fdc3ba6288df70ca46cf2f7a6c168408e2fd602a185deda0340db3f1b4427d7c02e94880ec3786a26c248ff40b12f4e39d3315bb7ddf5541b9efb27ecd8f7"
+
+      log :correcting, devise_config
+      File.open(devise_config, "w") do |file|
+        lines.each do |line|
+          file << line.gsub(/(config\.pepper = ").*(")/, "config.pepper = \"#{pepper}\"")
+        end
       end
     end
   end
@@ -143,7 +153,7 @@ private
     Dir[expand_path(string)].each do |file|
       if File.exists?(stashed(file))
         delete target(file)
-        log "Restoring  #{stashed(file)}"
+        log :restoring, stashed(file)
         File.rename stashed(file), target(file)
       end
     end
@@ -152,16 +162,16 @@ private
   def stash(string, replacement = nil)
     Dir[expand_path(string)].each do |file|
       unless File.exists?(stashed(file))
-        log "Stashing   #{target(file)}"
+        log :stashing, target(file)
         File.rename target(file), stashed(file)
-        replace(file, replacement)
+        write(file, replacement)
       end
     end
   end
 
   def delete(string)
     Dir[expand_path(string)].each do |file|
-      log "Deleting   #{file}"
+      log :deleting, file
       File.delete file
     end
 
@@ -172,21 +182,25 @@ private
       return unless %w(. ..).include? File.basename(file)
     end
 
-    log "Deleting   #{dirname}"
+    log :deleting, dirname
     Dir.delete dirname
   end
 
-  def replace(file, replacement)
+  def write(file, replacement)
     content = case replacement
               when :gemfile
+                auth_gem = case @logic
+                           when :devise
+                             'gem "devise", "1.0.9"'
+                           when :authlogic
+                             'gem "authlogic"'
+                           end if major_rails_version == 2
                 <<-CONTENT.gsub(/^ {18}/, "")
                   source "http://rubygems.org"
 
                   gem "rails", "#{{2 => "2.3.11", 3 => "3.0.4"}[major_rails_version]}"
                   gem "mysql2"
-
-                  gem "authlogic"
-                  gem "devise", "~> #{{2 => "1.0.9", 3 => "1.1.5"}[major_rails_version]}"
+                  #{auth_gem}
                   gem "rich_cms", :path => File.expand_path("../../../..", __FILE__)
 
                   gem "shoulda"
@@ -218,24 +232,29 @@ private
                 end
               end
 
-    File.open target(file), "w" do |file|
-      file << content
-    end if content
+    if content
+      log :writing, file
+      File.open target(file), "w" do |file|
+        file << content
+      end
+    end
   end
 
   def copy(source, destination)
-    log "Copying    #{source} -> #{destination}"
+    log :copying, "#{source} -> #{destination}"
     FileUtils.cp expand_path(source), expand_path(destination)
   end
 
   def run(command)
     return if command.to_s.gsub(/\s/, "").size == 0
-    log "Executing  #{command}"
+    log :executing, command
     `cd #{root_dir} && #{command}`
   end
 
-  def log(string)
-    puts string
+  def log(action, string = nil)
+    output = [string || action]
+    output.unshift action.to_s.capitalize.ljust(10, " ") unless string.nil?
+    puts output.join("  ")
   end
 
 end

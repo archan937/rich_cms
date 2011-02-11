@@ -1,7 +1,7 @@
 require File.expand_path("../../../support/dummy_app.rb", __FILE__)
 
-DummyApp.setup "Authlogic" do |app|
-  app.generate_cms_admin :authlogic
+DummyApp.setup "Authlogic", :authlogic do |app|
+  app.generate_cms_admin
   app.correct_users_fixtures
   app.generate_cms_content
 end
