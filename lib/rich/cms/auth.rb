@@ -13,7 +13,7 @@ module Rich
       end
 
       def enabled?
-        !!specs.logic
+        !!logic
       end
 
       def login_required?
@@ -21,7 +21,7 @@ module Rich
       end
 
       def login
-        case specs.logic
+        case logic
         when :authlogic
           user_session = "#{klass.name}Session".constantize.new params[klass_symbol]
           user_session.save
@@ -43,7 +43,7 @@ module Rich
       end
 
       def logout
-        case specs.logic
+        case logic
         when :authlogic
           user_session = "#{klass.name}Session".constantize.find
           user_session.try :destroy
@@ -54,7 +54,7 @@ module Rich
       end
 
       def admin
-        case specs.logic
+        case logic
         when :authlogic
           user_session = "#{klass.name}Session".constantize.find
           user_session.try klass_symbol
