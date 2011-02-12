@@ -16,8 +16,12 @@ module Rich
         !!logic
       end
 
+      def admin?
+        !!admin
+      end
+
       def login_required?
-        enabled? && admin.nil?
+        enabled? && !admin?
       end
 
       def login
@@ -39,7 +43,7 @@ module Rich
             end
           end
         end if enabled?
-        !!admin
+        admin?
       end
 
       def logout
