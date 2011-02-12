@@ -71,6 +71,11 @@ module Rich
         (admin.try(:send, specs.identifier) if enabled?) || "Rich-CMS"
       end
 
+      def can_edit?(object)
+        return true unless login_required?
+        admin? && (!admin.respond_to?(:can_edit?) || admin.can_edit?(object))
+      end
+
     private
 
       delegate :sign_out, :warden, :params, :session, :to => :current_controller

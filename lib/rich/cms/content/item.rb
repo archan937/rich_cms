@@ -48,7 +48,7 @@ module Rich
           default = @group.identifiers.size == 1 ? @object.send(@group.identifiers.first) : @object.attributes.values_at(*@group.identifiers).inspect
           value   = @object.send(@group.value)
 
-          unless Auth.login_required? || (Auth.admin && Auth.admin.respond_to?(:can_update?) && !Auth.admin.can_update?(@object))
+          if Auth.can_edit?(@object)
             default = "< #{default} >"
             keys    = @group.keys << @group.value.to_s
             data    = @object.attributes.reject{|k, v| !keys.include?(k.to_s)}
