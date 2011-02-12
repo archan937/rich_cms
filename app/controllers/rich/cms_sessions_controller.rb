@@ -2,10 +2,10 @@ module Rich
   class CmsSessionsController < ::ApplicationController
 
     def login
-      Rich::Cms::Auth.login
+      success = Rich::Cms::Auth.login
       if request.xhr?
         render :update do |page|
-          if Rich::Cms::Auth.admin
+          if success
             page.reload
           else
             page["##{Rich::Cms::Auth.klass_symbol}_#{Rich::Cms::Auth.inputs.first}"].focus
