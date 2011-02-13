@@ -3,12 +3,12 @@ require "haml"
 
 begin
   require "authlogic"
-rescue MissingSourceFile
+rescue LoadError
 end
 begin
   require "devise"
   require "devise/version"
-rescue MissingSourceFile
+rescue LoadError
 end
 
 require "rich/cms/core"
