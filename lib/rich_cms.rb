@@ -1,14 +1,11 @@
 require "jzip"
 require "haml"
 
-begin
-  require "authlogic"
-rescue LoadError
-end
-begin
-  require "devise"
-  require "devise/version"
-rescue LoadError
+%w(authlogic devise devise/version).each do |lib|
+  begin
+    require lib
+  rescue LoadError
+  end
 end
 
 require "rich/cms/core"
