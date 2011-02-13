@@ -33,6 +33,7 @@ module ActionView
     # // Rich::Cms::Engine related
     # //////////////////////////////////
 
+    # NOTE: a doubtful method
     def rich_cms_editable_content_javascript_hash
       "{#{Rich::Cms::Engine.editable_content.collect{|k, v| v.to_javascript_hash}.join ", "}}".html_safe
     end
