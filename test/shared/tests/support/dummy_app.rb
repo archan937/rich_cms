@@ -60,6 +60,7 @@ module DummyApp
     stash  "app/models/*.rb"
     stash  "config/initializers/devise.rb"
     stash  "config/initializers/enrichments.rb"
+    stash  "config/database.yml", :database
     stash  "config/routes.rb", :routes
     delete "db/migrate/*.rb"
     stash  "test/fixtures/**/rails-*.yml"
@@ -212,6 +213,15 @@ private
                 <<-CONTENT.gsub(/^ {18}/, "")
                   ActiveRecord::Schema.define(:version => 19820801180828) do
                   end
+                CONTENT
+              when :database
+                <<-CONTENT.gsub(/^ {18}/, "")
+                  test:
+                    adapter: mysql2
+                    database: rich_cms_test
+                    username: root
+                    password: service
+                    host: 127.0.0.1
                 CONTENT
               when :routes
                 case major_rails_version
