@@ -56,6 +56,13 @@ namespace :test do
     t.pattern  = "test/rails-3/dummy/test/{,/*/**}/*_test.rb"
     t.verbose  = true
   end
+  desc "Run all unit tests."
+  Rake::TestTask.new(:"unit") do |t|
+    t.libs    << "lib"
+    t.libs    << "test"
+    t.pattern  = "test/shared/tests/unit/**/*_test.rb"
+    t.verbose  = true
+  end
   desc "Run all integration tests (non-authenticated, with Devise, with Authlogic) in Rails 2 and 3."
   task :integration do
     Integrator.run do |test|
