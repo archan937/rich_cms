@@ -20,17 +20,18 @@ module DummyApp
     log "\n".rjust 145, "="
     log "Environment for Rails #{major_rails_version} - #{description} is ready for testing"
     log "=" .ljust 145, "="
-    require File.expand_path("../../test_helper.rb", __FILE__)
+
+    run
   end
 
   def prepare_database
     return if @db_prepared
     if @ran_generator
-      stash "db/schema.rb", :schema
-      run   "rake db:test:purge"
-      run   "RAILS_ENV=test rake db:migrate"
+      stash   "db/schema.rb", :schema
+      execute "rake db:test:purge"
+      execute "RAILS_ENV=test rake db:migrate"
     else
-      run   "rake db:test:load"
+      execute "rake db:test:load"
     end
     @db_prepared = true
   end
@@ -72,12 +73,12 @@ module DummyApp
     if logic_option
       klass = "#{@logic.to_s.capitalize}User"
 
-      run case major_rails_version
-          when 2
-            "script/generate rich_cms_admin #{klass} -#{logic_option}"
-          when 3
-            "rails g rich:cms_admin #{klass} -b -#{logic_option}"
-          end
+      execute case major_rails_version
+              when 2
+                "script/generate rich_cms_admin #{klass} -#{logic_option}"
+              when 3
+                "rails g rich:cms_admin #{klass} -b -#{logic_option}"
+              end
     end
 
     @ran_generator = true
@@ -112,12 +113,12 @@ module DummyApp
   def generate_cms_content
     klass = "CmsContent"
 
-    run case major_rails_version
-        when 2
-          "script/generate rich_cms_content #{klass}"
-        when 3
-          "rails g rich:cms_content #{klass}"
-        end
+    execute case major_rails_version
+            when 2
+              "script/generate rich_cms_content #{klass}"
+            when 3
+              "rails g rich:cms_content #{klass}"
+            end
 
     @ran_generator = true
   end
@@ -125,6 +126,19 @@ module DummyApp
 private
 
   STASHED_EXT = "stashed"
+
+  def run
+    ENV["RAILS_ENV"] = "test"
+
+    require File.expand_path("../../../config/environment.rb", __FILE__)
+    require "#{"rails/" if Rails::VERSION::MAJOR >= 3}test_help"
+
+    Dir[File.expand_path("../**/*.rb", __FILE__)].each do |file|
+      require file
+    end
+
+    puts "\nRunning Rails #{Rails::VERSION::STRING}\n\n"
+  end
 
   def root_dir
     @root_dir ||= File.expand_path("../../../../dummy/", __FILE__)
@@ -216,6 +230,11 @@ private
                 CONTENT
               when :database
                 <<-CONTENT.gsub(/^ {18}/, "")
+                  development:
+                    adapter: sqlite3
+                    database: db/development.sqlite3
+                    pool: 5
+                    timeout: 5000
                   test:
                     adapter: mysql2
                     database: rich_cms_test
@@ -255,7 +274,7 @@ private
     FileUtils.cp expand_path(source), expand_path(destination)
   end
 
-  def run(command)
+  def execute(command)
     return if command.to_s.gsub(/\s/, "").size == 0
     log :executing, command
     `cd #{root_dir} && #{command}`
