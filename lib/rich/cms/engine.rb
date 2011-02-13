@@ -16,13 +16,13 @@ module Rich
         end
 
         def register(*args)
-          (editables = args.first.is_a?(Hash) ? args.first : Hash[*args]).each do |selector, specs|
-            if @editable_content.keys.include?(selector)
-              raise RichCmsError, "Already registered editable content identified with #{selector.inspect}"
-            else
-              @editable_content[selector] = Cms::Content::Group.build(selector, specs)
-            end
-          end
+          # (editables = args.first.is_a?(Hash) ? args.first : Hash[*args]).each do |selector, specs|
+          #   if @editable_content.keys.include?(selector)
+          #     raise RichCmsError, "Already registered editable content identified with #{selector.inspect}"
+          #   else
+          #     @editable_content[selector] = Cms::Content::Group.build(selector, specs)
+          #   end
+          # end
         end
 
       private
