@@ -53,11 +53,13 @@ class ContentTest < ActiveSupport::TestCase
       context "as Rich-CMS content with an overriden key (e.g. Translation)" do
         setup do
           class I18n
+            cattr_accessor :default_locale, :locale
+            @@default_locale = :nl
             def self.locale
-              :nl
+              @@locale || @@default_locale
             end
             def self.t(key)
-              {:world => "wereld"}[key.to_sym]
+              {:nl => {:world => "wereld"}}[locale.to_sym][key.to_sym]
             end
           end
           class Translation
