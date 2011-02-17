@@ -194,7 +194,7 @@ When using a combined key for content identification, just call it as follows:
 The helper method is provided with the following options:
 
 * @:as@ (default: auto-determine @:string@ or @:text@) - Specify the input type shown in the edit form (@:string@ for an input text, @:text@ for a textarea and @:html@ for a WYSIWYG HTML editor).
-* @:tag@ (default: auto-determine @:div@ or @:span@) - The HTML tag used for content items.
+* @:tag@ (default: auto-determine @:div@ or @:span@) - The HTML tag used for content items. You can also specify @:none@ as value: in that case, no HTML tag will be wrapped around the content when no admin is logged in (handy in case the extra @span@ will bork the layout).
 * @:html@ (default: @{}@) - HTML attributes added to the content tag (e.g. @:id@, @:class@)
 
 <pre>
@@ -275,6 +275,7 @@ h2. Contributors
 
 Mark Mulder - "@bitterzoet":http://twitter.com/bitterzoet - "http://ikbenbitterzoet.com":http://ikbenbitterzoet.com
 Stephan Kaag - "@stephankaag":http://twitter.com/stephankaag - "http://hollandonrails.nl":http://hollandonrails.nl
+Jeroen Bulters - "@bulters":http://twitter.com/bulters - "http://bulte.rs":http://bulte.rs
 
 h2. ToDo's
 
