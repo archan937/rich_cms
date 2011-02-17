@@ -9,8 +9,6 @@ module Rich
 
       module ClassMethods
 
-        delegate :clear, :to => :cache
-
         def setup(engine, options = {}, &block)
           @specs = Specs.new
           specs.engine  = engine
@@ -18,13 +16,16 @@ module Rich
           yield specs if block_given?
         end
 
-        def method_missing(method, *args)
-          if DELEGATED.include?(method)
-            key = args.shift
-            cache.send method, *args.unshift(key_for(key))
-          else
-            super
-          end
+        def find(key)
+          self.new :key => key, :value => to_cache(:[], key)
+        end
+
+        def store(key, value)
+          to_cache(:store, key, value)
+        end
+
+        def destroy(key)
+          to_cache(:delete, key)
         end
 
       protected
@@ -35,12 +36,15 @@ module Rich
 
       private
 
-        DELEGATED = [:[], :fetch, :[]=, :delete, :key?, :has_key?, :store, :update_key]
-
         delegate :cache, :to => :specs
 
         def specs
           @specs ||= Specs.new
+        end
+
+        def to_cache(method, *args)
+          key = args.shift
+          cache.send method, *args.unshift(key_for(key))
         end
 
         class Specs
@@ -62,6 +66,18 @@ module Rich
       end
 
       module InstanceMethods
+        def self.included(base)
+          base.class_eval do
+            attr_accessor :key, :value
+          end
+        end
+
+        def initialize(attributes = nil)
+          attributes.each_pair do |key, value|
+            send :"#{key}=", value
+          end if attributes.is_a?(Hash)
+        end
+
         def default_value
 
         end

@@ -25,7 +25,7 @@ class ContentTest < ActiveSupport::TestCase
             include Rich::Cms::Content
             setup :memory
           end
-          Content.clear
+          Content.send(:cache).clear
         end
 
         should "have Moneta::Memory as cache" do
@@ -34,8 +34,8 @@ class ContentTest < ActiveSupport::TestCase
 
         should "be able to read / write values" do
           key, value = :some_key, "foobar"
-          Content[key] = value
-          assert_equal value, Content[key]
+          Content.store(key, value)
+          assert_equal value, Content.find(key).value
         end
 
         context "when having created an instance" do
@@ -70,20 +70,20 @@ class ContentTest < ActiveSupport::TestCase
               "#{I18n.locale}:#{key}"
             end
           end
-          Translation.clear
+          Translation.send(:cache).clear
           @key, @value = "hello", "hallo"
         end
 
         should "be able to override passed keys" do
           Translation.send(:cache).expects(:[]).with("#{I18n.locale}:#{@key}")
-          Translation[@key]
-          Translation.send(:cache).expects(:[]=).with("#{I18n.locale}:#{@key}", @value)
-          Translation[@key] = @value
+          Translation.find(@key)
+          Translation.send(:cache).expects(:store).with("#{I18n.locale}:#{@key}", @value)
+          Translation.store(@key, @value)
         end
 
         should "be able to read / write values" do
-          Translation[@key] = @value
-          assert_equal @value, Translation[@key]
+          Translation.store(@key, @value)
+          assert_equal @value, Translation.find(@key).value
         end
       end
     end
