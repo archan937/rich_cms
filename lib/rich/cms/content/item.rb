@@ -59,9 +59,10 @@ module Rich
               (options[:html] ||= {}).store :class, [class_name.to_s.gsub(/^\./, ""), options[:html].try(:fetch, :class, nil)].compact.join(" ")
             end
 
-            attrs << options[:html].collect{|k, v|      "#{k}=\"#{::ERB::Util.html_escape v}\""}.join(" ") if options[:html]
             attrs << data          .collect{|k, v| "data-#{k}=\"#{::ERB::Util.html_escape v}\""}.join(" ")
           end
+
+          attrs << options[:html].collect{|k, v|      "#{k}=\"#{::ERB::Util.html_escape v}\""}.join(" ") if options[:html]
 
           tag = options[:tag] || @group.tag || (%w(text html).include?(options[:as].to_s.downcase) ? :div : :span)
 
