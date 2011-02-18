@@ -3,6 +3,10 @@ require File.expand_path("../../test_helper.rb", __FILE__)
 class ContentTest < ActiveSupport::TestCase
 
   context "A Rich-CMS content class" do
+    setup do
+      @key, @value = "hello", "hallo"
+    end
+
     should "require the moneta store lib on setup" do
       assert_nothing_raised LoadError do
         class ContentMemory
@@ -21,6 +25,11 @@ class ContentTest < ActiveSupport::TestCase
     context "using on the memory cache engine" do
       context "as simple Rich-CMS content" do
         setup do
+          class User
+            def can_edit?(content)
+              true
+            end
+          end
           class Content
             include Rich::Cms::Content
             setup :memory
@@ -33,9 +42,18 @@ class ContentTest < ActiveSupport::TestCase
         end
 
         should "be able to read / write values" do
-          key, value = :some_key, "foobar"
-          Content.store(key, value)
+          key, value    = :some_key, "foobar"
+          content       = Content.find(key)
+          content.value = value
+          content.save
           assert_equal value, Content.find(key).value
+        end
+
+        should "return the correct default value" do
+          assert "header"  , Content.find("header").default_value
+          assert "header"  , Content.find("home.index.header").default_value
+          assert "about me", Content.find("about_me").default_value
+          assert "save as" , Content.find("attachment.save_as").default_value
         end
 
         context "when having created an instance" do
@@ -44,8 +62,42 @@ class ContentTest < ActiveSupport::TestCase
           end
 
           should "respond to all excepted methods" do
+            assert @content.respond_to?(:editable?)
+            assert @content.respond_to?(:save)
             assert @content.respond_to?(:default_value)
             assert @content.respond_to?(:to_tag)
+          end
+
+          context "when requiring a logged in admin" do
+            setup do
+              Auth.expects(:login_required?).at_least_once.returns(true)
+            end
+
+            should "be able to be saved" do
+              Auth.expects(:admin).at_least_once.returns(User.new)
+
+              @content.key   = @key
+              @content.value = @value
+              assert @content.save
+              assert_equal(@value, Content.find(@key).value)
+            end
+
+            should "not save when restricted" do
+              Auth.expects(:admin).at_least_once.returns(user = User.new)
+              user.stubs(:can_edit?).returns(false)
+
+              @content.key   = @key
+              @content.value = @value
+              assert !@content.save
+              assert_equal({}, Content.find(@key).value)
+            end
+
+            should "not save when logged required and not being logged in" do
+              @content.key   = @key
+              @content.value = @value
+              assert !@content.save
+              assert_equal({}, Content.find(@key).value)
+            end
           end
         end
       end
@@ -71,18 +123,21 @@ class ContentTest < ActiveSupport::TestCase
             end
           end
           Translation.send(:cache).clear
-          @key, @value = "hello", "hallo"
         end
 
         should "be able to override passed keys" do
           Translation.send(:cache).expects(:[]).with("#{I18n.locale}:#{@key}")
-          Translation.find(@key)
           Translation.send(:cache).expects(:store).with("#{I18n.locale}:#{@key}", @value)
-          Translation.store(@key, @value)
+
+          translation = Translation.find @key
+          translation.value = @value
+          translation.save
         end
 
         should "be able to read / write values" do
-          Translation.store(@key, @value)
+          translation = Translation.find @key
+          translation.value = @value
+          translation.save
           assert_equal @value, Translation.find(@key).value
         end
       end

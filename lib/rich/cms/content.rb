@@ -20,14 +20,6 @@ module Rich
           self.new :key => key, :value => to_cache(:[], key)
         end
 
-        def store(key, value)
-          to_cache(:store, key, value)
-        end
-
-        def destroy(key)
-          to_cache(:delete, key)
-        end
-
       protected
 
         def key_for(key)
@@ -73,18 +65,33 @@ module Rich
         end
 
         def initialize(attributes = nil)
-          attributes.each_pair do |key, value|
-            send :"#{key}=", value
+          attributes.each_pair do |k, v|
+            send :"#{k}=", v
           end if attributes.is_a?(Hash)
         end
 
-        def default_value
+        def editable?
+          Auth.can_edit?(self)
+        end
 
+        def save
+          !!(to_cache :store, key, value if editable?)
+        end
+
+        def default_value
+          key.to_s.split(".").last.gsub("_", "")
         end
 
         def to_tag
 
         end
+
+      private
+
+        def to_cache(method, *args)
+          self.class.send :to_cache, method, *args
+        end
+
       end
 
     end
