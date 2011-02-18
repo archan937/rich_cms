@@ -73,16 +73,17 @@ class ContentTest < ActiveSupport::TestCase
               Auth.expects(:login_required?).at_least_once.returns(true)
             end
 
-            should "be able to be saved" do
+            should "be able to be saved and destroyed" do
               Auth.expects(:admin).at_least_once.returns(User.new)
 
               @content.key   = @key
               @content.value = @value
               assert @content.save
               assert_equal(@value, Content.find(@key).value)
+              assert @content.destroy
             end
 
-            should "not save when restricted" do
+            should "be not able to be saved and destroyed when restricted" do
               Auth.expects(:admin).at_least_once.returns(user = User.new)
               user.stubs(:can_edit?).returns(false)
 
@@ -90,13 +91,15 @@ class ContentTest < ActiveSupport::TestCase
               @content.value = @value
               assert !@content.save
               assert_equal({}, Content.find(@key).value)
+              assert !@content.destroy
             end
 
-            should "not save when logged required and not being logged in" do
+            should "be not able to be saved and destroyed when login is required while not being logged in" do
               @content.key   = @key
               @content.value = @value
               assert !@content.save
               assert_equal({}, Content.find(@key).value)
+              assert !@content.destroy
             end
           end
         end

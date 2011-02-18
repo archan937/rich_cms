@@ -78,6 +78,10 @@ module Rich
           !!(to_cache :store, key, value if editable?)
         end
 
+        def destroy
+          !!(to_cache :delete, key if editable?)
+        end
+
         def default_value
           key.to_s.split(".").last.gsub("_", "")
         end
