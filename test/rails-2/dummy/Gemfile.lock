@@ -1,9 +1,10 @@
 PATH
   remote: /Users/paulengel/Sites/enrichments/vendor/foo/rich_cms
   specs:
-    rich_cms (3.0.0)
+    rich_cms (3.0.1)
       haml (~> 3.0.25)
       jzip (~> 1.0.11)
+      moneta (~> 0.6.0)
 
 GEM
   remote: http://rubygems.org/
@@ -52,6 +53,7 @@ GEM
     mime-types (1.16)
     mocha (0.9.11)
       rake
+    moneta (0.6.0)
     mysql2 (0.2.6)
     nokogiri (1.4.4)
     rack (1.1.0)
