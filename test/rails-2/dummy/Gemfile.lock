@@ -41,6 +41,7 @@ GEM
       rake (>= 0.8.7)
     git (1.2.5)
     haml (3.0.25)
+    hpricot (0.8.3)
     jeweler (1.5.2)
       bundler (~> 1.0.0)
       git (>= 1.2.5)
@@ -89,6 +90,7 @@ DEPENDENCIES
   authlogic
   capybara
   devise (~> 1.0.9)
+  hpricot
   jeweler
   launchy
   mocha

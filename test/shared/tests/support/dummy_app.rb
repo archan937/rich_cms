@@ -222,6 +222,7 @@ private
                   gem "mocha"
                   gem "capybara"
                   gem "launchy"
+                  gem "hpricot"
                 CONTENT
               when :schema
                 <<-CONTENT.gsub(/^ {18}/, "")
