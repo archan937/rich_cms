@@ -74,7 +74,7 @@ module Content
                 Auth.expects(:login_required?).at_least_once.returns(true)
               end
 
-              should "be not able to be saved and destroyed when not being logged in" do
+              should "not be able to be saved and destroyed when not being logged in" do
                 assert !@content.save
                 assert_equal("header", Content.find(@key).value)
                 assert !@content.destroy
@@ -88,7 +88,7 @@ module Content
                 assert @content.destroy
               end
 
-              should "be not able to be saved and destroyed when restricted" do
+              should "not be able to be saved and destroyed when restricted" do
                 Auth.expects(:admin).at_least_once.returns(user = User.new)
                 user.stubs(:can_edit?).returns(false)
 

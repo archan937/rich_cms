@@ -39,7 +39,7 @@ module Content
           @delimiter = Content.delimiter
         end
 
-        should "be able to derive the key" do
+        should "be able to derive the identity hash" do
           store_key = "nl#{@delimiter}header"
           assert_equal({:key => "header", :locale => "nl"}, Content.send(:identity_hash_for, store_key))
           assert_equal({:key => "header", :locale => :nl }, Content.send(:identity_hash_for, {:key  => "header", :locale  => :nl}))

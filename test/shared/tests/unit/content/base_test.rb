@@ -36,7 +36,7 @@ module Content
         end
 
         context "when no login required" do
-          should "be editable at default when no login required which is default" do
+          should "be editable when no login required which is default" do
             assert @content.editable?
           end
         end
@@ -55,12 +55,12 @@ module Content
             assert !@content.editable?
           end
 
-          should "be able to be saved and destroyed when allowed" do
+          should "be editable when allowed" do
             Auth.expects(:admin).at_least_once.returns(User.new)
             assert @content.editable?
           end
 
-          should "be not able to be saved and destroyed when restricted" do
+          should "not be editable when restricted" do
             Auth.expects(:admin).at_least_once.returns(user = User.new)
             user.stubs(:can_edit?).returns(false)
             assert !@content.editable?
