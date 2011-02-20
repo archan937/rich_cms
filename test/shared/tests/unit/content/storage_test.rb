@@ -43,6 +43,13 @@ module Content
             assert "save as" , Content.find("attachment.save_as").send(:default_value)
           end
 
+          should "memoize the default value" do
+            content = Content.new :key => "header"
+            content.expects(:default_value).once.returns("header")
+            content.value
+            content.value
+          end
+
           should "be able to read / write values" do
             content = Content.find(@key)
             content.value = @value

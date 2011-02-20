@@ -63,7 +63,7 @@ module Rich
           end
 
           def value
-            @value || @store_value || (@default_value = default_value)
+            @value || @store_value || (@default_value ||= default_value)
           end
 
           def value=(val)
