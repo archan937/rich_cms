@@ -26,10 +26,9 @@ module Rich
           user_session = "#{klass.name}Session".constantize.new params[klass_symbol]
           user_session.save
         when :devise
-          case Devise::VERSION
-          when "1.0.8", "1.0.9"
+          if [Devise::VERSION::MAJOR, Devise::VERSION::MINOR].join(".").to_f < 1.1
             warden.authenticate(:scope => klass_symbol)
-          when "1.1.5"
+          else
             begin
               sessions = Devise.mappings[klass_symbol].controllers[:sessions]
               Devise.mappings[klass_symbol].controllers[:sessions] = "rich/cms_sessions"
