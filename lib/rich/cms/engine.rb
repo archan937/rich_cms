@@ -6,23 +6,10 @@ module Rich
       end
 
       class << self
-        attr_reader :editable_content
-        attr_writer :current_controller
 
         def init
-          @editable_content = {}
           append_to_load_path
           setup_assets
-        end
-
-        def register(*args)
-          # (editables = args.first.is_a?(Hash) ? args.first : Hash[*args]).each do |selector, specs|
-          #   if @editable_content.keys.include?(selector)
-          #     raise RichCmsError, "Already registered editable content identified with #{selector.inspect}"
-          #   else
-          #     @editable_content[selector] = Cms::Content::Group.build(selector, specs)
-          #   end
-          # end
         end
 
       private
