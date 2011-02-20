@@ -7,7 +7,6 @@ module Rich
 
         def self.included(base)
           base.extend ClassMethods
-          base.send :include, InstanceMethods
           base.class_eval do
             @identifiers = nil
           end
@@ -69,12 +68,6 @@ module Rich
             (@identifiers = vars.collect(&:to_sym)).each do |attribute|
               self.attr_accessor attribute
             end
-          end
-        end
-
-        module InstanceMethods
-          def store_key
-            self.class.identifiers.collect{|x| send x}.join self.class.delimiter
           end
         end
 

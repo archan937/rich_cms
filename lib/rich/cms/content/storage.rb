@@ -58,6 +58,10 @@ module Rich
         end
 
         module InstanceMethods
+          def store_key
+            self.class.identifiers.collect{|x| send x}.join self.class.delimiter
+          end
+
           def value
             @value || @store_value || (@default_value = default_value)
           end
