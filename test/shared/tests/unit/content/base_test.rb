@@ -13,7 +13,9 @@ module Content
       end
 
       should "keep track of it's attr_accessors" do
-        assert [:key, :value], Content.send(:attr_accessors)
+        assert_equal [:value], Content.send(:attr_accessors)
+        Content.send(:prepare_identifiers)
+        assert_equal [:key, :value], Content.send(:attr_accessors).sort{|a, b| a.to_s <=> b.to_s}
       end
 
       should "not raise an error when passing a valid hash or not passing anything on initialization" do
