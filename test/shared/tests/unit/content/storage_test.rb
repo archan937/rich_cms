@@ -113,10 +113,11 @@ module Content
           end
 
           should "return the expected default value" do
-            assert_equal "header"  , Translation.find("nl:header"            ).send(:default_value)
-            assert_equal "header"  , Translation.find("nl:home.index.header" ).send(:default_value)
-            assert_equal "about me", Translation.find("nl:about_me"          ).send(:default_value)
-            assert_equal "save as" , Translation.find("nl:attachment.save_as").send(:default_value)
+            delimiter = Translation.delimiter
+            assert_equal "header"  , Translation.find("nl#{delimiter}header"            ).send(:default_value)
+            assert_equal "header"  , Translation.find("nl#{delimiter}home.index.header" ).send(:default_value)
+            assert_equal "about me", Translation.find("nl#{delimiter}about_me"          ).send(:default_value)
+            assert_equal "save as" , Translation.find("nl#{delimiter}attachment.save_as").send(:default_value)
           end
 
           should "be able to read / write values" do
