@@ -81,7 +81,7 @@ module Rich
         protected
 
           def default_value
-            store_key.split(/:|\./).last.gsub("_", " ")
+            store_key.split(/#{self.class.delimiter}|\./).last.gsub("_", " ")
           end
 
         private
