@@ -37,10 +37,10 @@ module Content
           end
 
           should "return the expected default value" do
-            assert "header"  , Content.find("header"            ).send(:default_value)
-            assert "header"  , Content.find("home.index.header" ).send(:default_value)
-            assert "about me", Content.find("about_me"          ).send(:default_value)
-            assert "save as" , Content.find("attachment.save_as").send(:default_value)
+            assert_equal "header"  , Content.find("header"            ).send(:default_value)
+            assert_equal "header"  , Content.find("home.index.header" ).send(:default_value)
+            assert_equal "about me", Content.find("about_me"          ).send(:default_value)
+            assert_equal "save as" , Content.find("attachment.save_as").send(:default_value)
           end
 
           should "memoize the default value" do
@@ -113,10 +113,10 @@ module Content
           end
 
           should "return the expected default value" do
-            assert "header"  , Translation.find("nl:header"            ).send(:default_value)
-            assert "header"  , Translation.find("nl:home.index.header" ).send(:default_value)
-            assert "about me", Translation.find("nl:about_me"          ).send(:default_value)
-            assert "save as" , Translation.find("nl:attachment.save_as").send(:default_value)
+            assert_equal "header"  , Translation.find("nl:header"            ).send(:default_value)
+            assert_equal "header"  , Translation.find("nl:home.index.header" ).send(:default_value)
+            assert_equal "about me", Translation.find("nl:about_me"          ).send(:default_value)
+            assert_equal "save as" , Translation.find("nl:attachment.save_as").send(:default_value)
           end
 
           should "be able to read / write values" do
