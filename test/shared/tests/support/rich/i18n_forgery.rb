@@ -23,13 +23,9 @@ module Rich
 
       module ClassMethods
 
-        def find(identifier)
-          super correct_identifier(identifier)
-        end
-
       protected
 
-        def key_for(identifier)
+        def identity_hash_for(identifier)
           super correct_identifier(identifier)
         end
 
