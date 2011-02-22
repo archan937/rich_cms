@@ -80,7 +80,7 @@ namespace :test do
     desc "Run all integration tests (non-authenticated, with Devise, with Authlogic) in Rails 3."
     task :"rails-3" do
       Integrator.run do |test|
-        test.rails 2
+        test.rails 3
       end
     end
   end
