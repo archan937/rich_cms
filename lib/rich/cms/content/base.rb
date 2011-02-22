@@ -31,9 +31,12 @@ module Rich
 
         module InstanceMethods
 
-          def initialize(attributes = nil)
+          def initialize(args = nil)
             self.class.send(:prepare_identifiers)
+
+            attributes = [String, Symbol].include?(args.class) ? self.class.send(:identity_hash_for, args) : args
             return unless attributes.is_a?(Hash)
+
             attributes.assert_valid_keys *self.class.send(:attr_accessors)
             attributes.each_pair do |k, v|
               send :"#{k}=", v
