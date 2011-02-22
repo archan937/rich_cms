@@ -31,10 +31,10 @@ module Rich
 
         module InstanceMethods
 
-          def initialize(args = nil)
+          def initialize(arg = nil)
             self.class.send(:prepare_identifiers)
 
-            attributes = [String, Symbol].include?(args.class) ? self.class.send(:identity_hash_for, args) : args
+            attributes = [String, Symbol].include?(arg.class) ? self.class.send(:identity_hash_for, arg) : arg
             return unless attributes.is_a?(Hash)
 
             attributes.assert_valid_keys *self.class.send(:attr_accessors)
