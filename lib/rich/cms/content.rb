@@ -24,17 +24,15 @@ module Rich
         (@@classes << klass).sort!{|a, b| a.name <=> b.name}
       end
 
-      def fetch(*args)
-        options = args.extract_options!.symbolize_keys!
-        raise ArgumentError, "CSS selector and identifier required" if options.nil?
+      def fetch(css_selector, identifier)
+        klass = @@classes.detect{|x| x.css_selector == css_selector.downcase}
+        raise ArgumentError, "Could not found matching CMS content class for #{selector.inspect} in #{@@classes.collect(&:css_selector).inspect}" if klass.nil?
 
-        selector = args.first || options.delete(:selector)
-        raise ArgumentError, "Missing CSS selector for class identification" if selector.nil?
+        klass.find_or_initialize identifier
+      end
 
-        klass = @@classes.detect{|x| x.css_selector == selector.downcase}
-        raise ArgumentError, "Could not found matching CMS content class for #{selector.inspect}" if klass.nil?
-
-        klass.find options
+      def javascript_hash
+        "{#{@@classes.collect{|klass| klass.to_javascript_hash}.join ", "}}".html_safe
       end
 
     end

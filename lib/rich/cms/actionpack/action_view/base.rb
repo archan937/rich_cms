@@ -30,16 +30,15 @@ module ActionView
     end
 
     # //////////////////////////////////
-    # // Rich::Cms::Engine related
+    # // Rich::Cms::Content related
     # //////////////////////////////////
 
-    # NOTE: a doubtful method
-    def rich_cms_editable_content_javascript_hash
-      "{#{Rich::Cms::Engine.editable_content.collect{|k, v| v.to_javascript_hash}.join ", "}}".html_safe
+    def rich_cms_content_javascript_hash
+      Rich::Cms::Content.javascript_hash
     end
 
-    def rich_cms_tag(selector, identifiers, options = {})
-      Rich::Cms::Engine.editable_content[selector].fetch(identifiers).to_tag options
+    def rich_cms_tag(selector, identifier, options = {})
+      Rich::Cms::Content.fetch(selector, identifier).to_tag options
     end
 
   end
