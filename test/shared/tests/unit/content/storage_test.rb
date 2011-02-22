@@ -70,7 +70,7 @@ module Content
 
             should "return a new instance when having found none of the passed identifiers and having passed a default" do
               assert_equal Content.new(:key => "label.email_address"),
-                           Content.find("label.(registration_form).User.email_address", "label.User.email_address", {"label.email_address" => :as_default}, "email_address")
+                           Content.find("label.(registration_form).User.email_address", "label.User.email_address", {"label.email_address" => :is_default}, "email_address")
             end
           end
 

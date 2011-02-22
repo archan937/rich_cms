@@ -24,7 +24,7 @@ module Rich
           def find(identifier, *alternatives)
             default = nil
             [identifier, *alternatives].each do |arg|
-              if arg.is_a?(Hash) && arg.size == 1 && arg.values.first == :as_default
+              if arg.is_a?(Hash) && arg.size == 1 && arg.values.first == :is_default
                 identifier = default = arg.keys.first
               else
                 identifier = arg
