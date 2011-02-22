@@ -12,20 +12,8 @@ module Rich
       argument     :model_name, :type => :string , :default => "cms_content"
       class_option :migrate   , :type => :boolean, :default => false, :aliases => "-m", :desc => "Run 'rake db:migrate' after generating model and migration"
 
-      def register_content
-        filename = "config/initializers/enrichments.rb"
-        line     = "\nRich::Cms::Engine.register(\".#{model_file_name}\", {:class_name => \"#{model_class_name}\"})"
-
-        create_file filename unless File.exists?(filename)
-        return if File.open(filename).readlines.collect(&:strip).include? line.strip
-
-        File.open(filename, "a+") do |file|
-          file << line
-        end
-      end
-
       def generate_model
-        invoke "active_record:model", [model_file_name], :migration => false
+        template "model.rb", "app/models/#{model_file_name}.rb"
       end
 
       def generate_migration

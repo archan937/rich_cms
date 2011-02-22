@@ -14,15 +14,6 @@ class RichCmsContentGenerator < Rails::Generator::Base
   end
 
   def after_generate
-    filename = destination_path("config/initializers/enrichments.rb")
-    line     = "\nRich::Cms::Engine.register(\".#{model_file_name}\", {:class_name => \"#{model_class_name}\"})"
-
-    return if File.open(filename).readlines.collect(&:strip).include? line.strip
-
-    File.open(filename, "a+") do |file|
-      file << line
-    end
-
     system "rake db:migrate" if options[:migrate]
   end
 
