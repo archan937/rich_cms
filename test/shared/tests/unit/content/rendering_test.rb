@@ -16,8 +16,7 @@ module Content
           Content.send(:content_store).clear
 
           @key, @value = "header", "Welcome to Rich-CMS"
-          @content     = Content.new :key => @key, :value => @value
-          @content.save
+          @content     = Content.new(:key => @key, :value => @value).save_and_return
         end
 
         should "return the expected CSS selector" do
