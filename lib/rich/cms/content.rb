@@ -26,7 +26,7 @@ module Rich
 
       def fetch(css_selector, identifier)
         klass = @@classes.detect{|x| x.css_selector == css_selector.downcase}
-        raise ArgumentError, "Could not found matching CMS content class for #{selector.inspect} in #{@@classes.collect(&:css_selector).inspect}" if klass.nil?
+        raise ArgumentError, "Could not found matching CMS content class for #{css_selector.inspect} in #{@@classes.collect(&:css_selector).inspect}" if klass.nil?
 
         klass.find_or_initialize identifier
       end
