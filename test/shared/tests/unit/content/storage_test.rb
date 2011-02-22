@@ -36,20 +36,6 @@ module Content
             assert Content.send(:content_store).is_a?(Moneta::Memory)
           end
 
-          should "return the expected default value" do
-            assert_equal "header"  , Content.find("header"            ).send(:default_value)
-            assert_equal "header"  , Content.find("home.index.header" ).send(:default_value)
-            assert_equal "about me", Content.find("about_me"          ).send(:default_value)
-            assert_equal "save as" , Content.find("attachment.save_as").send(:default_value)
-          end
-
-          should "memoize the default value" do
-            content = Content.new :key => "header"
-            content.expects(:default_value).once.returns("header")
-            content.value
-            content.value
-          end
-
           should "be able to read / write values" do
             content = Content.find(@key)
             content.value = @value
@@ -61,6 +47,20 @@ module Content
           context "when having created an instance" do
             setup do
               @content = Content.new :key => @key, :value => @value
+            end
+
+            should "return the expected default value" do
+              assert_equal "header"  , Content.new(:key => "header"            ).send(:default_value)
+              assert_equal "header"  , Content.new(:key => "home.index.header" ).send(:default_value)
+              assert_equal "about me", Content.new(:key => "about_me"          ).send(:default_value)
+              assert_equal "save as" , Content.new(:key => "attachment.save_as").send(:default_value)
+            end
+
+            should "memoize the default value" do
+              content = Content.new :key => "header"
+              content.expects(:default_value).once.returns("header")
+              content.value
+              content.value
             end
 
             context "when having called save_and_return" do
