@@ -36,6 +36,10 @@ module Rich
             self.new default unless default.nil?
           end
 
+          def find_or_initialize(identifier, *alternatives)
+            find(identifier, *alternatives) || self.new(identifier)
+          end
+
         private
 
           def find_by_identifier(identifier)
