@@ -71,7 +71,9 @@ module Rich
           end
 
           def save
-            !!(content_store[store_key] = @value if !!@value && editable?)
+            !!(content_store[store_key] = @value if !!@value && editable?).tap do |result|
+              @store_value = @value if result
+            end
           end
 
           def destroy
