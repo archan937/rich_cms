@@ -37,6 +37,21 @@ module Content
           @content = Content.new :key => "hello", :value => "hallo"
         end
 
+        should "be comparable" do
+          assert_equal     Content.new(:key => "hello", :value => "hallo"), @content
+          assert_not_equal Content.new(:key => "hello", :value => "ollah"), @content
+          assert_not_equal Content.new(:key => "hello")                   , @content
+          assert_not_equal Content.find("hello")                          , @content
+
+          @content.expects(:editable?).returns(false)
+          @content.save
+          assert_not_equal Content.find("hello"), @content
+
+          @content.expects(:editable?).returns(true)
+          @content.save
+          assert_equal     Content.find("hello"), @content
+        end
+
         context "when no login required" do
           should "be editable when no login required which is default" do
             assert @content.editable?

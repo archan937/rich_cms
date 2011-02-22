@@ -44,6 +44,10 @@ module Rich
             Auth.can_edit? self
           end
 
+          def ==(other)
+            self.class.identifiers.all?{|x| send(x) == other.send(x)} && value == other.value && @store_value == other.instance_variable_get(:"@store_value")
+          end
+
         end
 
       end
