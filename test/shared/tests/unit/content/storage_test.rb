@@ -63,6 +63,19 @@ module Content
               @content = Content.new :key => @key, :value => @value
             end
 
+            context "when having called save_and_return" do
+              should "be able to save and return itself when successful" do
+                content = Content.new(:key => @key, :value => @value).save_and_return
+                assert content
+              end
+
+              should "return nil when trying to save itself but failing" do
+                Content.any_instance.expects(:editable?).returns(false)
+                content = Content.new(:key => @key, :value => @value).save_and_return
+                assert_nil content
+              end
+            end
+
             context "when no login required" do
               should "be able to be saved and destroyed" do
                 assert @content.save

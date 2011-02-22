@@ -76,6 +76,10 @@ module Rich
             end
           end
 
+          def save_and_return
+            self if save
+          end
+
           def destroy
             !!(content_store.delete(store_key) if editable?)
           end
