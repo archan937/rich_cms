@@ -9,7 +9,14 @@ module Rich
 
         def init
           append_to_load_path
-          setup_assets
+
+          if Rails::VERSION::MAJOR >= 3
+            config.after_initialize do
+              after_initialize
+            end
+          else
+            after_initialize
+          end
         end
 
       private
@@ -23,20 +30,14 @@ module Rich
           end
         end
 
-        def setup_assets
-          procedure = proc {
-            ::Jzip::Engine.add_template_location({File.expand_path("../../../../assets/jzip", __FILE__) => File.join(Rails.root, "public", "javascripts")})
-            ::Sass::Plugin.add_template_location( File.expand_path("../../../../assets/sass", __FILE__),   File.join(Rails.root, "public", "stylesheets") )
-            copy_images
-          }
+        def after_initialize
+          register_assets
+          copy_images
+        end
 
-          if Rails::VERSION::MAJOR >= 3
-            config.after_initialize do
-              procedure.call
-            end
-          else
-            procedure.call
-          end
+        def register_assets
+          ::Jzip::Engine.add_template_location({File.expand_path("../../../../assets/jzip", __FILE__) => File.join(Rails.root, "public", "javascripts")})
+          ::Sass::Plugin.add_template_location( File.expand_path("../../../../assets/sass", __FILE__),   File.join(Rails.root, "public", "stylesheets") )
         end
 
         def copy_images
