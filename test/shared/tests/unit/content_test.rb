@@ -20,9 +20,6 @@ class ContentTest < ActiveSupport::TestCase
       Content    .new(:key => "header", :value  => "Welcome to Rich-CMS" ).save
       Translation.new(:key => "hello" , :locale => :nl, :value => "hallo").save
 
-      assert_equal "Welcome to Rich-CMS", Rich::Cms::Content.fetch(:selector => ".rcms_content"    , :key => "header").value
-      assert_equal "hallo"              , Rich::Cms::Content.fetch(:selector => ".rcms_translation", :key => "hello", :locale => :nl).value
-
       assert_equal "Welcome to Rich-CMS", Rich::Cms::Content.fetch(".rcms_content"    , :key => "header").value
       assert_equal "hallo"              , Rich::Cms::Content.fetch(".rcms_translation", :key => "hello", :locale => :nl).value
     end
