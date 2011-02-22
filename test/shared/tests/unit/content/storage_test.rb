@@ -37,11 +37,41 @@ module Content
           end
 
           should "be able to read / write values" do
-            content = Content.find(@key)
+            content = Content.new(@key)
             content.value = @value
             content.save
 
             assert_equal @value, Content.find(@key).value
+          end
+
+          context "when having passed alternatives for finding content" do
+            setup do
+              Content.send(:content_store).clear
+              @args = ["label.(registration_form).User.email_address", "label.User.email_address", "label.email_address", "email_address"]
+            end
+
+            should "not raise an error" do
+              assert_nothing_raised do
+                Content.find *@args
+              end
+            end
+
+            should "return nil when not having matched any of the passed identifiers" do
+              assert_nil Content.find(*@args)
+            end
+
+            should "return the first matching content" do
+              Content.new(:key => "email_address", :value => "E-mailadres").save
+              assert_equal Content.find("email_address"), Content.find(*@args)
+
+              Content.new(:key => "label.email_address", :value => "Uw e-mailadres").save
+              assert_equal Content.find("label.email_address"), Content.find(*@args)
+            end
+
+            should "return a new instance when having found none of the passed identifiers and having passed a default" do
+              assert_equal Content.new(:key => "label.email_address"),
+                           Content.find("label.(registration_form).User.email_address", "label.User.email_address", {"label.email_address" => :as_default}, "email_address")
+            end
           end
 
           context "when having created an instance" do
@@ -96,7 +126,7 @@ module Content
 
               should "not be able to be saved and destroyed when not being logged in" do
                 assert !@content.save
-                assert_equal("header", Content.find(@key).value)
+                assert_nil Content.find(@key)
                 assert !@content.destroy
               end
 
@@ -113,7 +143,7 @@ module Content
                 user.stubs(:can_edit?).returns(false)
 
                 assert !@content.save
-                assert_equal("header", Content.find(@key).value)
+                assert_nil Content.find(@key)
                 assert !@content.destroy
               end
             end
@@ -127,16 +157,16 @@ module Content
 
           should "return the expected default value" do
             delimiter = Translation.delimiter
-            assert_equal "header"  , Translation.find("nl#{delimiter}header"            ).send(:default_value)
-            assert_equal "header"  , Translation.find("nl#{delimiter}home.index.header" ).send(:default_value)
-            assert_equal "about me", Translation.find("nl#{delimiter}about_me"          ).send(:default_value)
-            assert_equal "save as" , Translation.find("nl#{delimiter}attachment.save_as").send(:default_value)
+            assert_equal "header"  , Translation.new("nl#{delimiter}header"            ).send(:default_value)
+            assert_equal "header"  , Translation.new("nl#{delimiter}home.index.header" ).send(:default_value)
+            assert_equal "about me", Translation.new("nl#{delimiter}about_me"          ).send(:default_value)
+            assert_equal "save as" , Translation.new("nl#{delimiter}attachment.save_as").send(:default_value)
           end
 
           should "be able to read / write values" do
             key, value = "header", "Welcome to Rich-CMS"
 
-            translation = Translation.find key
+            translation = Translation.new key
             translation.value = value
             assert translation.save
 

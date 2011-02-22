@@ -21,15 +21,32 @@ module Rich
             yield specs if block_given?
           end
 
-          def find(identifier)
-            self.new(identity_hash_for identifier).tap do |instance|
-              if content_store.has_key? instance.store_key
-                instance.instance_variable_set :"@store_value", content_store[instance.store_key]
+          def find(identifier, *alternatives)
+            default = nil
+            [identifier, *alternatives].each do |arg|
+              if arg.is_a?(Hash) && arg.size == 1 && arg.values.first == :as_default
+                identifier = default = arg.keys.first
+              else
+                identifier = arg
+              end
+              if content = find_by_identifier(identifier)
+                return content
               end
             end
+            self.new default unless default.nil?
           end
 
         private
+
+          def find_by_identifier(identifier)
+            instance = self.new identity_hash_for(identifier)
+
+            return unless content_store.has_key? instance.store_key
+
+            instance.tap do |i|
+              instance.instance_variable_set :"@store_value", content_store[instance.store_key]
+            end
+          end
 
           def content_store
             @content_store ||= specs.instantiate_store
