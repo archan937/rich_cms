@@ -45,7 +45,7 @@ module Rich
           end
 
           def ==(other)
-            self.class.identifiers.all?{|x| send(x) == other.send(x)} && value == other.value && @store_value == other.instance_variable_get(:"@store_value")
+            other && @store_value == other.instance_variable_get(:"@store_value") && self.class.identifiers.all?{|x| send(x) == other.send(x)} && value == other.value
           end
 
         end
