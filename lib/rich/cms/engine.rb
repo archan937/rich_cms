@@ -33,6 +33,7 @@ module Rich
         def after_initialize
           register_assets
           copy_images
+          require_models
         end
 
         def register_assets
@@ -49,6 +50,12 @@ module Rich
           FileUtils.rm_r    target_dir if File.exists? target_dir
           FileUtils.mkdir_p target_dir
           FileUtils.cp_r    source_dir, target_dir
+        end
+
+        def require_models
+          Dir[File.join(Rails.root, "app", "models", "**{,/*/**}/*.rb")].each do |file|
+            require file
+          end unless Rails.configuration.cache_classes
         end
 
       end
