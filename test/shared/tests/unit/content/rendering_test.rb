@@ -8,6 +8,8 @@ module Content
       context "using the memory store engine" do
 
         setup do
+          Rich::Cms::Content.classes.reject!{|klass| !%w(Foo Bar Translation).include? klass.name}
+
           class Foo
             include Rich::Cms::Content
             storage :memory
@@ -21,9 +23,9 @@ module Content
           forge_rich_i18n
 
           @javascript_hashes = ActiveSupport::OrderedHash.new
-          @javascript_hashes[Bar        ] = %Q({identifier: ["data-key"], value: "data-value"})
-          @javascript_hashes[Foo        ] = %Q({identifier: ["data-key"], value: "data-value"})
-          @javascript_hashes[Translation] = %Q({identifier: ["data-key", "data-locale"], value: "data-value", beforeEdit: Rich.I18n.beforeEdit, afterUpdate: Rich.I18n.afterUpdate})
+          @javascript_hashes[Bar        ] = %Q({keys: ["data-key"], value: "data-value"})
+          @javascript_hashes[Foo        ] = %Q({keys: ["data-key"], value: "data-value"})
+          @javascript_hashes[Translation] = %Q({keys: ["data-key", "data-locale"], value: "data-value", beforeEdit: Rich.I18n.beforeEdit, afterUpdate: Rich.I18n.afterUpdate})
         end
 
         should "be configurable" do
@@ -46,7 +48,7 @@ module Content
         end
 
         should "return the expected javascript hash (for all CMS content classes)" do
-          expected = @javascript_hashes.collect{|klass, value| "#{klass.css_selector}: #{value}"}.join ", "
+          expected = @javascript_hashes.collect{|klass, value| "#{klass.css_selector.inspect}: #{value}"}.join ", "
           assert_equal "{#{expected}}", Rich::Cms::Content.javascript_hash
         end
 

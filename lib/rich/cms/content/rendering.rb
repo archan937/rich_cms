@@ -35,20 +35,20 @@ module Rich
           end
 
           def to_javascript_hash
-            "{#{data_pairs.concat(callback_pairs).reject(&:blank?).join ", "}}".html_safe
+            "{#{data_pairs.concat(callback_pairs).collect{|key, value| "#{key}: #{value}"}.join ", "}}".html_safe
           end
 
         private
 
           def data_pairs
-            pairs              = ActiveSupport::OrderedHash.new
-            pairs[:identifier] = identifiers
-            pairs[:value]      = "value"
+            pairs         = ActiveSupport::OrderedHash.new
+            pairs[:keys ] = identifiers.sort{|a, b| a.to_s <=> b.to_s}
+            pairs[:value] = "value"
 
             pairs.collect do |key, value|
               collected = [value].flatten.collect{|x| "data-#{x}"}
               value     = (value.is_a?(Array) ? collected : collected.first).inspect
-              "#{key}: #{value}"
+              [key, value]
             end
           end
 
@@ -57,7 +57,7 @@ module Rich
               (@callbacks || {}).values_at(*CALLBACKS).each_with_index do |value, index|
                 next if value.blank?
                 key = CALLBACKS[index].to_s.camelize(:lower)
-                array << "#{key}: #{value}"
+                array << [key, value]
               end
             end
           end
