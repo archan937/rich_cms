@@ -93,7 +93,10 @@ module Rich
 
           def save
             !!(content_store[store_key] = @value if !!@value && editable?).tap do |result|
-              @store_value = @value if result
+              if result
+                @value = @default_value = nil
+                @store_value = @value
+              end
             end
           end
 
