@@ -84,7 +84,7 @@ module Rich
           end
 
           def value
-            @value || @store_value || (@default_value ||= default_value)
+            ((@value unless @value.blank?) || (@store_value unless @store_value.blank?)).try(:html_safe) || (@default_value ||= default_value)
           end
 
           def value=(val)
