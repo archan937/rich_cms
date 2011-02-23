@@ -1,11 +1,19 @@
+require File.expand_path("../auth/adapter.rb", __FILE__)
+
+Dir[File.expand_path("../auth/*.rb", __FILE__)].each do |file|
+  require file
+end
+
 module Rich
   module Cms
     module Auth
-      mattr_accessor :current_controller
-
       extend self
 
       delegate :logic, :klass, :klass_symbol, :inputs, :to => :specs
+
+      def current_controller=(controller)
+        adapter.current_controller = controller if enabled?
+      end
 
       def setup
         @specs = Specs.new
@@ -25,45 +33,17 @@ module Rich
       end
 
       def login
-        case logic
-        when :authlogic
-          user_session = "#{klass.name}Session".constantize.new params[klass_symbol]
-          user_session.save
-        when :devise
-          if [Devise::VERSION::MAJOR, Devise::VERSION::MINOR].join(".").to_f < 1.1
-            warden.authenticate(:scope => klass_symbol)
-          else
-            begin
-              sessions = Devise.mappings[klass_symbol].controllers[:sessions]
-              Devise.mappings[klass_symbol].controllers[:sessions] = "rich/cms_sessions"
-              warden.authenticate(:scope => klass_symbol)
-            ensure
-              Devise.mappings[klass_symbol].controllers[:sessions] = sessions
-            end
-          end
-        end if enabled?
+        adapter.login if enabled?
         admin?
       end
 
       def logout
-        case logic
-        when :authlogic
-          user_session = "#{klass.name}Session".constantize.find
-          user_session.try :destroy
-        when :devise
-          sign_out klass_symbol
-        end if enabled?
+        adapter.logout if enabled?
         session[:rich_cms] = nil
       end
 
       def admin
-        case logic
-        when :authlogic
-          user_session = "#{klass.name}Session".constantize.find
-          user_session.try klass_symbol
-        when :devise
-          current_controller.try :send, specs.current_admin_method if enabled? && specs.current_admin_method
-        end if enabled?
+        adapter.admin if enabled?
       end
 
       def admin_label
@@ -77,7 +57,9 @@ module Rich
 
     private
 
-      delegate :sign_out, :warden, :params, :session, :to => :current_controller
+      def adapter
+        @adapter ||= specs.instantiate_adapter
+      end
 
       def specs
         @specs ||= Specs.new
@@ -110,6 +92,14 @@ module Rich
 
         def current_admin_method
           @current_admin_method || :"current_#{klass_symbol}" if klass
+        end
+
+        def adapter_class
+          "Rich::Cms::Auth::#{logic.to_s.classify}".constantize
+        end
+
+        def instantiate_adapter
+          adapter_class.new self
         end
       end
 
