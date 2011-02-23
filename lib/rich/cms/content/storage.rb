@@ -91,6 +91,11 @@ module Rich
             @value = val
           end
 
+          def default_value?
+            value
+            !!@default_value
+          end
+
           def save
             !!(content_store[store_key] = @value if !!@value && editable?).tap do |result|
               if result

@@ -66,12 +66,44 @@ module Rich
         module InstanceMethods
 
           def to_tag(options = {})
-            value
+            if (tag = derive_tag(options)).nil?
+              value
+            else
+              if class_name = self.class.css_selector.match(/^\.\w+$/)
+                (options[:html] ||= {}).store :class, [class_name.to_s.gsub(/^\./, ""), options[:html].try(:fetch, :class, nil)].compact.join(" ")
+              end
+
+              attrs = ActiveSupport::OrderedHash.new
+
+              if editable?
+                attrs["class"] = options[:html].delete(:class)
+                self.class.identifiers.sort{|a, b| a.to_s <=> b.to_s}.each do |x|
+                  attrs["data-#{x}"] = send(x)
+                end
+                attrs["data-value"] = value
+              end
+
+              # :editable_input_type
+              # options[:html]
+              # :derivative_key, :derivative_value (additional keys)
+
+              attrs = attrs.collect{|key, value| "#{key}=\"#{::ERB::Util.html_escape value}\""}.join(" ")
+              text  = editable? && default_value? ? "< #{value} >" : value
+
+              "<#{tag} #{attrs}>#{text}</#{tag}>"
+
+            end.html_safe
           end
 
           # def to_rich_cms_response
 
         private
+
+          def derive_tag(options)
+            tag = options[:tag] || config[:tag]
+            return if !editable? && tag == :none
+            (tag unless tag == :none) || (%w(text html).include?(options[:as].to_s.downcase) ? :div : :span)
+          end
 
           def config
             self.class.send :config
