@@ -65,7 +65,7 @@ module Rich
           end
 
           def set_identifiers(*vars)
-            (@identifiers = vars.collect(&:to_sym).sort{|a, b| a.to_s <=> b.to_s}).each do |attribute|
+            (@identifiers = vars.collect(&:to_sym)).each do |attribute|
               self.attr_accessor attribute
             end
           end
