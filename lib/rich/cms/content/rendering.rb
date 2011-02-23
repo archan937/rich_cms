@@ -65,6 +65,7 @@ module Rich
 
         module InstanceMethods
 
+          # TODO: Clean up this method and add tests!
           def to_tag(options = {})
             if (tag = derive_tag(options)).nil?
               value
@@ -81,6 +82,7 @@ module Rich
                   attrs["data-#{x}"] = send(x)
                 end
                 attrs["data-value"] = value
+                attrs["data-editable_input_type"] = options[:as] if %w(string text html).include? options[:as].to_s.downcase
               end
 
               # :editable_input_type
