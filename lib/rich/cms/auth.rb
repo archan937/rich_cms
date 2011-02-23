@@ -39,7 +39,7 @@ module Rich
 
       def logout
         adapter.logout if enabled?
-        session[:rich_cms] = nil
+        adapter.session[:rich_cms] = nil
       end
 
       def admin
@@ -95,7 +95,7 @@ module Rich
         end
 
         def adapter_class
-          "Rich::Cms::Auth::#{logic.to_s.classify}".constantize
+          "Rich::Cms::Auth::#{logic.to_s.classify}Adapter".constantize
         end
 
         def instantiate_adapter

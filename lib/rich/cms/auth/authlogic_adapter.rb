@@ -2,7 +2,7 @@ module Rich
   module Cms
     module Auth
 
-      class Authlogic < Adapter
+      class AuthlogicAdapter < Adapter
         def login
           user_session = "#{klass.name}Session".constantize.new params[klass_symbol]
           user_session.save

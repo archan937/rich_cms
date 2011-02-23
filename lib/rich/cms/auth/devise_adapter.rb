@@ -2,9 +2,9 @@ module Rich
   module Cms
     module Auth
 
-      class Devise < Adapter
+      class DeviseAdapter < Adapter
         def login
-          if [Devise::VERSION::MAJOR, Devise::VERSION::MINOR].join(".").to_f < 1.1
+          if Devise::VERSION.to_f < 1.1
             warden.authenticate(:scope => klass_symbol)
           else
             begin
