@@ -8,49 +8,46 @@ module Content
       context "using the memory store engine" do
 
         setup do
-          class Content
-            include Rich::Cms::Content
-            storage :memory
-          end
-
-          Content.send(:content_store).clear
-
-          @key, @value = "header", "Welcome to Rich-CMS"
-          @content     = Content.new(:key => @key, :value => @value).save_and_return
-        end
-
-        should "return the expected CSS selector" do
           class Foo
             include Rich::Cms::Content
             storage :memory
-          end
-          class Bar
-            include Rich::Cms::Content
-            storage      :memory
-            css_selector "#foo .bar"
-          end
-
-          assert_equal ".rcms_content", Content.css_selector
-          assert_equal ".rcms_foo"    , Foo.css_selector
-          assert_equal "#foo .bar"    , Bar.css_selector
-        end
-
-        should "be configurable" do
-          class Foo
-            include Rich::Cms::Content
-            storage :memory
-            configure ".foo_content", :as => :html
+            configure :as => :html
           end
           class Bar
             include Rich::Cms::Content
             storage   :memory
-            configure :tag => :h1
+            configure ".bar_content", :tag => :h1
           end
+          forge_rich_i18n
 
-          assert_equal ".foo_content" , Foo.css_selector
-          assert_equal ".rcms_bar"    , Bar.css_selector
+          @javascript_hashes = ActiveSupport::OrderedHash.new
+          @javascript_hashes[Bar        ] = %Q({identifier: ["data-key"], value: "data-value"})
+          @javascript_hashes[Foo        ] = %Q({identifier: ["data-key"], value: "data-value"})
+          @javascript_hashes[Translation] = %Q({identifier: ["data-key", "data-locale"], value: "data-value", beforeEdit: Rich.I18n.beforeEdit, afterUpdate: Rich.I18n.afterUpdate})
+        end
+
+        should "be configurable" do
+          assert_equal ".rcms_foo"    , Foo.css_selector
+          assert_equal ".bar_content" , Bar.css_selector
           assert_equal({:as  => :html}, Foo.config)
           assert_equal({:tag => :h1  }, Bar.config)
+        end
+
+        should "return the expected javascript hash (per CMS content class)" do
+          assert_equal @javascript_hashes[Foo        ], Foo.to_javascript_hash
+          assert_equal @javascript_hashes[Bar        ], Bar.to_javascript_hash
+          assert_equal @javascript_hashes[Translation], Translation.to_javascript_hash
+        end
+
+        should "return the expected CSS selector" do
+          assert_equal ".bar_content"     , Bar.css_selector
+          assert_equal ".rcms_foo"        , Foo.css_selector
+          assert_equal ".rcms_translation", Translation.css_selector
+        end
+
+        should "return the expected javascript hash (for all CMS content classes)" do
+          expected = @javascript_hashes.collect{|klass, value| "#{klass.css_selector}: #{value}"}.join ", "
+          assert_equal "{#{expected}}", Rich::Cms::Content.javascript_hash
         end
 
         context "when no login required" do

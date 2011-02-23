@@ -18,6 +18,7 @@ module Rich
         base.extend ClassMethods
         base.class_eval do
           identifiers :locale, :key
+          callbacks   :before_edit => "Rich.I18n.beforeEdit", :after_update => "Rich.I18n.afterUpdate"
         end
       end
 

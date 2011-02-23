@@ -32,7 +32,11 @@ module Rich
       end
 
       def javascript_hash
-        "{#{@@classes.collect{|klass| klass.to_javascript_hash}.join ", "}}".html_safe
+        pairs = @@classes.sort{|a, b| a.name <=> b.name}.
+                          collect do |klass|
+                           "#{klass.css_selector}: #{klass.to_javascript_hash}"
+                          end
+        "{#{pairs.join ", "}}".html_safe
       end
 
     end
