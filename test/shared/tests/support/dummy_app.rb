@@ -19,7 +19,7 @@ module DummyApp
 
     log "\n".rjust 145, "="
     log "Environment for Rails #{major_rails_version} - #{description} is ready for testing"
-    log "=" .ljust 145, "="
+    log "=" .ljust 144, "="
 
     run
   end
