@@ -79,7 +79,7 @@ module Rich
               if editable?
                 attrs["class"]                    = options[:html].delete(:class)
                 attrs["data-store_key"]           = store_key
-                attrs["data-value"]               = value
+                attrs["data-value"]               = @store_value
                 attrs["data-editable_input_type"] = options[:as] if %w(string text html).include? options[:as].to_s.downcase
               end
 
