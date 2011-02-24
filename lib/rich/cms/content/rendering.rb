@@ -42,7 +42,7 @@ module Rich
 
           def data_pairs
             pairs         = ActiveSupport::OrderedHash.new
-            pairs[:keys ] = identifiers.sort{|a, b| a.to_s <=> b.to_s}
+            pairs[:keys ] = ["store_key"]
             pairs[:value] = "value"
 
             pairs.collect do |key, value|
@@ -77,11 +77,9 @@ module Rich
               attrs = ActiveSupport::OrderedHash.new
 
               if editable?
-                attrs["class"] = options[:html].delete(:class)
-                self.class.identifiers.sort{|a, b| a.to_s <=> b.to_s}.each do |x|
-                  attrs["data-#{x}"] = send(x)
-                end
-                attrs["data-value"] = value
+                attrs["class"]                    = options[:html].delete(:class)
+                attrs["data-store_key"]           = store_key
+                attrs["data-value"]               = value
                 attrs["data-editable_input_type"] = options[:as] if %w(string text html).include? options[:as].to_s.downcase
               end
 
@@ -97,7 +95,16 @@ module Rich
             end.html_safe
           end
 
-          # def to_rich_cms_response
+          # TODO: Clean up this method and add tests!
+          def to_rich_cms_response
+            # keys = @group.keys << @group.value.to_s
+            # hash = @object.attributes.reject{|k, v| !keys.include?(k.to_s)}
+            #
+            # selector   = self.class.css_selector
+            # identifier = self.class.identifiers.inject({}){|hash, x| hash[x] = send(x); hash}
+            #
+            # hash.merge({:__selector__ => __selector__, :__identifier__ => identifier})
+          end
 
         private
 

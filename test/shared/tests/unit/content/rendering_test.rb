@@ -23,9 +23,9 @@ module Content
           forge_rich_i18n
 
           @javascript_hashes = ActiveSupport::OrderedHash.new
-          @javascript_hashes[Bar        ] = %Q({keys: ["data-key"], value: "data-value"})
-          @javascript_hashes[Foo        ] = %Q({keys: ["data-key"], value: "data-value"})
-          @javascript_hashes[Translation] = %Q({keys: ["data-key", "data-locale"], value: "data-value", beforeEdit: Rich.I18n.beforeEdit, afterUpdate: Rich.I18n.afterUpdate})
+          @javascript_hashes[Bar        ] = %Q({keys: ["data-store_key"], value: "data-value"})
+          @javascript_hashes[Foo        ] = %Q({keys: ["data-store_key"], value: "data-value"})
+          @javascript_hashes[Translation] = %Q({keys: ["data-store_key"], value: "data-value", beforeEdit: Rich.I18n.beforeEdit, afterUpdate: Rich.I18n.afterUpdate})
         end
 
         should "be configurable" do
