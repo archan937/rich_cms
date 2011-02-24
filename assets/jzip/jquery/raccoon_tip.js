@@ -1,16 +1,16 @@
 if (typeof(RaccoonTip) == "undefined") {
 
 // *
-// * RaccoonTip 1.0.8 (Uncompressed)
+// * RaccoonTip 1.0.9 (Uncompressed)
 // * A lightweight jQuery based balloon tip library
 // *
 // * This library requires jQuery (http://jquery.com)
 // *
-// * (c) 2010 Paul Engel (Internetbureau Holder B.V.)
+// * (c) 2011 Paul Engel (Internetbureau Holder B.V.)
 // * Except otherwise noted, RaccoonTip is licensed under
 // * http://creativecommons.org/licenses/by-sa/3.0
 // *
-// * $Date: 2010-10-17 13:37:39 +0100 (Sun, 17 October 2010) $
+// * $Date: 2011-02-24 02:43:21 +0100 (Thu, 24 February 2011) $
 // *
 
 RaccoonTip = (function() {
@@ -18,7 +18,6 @@ RaccoonTip = (function() {
   var css  = '<style>#raccoon_tip{*padding:14px;position:absolute;z-index:9999}#raccoon_tip .rt_tip{width:0;font-size:0;line-height:0;position:absolute;filter:chroma(color=pink)}#raccoon_tip.rt_bottom_right{margin-left:-28px;padding-top:14px}#raccoon_tip.rt_bottom_right .rt_tip{top:0;left:14px;border-bottom-width:14px;border-bottom-style:solid;border-bottom-color:#f9e98e;border-right-width:14px;border-right-style:solid;border-right-color:transparent;*border-right-color:pink}#raccoon_tip.rt_bottom_middle{padding-top:14px}#raccoon_tip.rt_bottom_middle .rt_tip{top:0;left:50%;margin-left:-7px;border-bottom-width:14px;border-bottom-style:solid;border-bottom-color:#f9e98e;border-left-width:7px;border-left-style:solid;border-left-color:transparent;*border-left-color:pink;border-right-width:7px;border-right-style:solid;border-right-color:transparent;*border-right-color:pink}#raccoon_tip.rt_bottom_left{margin-left:28px;padding-top:14px}#raccoon_tip.rt_bottom_left .rt_tip{top:0;right:14px;border-bottom-width:14px;border-bottom-style:solid;border-bottom-color:#f9e98e;border-left-width:14px;border-left-style:solid;border-left-color:transparent;*border-left-color:pink}#raccoon_tip.rt_middle_left{margin-left:-7px;padding-right:14px}#raccoon_tip.rt_middle_left .rt_tip{top:50%;right:0;margin-top:-7px;border-left-width:14px;border-left-style:solid;border-left-color:#f9e98e;border-top-width:7px;border-top-style:solid;border-top-color:transparent;*border-top-color:pink;border-bottom-width:7px;border-bottom-style:solid;border-bottom-color:transparent;*border-bottom-color:pink}#raccoon_tip.rt_top_left{margin-left:28px;padding-bottom:14px}#raccoon_tip.rt_top_left .rt_tip{bottom:0;right:14px;border-top-width:14px;border-top-style:solid;border-top-color:#f9e98e;border-left-width:14px;border-left-style:solid;border-left-color:transparent;*border-left-color:pink}#raccoon_tip.rt_top_middle{padding-bottom:14px}#raccoon_tip.rt_top_middle .rt_tip{bottom:0;left:50%;margin-left:-7px;border-top-width:14px;border-top-style:solid;border-top-color:#f9e98e;border-left-width:7px;border-left-style:solid;border-left-color:transparent;*border-left-color:pink;border-right-width:7px;border-right-style:solid;border-right-color:transparent;*border-right-color:pink}#raccoon_tip.rt_top_right{margin-left:-28px;padding-bottom:14px}#raccoon_tip.rt_top_right .rt_tip{bottom:0;left:14px;border-top-width:14px;border-top-style:solid;border-top-color:#f9e98e;border-right-width:14px;border-right-style:solid;border-right-color:transparent;*border-right-color:pink}#raccoon_tip.rt_middle_right{margin-left:7px;padding-left:14px}#raccoon_tip.rt_middle_right .rt_tip{top:50%;left:0;margin-top:-7px;border-right-width:14px;border-right-style:solid;border-right-color:#f9e98e;border-top-width:7px;border-top-style:solid;border-top-color:transparent;*border-top-color:pink;border-bottom-width:7px;border-bottom-style:solid;border-bottom-color:transparent;*border-bottom-color:pink}#raccoon_tip .rt_content{padding:6px 12px 8px 12px;overflow:hidden;background:#fbf7aa;border-width:10px;border-style:solid;border-color:#f9e98e;*border-width:7px;border-radius:10px;-moz-border-radius:10px;-webkit-border-radius:10px;box-shadow:rgba(0, 0, 0, 0.1) 0 1px 3px;-moz-box-shadow:rgba(0, 0, 0, 0.1) 0 1px 3px;-webkit-box-shadow:rgba(0, 0, 0, 0.1) 0 1px 3px}#raccoon_tip .rt_content,#raccoon_tip .rt_content a{color:#a27d35;text-shadow:none}#raccoon_tip .rt_content a{outline:0}</style>';
 
   var default_options = {event: "click", duration: "fast", position: "bottom_right", beforeShow: function() {}, canHide: function() { return true; }, afterHide: function() {}}, opts = null;
-  var displaying = false, mouseover = false;
 
   var register = function(target, content, options) {
     var attachFunction = $.inArray(options.event || default_options.event, ["focus"]) == -1 ? "live" : "bind";
@@ -29,11 +28,9 @@ RaccoonTip = (function() {
   };
 
   var display = function(target, content, options) {
-    displaying = true;
     setup();
     deriveOptions(target, content, options);
     show();
-    displaying = false;
   };
 
   var close = function() {
@@ -42,8 +39,9 @@ RaccoonTip = (function() {
 
   var setup = function() {
     if (!$("#raccoon_tip").length) {
-      $("body").mouseup(function(event) {
-        if (!displaying && !mouseover && opts.canHide.apply()) {
+      $("body").mousedown(function(event) {
+        var target = $(event.target);
+        if (opts.canHide.apply() && target.closest("#raccoon_tip").length == 0) {
           hide();
         }
       });
@@ -51,7 +49,7 @@ RaccoonTip = (function() {
         $(document.body).before("<head></head>");
       }
       $(css).prependTo("head");
-      $(html).appendTo("body").find(".rt_content").mouseenter(function() { mouseover = true; }).mouseleave(function() { mouseover = false; });
+      $(html).appendTo("body");
     } else {
       hide();
     }
@@ -163,7 +161,7 @@ RaccoonTip = (function() {
   };
 
   return {
-    version: "1.0.8",
+    version: "1.0.9",
     init: function() {
       if (typeof(onRaccoonTipReady) == "function") {
         onRaccoonTipReady();
