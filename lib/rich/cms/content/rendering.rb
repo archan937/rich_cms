@@ -95,15 +95,9 @@ module Rich
             end.html_safe
           end
 
-          # TODO: Clean up this method and add tests!
+          # TODO: Complete this method and add tests!
           def to_rich_cms_response
-            # keys = @group.keys << @group.value.to_s
-            # hash = @object.attributes.reject{|k, v| !keys.include?(k.to_s)}
-            #
-            # selector   = self.class.css_selector
-            # identifier = self.class.identifiers.inject({}){|hash, x| hash[x] = send(x); hash}
-            #
-            # hash.merge({:__selector__ => __selector__, :__identifier__ => identifier})
+            {:__selector__ => __selector__, :__identifier__ => store_key, :value => value}
           end
 
         private
