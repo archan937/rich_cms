@@ -42,26 +42,31 @@ namespace :test do
   task :all do
     system "rake test:rails-2"
     system "rake test:rails-3"
-  end
-  desc "Test the rich_cms plugin in Rails 2."
-  Rake::TestTask.new(:"rails-2") do |t|
-    t.libs    << "lib"
-    t.libs    << "test"
-    t.pattern  = "test/rails-2/dummy/test/{,/*/**}/*_test.rb"
-    t.verbose  = true
-  end
-  desc "Test the rich_cms plugin in Rails 3."
-  Rake::TestTask.new(:"rails-3") do |t|
-    t.libs    << "lib"
-    t.libs    << "test"
-    t.pattern  = "test/rails-3/dummy/test/{,/*/**}/*_test.rb"
-    t.verbose  = true
+    system "rake test:integration"
   end
   desc "Run all unit tests."
   Rake::TestTask.new(:"unit") do |t|
     t.libs    << "lib"
     t.libs    << "test"
     t.pattern  = "test/shared/tests/unit/**/*_test.rb"
+    t.verbose  = true
+  end
+  desc "Test the rich_cms plugin in Rails 2."
+  Rake::TestTask.new(:"rails-2") do |t|
+    t.libs    << "lib"
+    t.libs    << "test"
+    t.pattern  = FileList.new("test/rails-2/dummy/test/unit/**/*_test.rb") do |list|
+                   # list.exclude(/integration_test/)
+                 end
+    t.verbose  = true
+  end
+  desc "Test the rich_cms plugin in Rails 3."
+  Rake::TestTask.new(:"rails-3") do |t|
+    t.libs    << "lib"
+    t.libs    << "test"
+    t.pattern  = FileList.new("test/rails-3/dummy/test/unit/**/*_test.rb") do |list|
+                   # list.exclude(/integration_test/)
+                 end
     t.verbose  = true
   end
   desc "Run all integration tests (non-authenticated, with Devise, with Authlogic) in Rails 2 and 3."
