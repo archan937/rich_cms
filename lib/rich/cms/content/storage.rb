@@ -105,8 +105,8 @@ module Rich
             end
           end
 
-          def save_and_return
-            self if save
+          def save_and_return(condition = nil)
+            self if save || condition == :always
           end
 
           def destroy
