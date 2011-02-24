@@ -83,7 +83,6 @@ module Rich
                 attrs["data-editable_input_type"] = options[:as] if %w(string text html).include? options[:as].to_s.downcase
               end
 
-              # :editable_input_type
               # options[:html]
               # :derivative_key, :derivative_value (additional keys)
 
@@ -97,7 +96,7 @@ module Rich
 
           # TODO: Complete this method and add tests!
           def to_rich_cms_response
-            {:__selector__ => __selector__, :__identifier__ => store_key, :value => value}
+            {:__selector__ => __selector__, :__identifier__ => {:store_key => store_key}, :value => value}
           end
 
         private
