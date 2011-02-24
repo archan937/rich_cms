@@ -32,7 +32,7 @@ private
     alias_method :all, :test_all
 
     def test_rails(major_version)
-      %w(non_authenticated authenticated/devise_test authenticated/authlogic).each do |file|
+      %w(non_authenticated authenticated/devise authenticated/authlogic).each do |file|
         run "ruby test/rails-#{major_version}/dummy/test/integration/#{file}.rb"
       end
     end
