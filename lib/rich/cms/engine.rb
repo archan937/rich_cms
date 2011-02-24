@@ -42,8 +42,6 @@ module Rich
         end
 
         def copy_images
-          return if Rails.env == "test"
-
           source_dir = File.join File.dirname(__FILE__), "..", "..", "..", "assets", "images", "."
           target_dir = File.join Rails.root, "public", "images", "rich", "cms"
 
