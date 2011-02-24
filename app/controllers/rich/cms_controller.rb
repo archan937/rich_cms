@@ -13,7 +13,7 @@ module Rich
     end
 
     def update
-      render :json => Cms::Content::Item.new(params[:content_item]).save
+      render :json => Cms::Content::Item.new(params[:content_item]).save_and_return(:always).to_rich_cms_response
     end
 
   private
