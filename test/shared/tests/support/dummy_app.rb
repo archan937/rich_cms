@@ -52,6 +52,7 @@ module DummyApp
     delete  "test/unit/devise_user_test.rb"
     restore "app/models/*.rb.#{STASHED_EXT}"
     restore "test/fixtures/**/rails-*.yml.#{STASHED_EXT}"
+    restore "test/support/rich/*.rb.#{STASHED_EXT}"
     restore "**/*.#{STASHED_EXT}"
   end
 
@@ -64,6 +65,7 @@ module DummyApp
     stash  "config/database.yml", :database
     stash  "config/routes.rb", :routes
     delete "db/migrate/*.rb"
+    stash  "test/support/rich/*.rb"
     stash  "test/fixtures/**/rails-*.yml"
   end
 
