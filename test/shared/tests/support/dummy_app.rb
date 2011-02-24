@@ -52,11 +52,13 @@ module DummyApp
     delete  "test/unit/devise_user_test.rb"
     restore "app/models/*.rb.#{STASHED_EXT}"
     restore "test/fixtures/**/rails-*.yml.#{STASHED_EXT}"
-    restore "test/support/rich/*.rb.#{STASHED_EXT}"
+    restore "test/integration/**/*.rb.#{STASHED_EXT}"
+    restore "test/support/rich/**/*.rb.#{STASHED_EXT}"
     restore "**/*.#{STASHED_EXT}"
   end
 
   def stash_all
+    delete "db/migrate/*.rb"
     stash  "Gemfile", :gemfile
     stash  "Gemfile.lock"
     stash  "app/models/*.rb"
@@ -64,9 +66,12 @@ module DummyApp
     stash  "config/initializers/enrichments.rb"
     stash  "config/database.yml", :database
     stash  "config/routes.rb", :routes
-    delete "db/migrate/*.rb"
-    stash  "test/support/rich/*.rb"
     stash  "test/fixtures/**/rails-*.yml"
+    stash  "test/support/rich/**/*.rb"
+
+    Dir[File.expand_path("../../integration/**/*.rb", __FILE__)].each do |file|
+      stash file unless file.include?("_test.rb") || file.include?("#{@logic || "non_authenticated"}.rb")
+    end
   end
 
   def generate_cms_admin
