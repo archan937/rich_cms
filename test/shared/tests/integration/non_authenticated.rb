@@ -21,8 +21,8 @@ class NonAuthenticatedTest < ActionController::IntegrationTest
     should "behave as expected" do
       visit "/"
       assert page.has_no_css? "div#rich_cms_dock"
-      assert_equal "< header >"   , find(".left h1.rcms_content" ).text
-      assert_equal "< paragraph >", find(".left div.rcms_content").text
+      assert_equal "< header >" , find(".left h1.rcms_content" ).text
+      assert_equal "< content >", find(".left div.rcms_content").text
 
       visit "/cms"
       assert page.has_css? "div#rich_cms_dock"
@@ -39,10 +39,10 @@ class NonAuthenticatedTest < ActionController::IntegrationTest
       assert_equal ""             , find("#raccoon_tip input[name='content_item[value]']"       ).value
 
       fill_in_and_submit "#raccoon_tip", {:"content_item[value]" => "Try out Rich-CMS!"}, "Save"
-      assert_equal "Try out Rich-CMS!", find(".left h1.rcms_content" ).text
-      assert_equal "< paragraph >"    , find(".left div.rcms_content").text
+      assert_equal "Try out Rich-CMS!" , find(".left h1.rcms_content" ).text
+      assert_equal "< content >"       , find(".left div.rcms_content").text
 
-      edit_content "paragraph"
+      edit_content "content"
       assert_equal ".rcms_content", find("#raccoon_tip input[name='content_item[__selector__]']").value
       assert_equal ""             , find("#raccoon_tip textarea[name='content_item[value]']"    ).value
 
