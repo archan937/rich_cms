@@ -28,7 +28,6 @@ RaccoonTip = (function() {
   };
 
   var display = function(target, content, options) {
-    setup();
     deriveOptions(target, content, options);
     show();
   };
@@ -163,6 +162,7 @@ RaccoonTip = (function() {
   return {
     version: "1.0.9",
     init: function() {
+      setup();
       if (typeof(onRaccoonTipReady) == "function") {
         onRaccoonTipReady();
       };
