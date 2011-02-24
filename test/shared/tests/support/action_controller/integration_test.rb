@@ -32,7 +32,7 @@ module ActionController
     end
 
     def edit_content(key)
-      page.execute_script "$('.rcms_content.marked[data-key=" + key + "]').click()"
+      page.execute_script "$('.rcms_content.marked[data-store_key=" + key + "]').click()"
       assert find("#raccoon_tip").visible?
     end
 
