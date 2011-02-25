@@ -1,6 +1,6 @@
 = Rich-CMS CHANGELOG
 
-== Version 3.0.1 (xxxx, 2011)
+== Version 3.1.0 (xxxx, 2011)
 
 * Bugfix: always rendering passed HTML attributes with CMS items (it was only when logged in as admin at first). Thanks Jeroen Bulters (@bulters) for contributing
 * Allow no wrapping tag in cases when no user is logged in (handy in case the extra 'span' will bork the layout). Thanks Jeroen Bulters (@bulters) for contributing
