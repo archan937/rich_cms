@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+version   = ARGV.first || 3
+command   = {2 => "script/server", 3 => "rails s"}[version]
+dummy_app = File.expand_path("../rails-#{version}/dummy", __FILE__)
+
+system "rake restore:rails-#{version} && cd #{dummy_app} && #{command}"

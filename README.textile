@@ -47,19 +47,27 @@ h2. Want to contribute to Rich-CMS?
   git clone git@github.com:<username>/rich_cms.git && cd rich_cms
 </pre>
 
-3. Run the test suite setup rake task
+3. Run the test suite setup rake task and run tests (e.g. integration tests)
 
 <pre>
-  rake test:setup
+  rake test:setup && rake test:integration
 </pre>
 
-4. Start either of the dummy Rails applications
+4. Start either of the dummy Rails applications for development purposes
 
 <pre>
-  test/rails 3
+  test/rails
 </pre>
 
-5. Get on programming and send your pull request! ;)
+*Note*: This runs the Rails 3 dummy app
+
+<pre>
+  test/rails 2
+</pre>
+
+*Note*: This command specifies the Rails version to be run (which is Rails 2 in this example)
+
+5. *Get on programming* and send your pull request! ;)
 
 h2. Use the provided Rails generators
 
