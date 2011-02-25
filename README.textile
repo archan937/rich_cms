@@ -47,19 +47,25 @@ h2. Want to contribute to Rich-CMS?
   git clone git@github.com:<username>/rich_cms.git && cd rich_cms
 </pre>
 
-3. Run the test suite setup rake task (once) and run tests (e.g. integration tests)
+3. Run the test suite setup rake task (only once) and you will get a notice how to create a Firefox profile 'capybara' to run integration tests
 
 <pre>
-  rake test:setup && rake test:integration
+  rake test:setup
 </pre>
 
-4. You can list the test rake tasks with the following
+4. Run a test rake task (e.g. integration tests)
+
+<pre>
+  rake test:integration
+</pre>
+
+5. You can list the test rake tasks with the following
 
 <pre>
   rake -T test
 </pre>
 
-5. Start either of the dummy Rails applications for development purposes
+6. Start either of the dummy Rails applications for development purposes
 
 <pre>
   test/rails
@@ -73,7 +79,7 @@ h2. Want to contribute to Rich-CMS?
 
 *Note*: This command specifies the Rails version to be run (which is Rails 2 in this example)
 
-6. *Get on programming* and send your pull request! ;)
+7. *Get on programming* and send your pull request! ;)
 
 h2. Use the provided Rails generators
 
