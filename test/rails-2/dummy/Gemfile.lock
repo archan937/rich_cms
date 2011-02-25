@@ -55,7 +55,7 @@ GEM
     mocha (0.9.11)
       rake
     moneta (0.6.0)
-    mysql2 (0.2.6)
+    mysql (2.8.1)
     nokogiri (1.4.4)
     rack (1.1.0)
     rack-test (0.5.7)
@@ -94,7 +94,7 @@ DEPENDENCIES
   jeweler
   launchy
   mocha
-  mysql2
+  mysql
   rails (= 2.3.11)
   rich_cms!
   shoulda

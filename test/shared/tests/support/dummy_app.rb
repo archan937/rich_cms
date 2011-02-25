@@ -221,7 +221,7 @@ private
                   source "http://rubygems.org"
 
                   gem "rails", "#{{2 => "2.3.11", 3 => "3.0.4"}[major_rails_version]}"
-                  gem "mysql2"
+                  gem "mysql"
                   #{auth_gem}
                   gem "rich_cms", :path => File.expand_path("../../../..", __FILE__)
 
@@ -244,7 +244,7 @@ private
                     pool: 5
                     timeout: 5000
                   test:
-                    adapter: mysql2
+                    adapter: mysql
                     database: rich_cms_test
                     username: root
                     password: service
