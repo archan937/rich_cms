@@ -77,13 +77,21 @@ private
       puts "Integration tests (#{failures} failures in #{@end - @start} seconds)"
       integration_tests.each do |test|
         puts ""             .ljust(70, "-")
-        puts "  Description".ljust(16, ".") + ": #{test[:description]}"
-        puts "  Duration"   .ljust(16, ".") + ": #{test[:time]       }"
-        puts "  Summary"    .ljust(16, ".") + ": #{test[:summary]    }"
+        puts "  Description".ljust(16, ".") + ": #{description test}"
+        puts "  Duration"   .ljust(16, ".") + ": #{test[:time]     }"
+        puts "  Summary"    .ljust(16, ".") + ": #{test[:summary]  }"
       end
       puts "".ljust(70, "=")
       puts "\n"
     end
+
+  private
+
+    def description(test)
+      color = (test[:failures].to_i + test[:errors].to_i > 0) || test[:tests].nil? ? 31 : 32
+      "\e[1m\e[#{color}m#{test[:description]}\e[0m"
+    end
+
   end
 
 end
