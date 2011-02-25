@@ -19,7 +19,7 @@ private
 
   def bundle_install_rails(version)
     cmd = "cd #{root_dir}/test/rails-#{version}/dummy && bundle install"
-    guts "Running 'bundle install' for the Rails #{version} dummy app"
+    guts "Running 'bundle install' for the Rails #{version} dummy app (this can take several minutes)"
     puts cmd
     `#{cmd}`
   end
