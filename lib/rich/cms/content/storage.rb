@@ -99,14 +99,14 @@ module Rich
           def save
             !!(content_store[store_key] = @value if !!@value && editable?).tap do |result|
               if result
-                @value = @default_value = nil
                 @store_value = @value
+                @value = @default_value = nil
               end
             end
           end
 
           def save_and_return(condition = nil)
-            self if save || condition == :always
+            self if save || (condition == :always)
           end
 
           def destroy

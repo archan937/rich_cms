@@ -90,11 +90,11 @@ private
 
   def generate_devise_assets(m)
     if defined?(Devise)
-      m.directory          "config/initializers"
-      m.directory          "config/locales"
-      m.template           "devise/devise.rb", "config/initializers/devise.rb"
-      m.file               "devise/en.yml"   , "config/locales/devise.en.yml"
-      m.readme             "devise/README"
+      m.directory        "config/initializers"
+      m.directory        "config/locales"
+      m.template         "devise/devise.rb", "config/initializers/devise.rb"
+      m.file             "devise/en.yml"   , "config/locales/devise.en.yml"
+      m.readme           "devise/README"
     end
 
     m.directory          "app/models"

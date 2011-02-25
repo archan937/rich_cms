@@ -13,7 +13,12 @@ module Rich
     end
 
     def update
-      render :json => Cms::Content::Item.new(params[:content_item]).save_and_return(:always).to_rich_cms_response
+      css_selector, identifier, value = *params[:content_item].values_at(:__selector__, :store_key, :value)
+
+      content       = Cms::Content.fetch css_selector, identifier
+      content.value = value
+
+      render :json => content.save_and_return(:always).to_rich_cms_response
     end
 
   private

@@ -65,7 +65,7 @@ module Rich
 
         module InstanceMethods
 
-          # TODO: Clean up this method and add tests!
+          # TODO: Clean up this method and add tests! Also include options[:html] and additional keys (e.g. :derivative_key, :derivative_value)
           def to_tag(options = {})
             if (tag = derive_tag(options)).nil?
               value
@@ -83,9 +83,6 @@ module Rich
                 attrs["data-editable_input_type"] = options[:as] if %w(string text html).include? options[:as].to_s.downcase
               end
 
-              # options[:html]
-              # :derivative_key, :derivative_value (additional keys)
-
               attrs = attrs.collect{|key, value| "#{key}=\"#{::ERB::Util.html_escape value}\""}.join(" ")
               text  = editable? && default_value? ? "< #{value} >" : value
 
@@ -96,7 +93,7 @@ module Rich
 
           # TODO: Complete this method and add tests!
           def to_rich_cms_response
-            {:__selector__ => __selector__, :__identifier__ => {:store_key => store_key}, :value => value}
+            {:__selector__ => self.class.css_selector, :__identifier__ => {:store_key => store_key}, :value => value}
           end
 
         private
