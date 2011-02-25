@@ -49,7 +49,7 @@ namespace :test do
     system "rake test:rails-3"
     system "rake test:integration"
   end
-  desc "Run all unit tests."
+  desc "Run all unit tests without any of the dummy Rails apps."
   Rake::TestTask.new(:"unit") do |t|
     t.libs    << "lib"
     t.libs    << "test"
