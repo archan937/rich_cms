@@ -9,29 +9,24 @@ module Rich
           base.extend ClassMethods
           base.send :include, InstanceMethods
           base.class_eval do
-            @css_selector = nil
-            @config       = nil
+            @css_selector  = nil
+            @configuration = nil
           end
         end
 
         module ClassMethods
-          def callbacks(hash)
-            raise ArgumentError, "Expected a hash containing callbacks" unless hash.is_a?(Hash)
-            hash.symbolize_keys!.assert_valid_keys *CALLBACKS
-            @callbacks = hash
+          def configuration
+            @configuration ||= {}
           end
 
           def css_selector(selector = nil)
             (@css_selector = selector.to_s.downcase unless selector.nil?) || @css_selector || ".rcms_#{self.name.demodulize.underscore}".gsub(/(cms_){2,}/, "cms_")
           end
 
-          def configure(*args)
-            @config = args.extract_options!.symbolize_keys!
-            @css_selector = args.first unless args.first.nil?
-          end
-
-          def config
-            @config ||= {}
+          def configure(*args, &block)
+            @configuration = args.extract_options!.symbolize_keys!
+            @css_selector  = args.first unless args.first.nil?
+            config_mock.instance_eval(&block) if block_given?
           end
 
           def to_javascript_hash
@@ -39,6 +34,22 @@ module Rich
           end
 
         private
+
+          def config_mock
+            @config_mock ||= ConfigMock.new self
+          end
+
+          class ConfigMock
+            def initialize(klass)
+              @klass = klass
+            end
+
+            def method_missing(method, *args)
+              if %w(selector tag before_edit after_update).include? method.to_s
+                @klass.instance_variable_get(:@configuration)[method] = args.first
+              end
+            end
+          end
 
           def data_pairs
             pairs         = ActiveSupport::OrderedHash.new
@@ -54,7 +65,7 @@ module Rich
 
           def callback_pairs
             [].tap do |array|
-              (@callbacks || {}).values_at(*CALLBACKS).each_with_index do |value, index|
+              configuration.values_at(*CALLBACKS).each_with_index do |value, index|
                 next if value.blank?
                 key = CALLBACKS[index].to_s.camelize(:lower)
                 array << [key, value]
@@ -99,13 +110,13 @@ module Rich
         private
 
           def derive_tag(options)
-            tag = options[:tag] || config[:tag]
+            tag = options[:tag] || configuration[:tag]
             return if !editable? && tag == :none
             (tag unless tag == :none) || (%w(text html).include?(options[:as].to_s.downcase) ? :div : :span)
           end
 
-          def config
-            self.class.send :config
+          def configuration
+            self.class.send :configuration
           end
 
         end

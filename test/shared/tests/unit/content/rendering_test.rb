@@ -31,8 +31,8 @@ module Content
         should "be configurable" do
           assert_equal ".rcms_foo"    , Foo.css_selector
           assert_equal ".bar_content" , Bar.css_selector
-          assert_equal({:as  => :html}, Foo.config)
-          assert_equal({:tag => :h1  }, Bar.config)
+          assert_equal({:as  => :html}, Foo.configuration)
+          assert_equal({:tag => :h1  }, Bar.configuration)
         end
 
         should "return the expected javascript hash (per CMS content class)" do
