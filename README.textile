@@ -38,11 +38,34 @@ Run the following in your console:
   sudo rake gems:install
 </pre>
 
+h2. Want to contribute to Rich-CMS?
+
+1. Create your own Rich-CMS fork "https://github.com/archan937/rich_cms/fork":https://github.com/archan937/rich_cms/fork
+2. Clone your Rich-CMS fork repository
+
+<pre>
+  git clone git@github.com:<username>/rich_cms.git && cd rich_cms
+</pre>
+
+3. Run the test suite setup rake task
+
+<pre>
+  rake test:setup
+</pre>
+
+4. Start either of the dummy Rails applications
+
+<pre>
+  test/rails 3
+</pre>
+
+5. Get on programming and send your pull request! ;)
+
 h2. Use the provided Rails generators
 
 Rich-CMS requires one entity:
 
-* An @ActiveRecord@ model used for CMS content storage
+* A model used for CMS content storage (which is powered with "Moneta":https://github.com/wycats/moneta by Rich-CMS)
 
 For (optional) authentication, Rich-CMS requires one of the following:
 
@@ -138,25 +161,40 @@ The following specifications are optional as Rich-Cms uses defaults:
 * @:identifier@ (default: based on @inputs@) - The method used for displaying the identity of the current Rich-CMS admin (this is the first entry of @inputs@, so usually @:email@)
 * @:current_admin_method@ (default: based on @klass@) - The controller method used to retrieve the current Rich-CMS admin (e.g. @current_user@ when configured @User@ as authenticated class)
 
-h3. Register CMS content
+h3. Create your CMS content class
 
-Every type of content is identified with its correspending CSS selector (used by the jQuery based Javascript module of Rich-CMS). You will have to provide some specifications:
+The storage of Rich-CMS content is powered with "Moneta":https://github.com/wycats/moneta. Doing this gives you the freedom to choose the storage engine you want to use (e.g. Mongo, Redis, Tyrant, Memcache, DataMapper and many others).
+Go to @app/models@ and create a file like the following (e.g. called Content):
+
+<code>
+  class Content
+    include Rich::Cms::Content
+    storage :memory
+  end
+</code>
+
+That was it actually! Depending on your choice of storage, you will need to add some extra specs. See the "Moneta repo":https://github.com/wycats/moneta/tree/master/lib/moneta/adapters for more documentation.
+
+A Rich-CMS content class can be configured as you can specify your own key(s) and you can customize the Javascript registration hash used for editing content in the front end:
 
 * @:class_name@ - The class of the CMS content model which contain the data
 
 The following specifications are optional as Rich-Cms uses defaults:
 
-* @:key@ (default: @:key@) - The key used for identification of content. You can also provide an array for a combined key (e.g. @[:key, :locale]@)
-* @:value@ (default: @:value@) - The attribute which stores the value of the content instance.
-* @:tag@ (default: @:div@) - The HTML tag used for content items.
-* @:add@ (default: @[]@) - An array of the content item attributes included within the HTML attributes.
 * @:before_edit@ (default: @nil@) - Javascript function called before showing the edit form of a content item.
 * @:after_update@ (default: @Rich.Cms.Editor.afterUpdate@) - Javascript function called after update a content item.
 
-<pre>
-  Rich::Cms::Engine.register(".cms_content", {:class_name => "Cms::StaticContent"})
-  Rich::Cms::Engine.register(".i18n"       , {:class_name => "Translation", :key => [:key, :locale], :before_edit => "Rich.I18n.beforeEdit", :after_update => "Rich.I18n.afterUpdate"})
-</pre>
+<code>
+  class Translation
+    include Rich::Cms::Content
+    storage     :memory
+    identifiers :locale, :key
+    configure ".translation" do |config|
+      config.before_edit  "Rich.I18n.beforeEdit"
+      config.after_update "Rich.I18n.afterUpdate"
+    end
+  end
+</code>
 
 h2. Render Rich-CMS in your views
 
@@ -221,7 +259,10 @@ The @update@ action response of @Rich::CmsController@ is provided with "JSON":ht
 When specifying a custom after update Javascript function, you probably want to acquire more information than provided in the default JSON data. You can customize this by defining the @to_rich_cms_response@ method in the CMS content model class:
 
 <pre>
-  class Translation < ActiveRecord::Base
+  class Translation
+
+    include Rich::Cms::Content
+    storage :memory
 
     def to_rich_cms_response(params)
       {:value => value, :translations => Hash[*params[:derivative_keys].split(";").uniq.collect{|x| [x, x.t]}.flatten]}
@@ -252,6 +293,9 @@ Devise (optional)<br>
 
 AuthLogic (optional)<br>
 "http://github.com/binarylogic/authlogic":http://github.com/binarylogic/authlogic
+
+Moneta<br>
+"https://github.com/wycats/moneta":https://github.com/wycats/moneta
 
 SASS<br>
 "http://sass-lang.com":http://sass-lang.com
