@@ -15,7 +15,9 @@ module Rich
               after_initialize
             end
           else
-            after_initialize
+            Rails.configuration.after_initialize do
+              after_initialize
+            end
           end
         end
 
