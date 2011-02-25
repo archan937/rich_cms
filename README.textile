@@ -47,13 +47,19 @@ h2. Want to contribute to Rich-CMS?
   git clone git@github.com:<username>/rich_cms.git && cd rich_cms
 </pre>
 
-3. Run the test suite setup rake task and run tests (e.g. integration tests)
+3. Run the test suite setup rake task (once) and run tests (e.g. integration tests)
 
 <pre>
   rake test:setup && rake test:integration
 </pre>
 
-4. Start either of the dummy Rails applications for development purposes
+4. You can list the test rake tasks with the following
+
+<pre>
+  rake -T test
+</pre>
+
+5. Start either of the dummy Rails applications for development purposes
 
 <pre>
   test/rails
@@ -67,7 +73,7 @@ h2. Want to contribute to Rich-CMS?
 
 *Note*: This command specifies the Rails version to be run (which is Rails 2 in this example)
 
-5. *Get on programming* and send your pull request! ;)
+6. *Get on programming* and send your pull request! ;)
 
 h2. Use the provided Rails generators
 
@@ -197,10 +203,12 @@ The following specifications are optional as Rich-Cms uses defaults:
     include Rich::Cms::Content
     storage     :memory
     identifiers :locale, :key
+
     configure ".translation" do |config|
       config.before_edit  "Rich.I18n.beforeEdit"
       config.after_update "Rich.I18n.afterUpdate"
     end
+
   end
 </pre>
 
@@ -268,7 +276,6 @@ When specifying a custom after update Javascript function, you probably want to 
 
 <pre>
   class Translation
-
     include Rich::Cms::Content
     storage :memory
 
