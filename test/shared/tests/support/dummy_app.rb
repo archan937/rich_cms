@@ -5,6 +5,14 @@ require "fileutils"
 module DummyApp
   extend self
 
+  def create_test_database
+    @silent = true
+    stash   "config/database.yml", :database
+    execute "RAILS_ENV=test rake db:create"
+  ensure
+    restore "**/*.#{STASHED_EXT}"
+  end
+
   def setup(description, logic = nil, &block)
     log "\n".ljust 145, "="
     log "Setting up test environment for Rails #{major_rails_version} - #{description}\n"
@@ -155,6 +163,12 @@ private
     @major_rails_version ||= root_dir.match(/\/rails-(\d)\//)[1].to_i
   end
 
+  def mysql_password
+    file = File.expand_path("../../shared/mysql", root_dir)
+    return unless File.exists? file
+    "#{File.new(file).read}".strip
+  end
+
   def expand_path(path)
     path.match(root_dir) ?
       path :
@@ -247,7 +261,7 @@ private
                     adapter: mysql
                     database: rich_cms_test
                     username: root
-                    password: service
+                    password: #{mysql_password}
                     host: 127.0.0.1
                 CONTENT
               when :routes
@@ -289,6 +303,7 @@ private
   end
 
   def log(action, string = nil)
+    return if @silent
     output = [string || action]
     output.unshift action.to_s.capitalize.ljust(10, " ") unless string.nil?
     puts output.join("  ")

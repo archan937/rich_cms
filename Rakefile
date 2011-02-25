@@ -1,6 +1,7 @@
 require "rake"
 require "rake/testtask"
 require "rake/rdoctask"
+require "test/setup"
 require "test/integrator"
 
 begin
@@ -38,11 +39,9 @@ task :stash do
 end
 
 namespace :test do
-  desc "Set up the rich_cms test suite."
+  desc "Set up the rich_cms test suite (this includes creating the MySQL test database, running bundle install)."
   task :setup do
-    puts "Please provide the password of the MySQL root user: (press)"
-    if (input = STDIN.gets.chomp).blank?
-    end
+    TestSetup.run
   end
   desc "Test the rich_cms unit and integration tests in Rails 2 and 3."
   task :all do
