@@ -38,7 +38,13 @@ task :stash do
 end
 
 namespace :test do
-  desc "Test the rich_cms plugin in Rails 2 and 3."
+  desc "Set up the rich_cms test suite."
+  task :setup do
+    puts "Please provide the password of the MySQL root user: (press)"
+    if (input = STDIN.gets.chomp).blank?
+    end
+  end
+  desc "Test the rich_cms unit and integration tests in Rails 2 and 3."
   task :all do
     system "rake test:rails-2"
     system "rake test:rails-3"
@@ -51,7 +57,7 @@ namespace :test do
     t.pattern  = "test/shared/tests/unit/**/*_test.rb"
     t.verbose  = true
   end
-  desc "Test the rich_cms plugin in Rails 2."
+  desc "Test the rich_cms unit tests in Rails 2."
   Rake::TestTask.new(:"rails-2") do |t|
     t.libs    << "lib"
     t.libs    << "test"
@@ -60,7 +66,7 @@ namespace :test do
                  end
     t.verbose  = true
   end
-  desc "Test the rich_cms plugin in Rails 3."
+  desc "Test the rich_cms unit tests in Rails 3."
   Rake::TestTask.new(:"rails-3") do |t|
     t.libs    << "lib"
     t.libs    << "test"
