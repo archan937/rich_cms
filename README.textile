@@ -174,12 +174,12 @@ h3. Create your CMS content class
 The storage of Rich-CMS content is powered with "Moneta":https://github.com/wycats/moneta. Doing this gives you the freedom to choose the storage engine you want to use (e.g. Mongo, Redis, Tyrant, Memcache, DataMapper and many others).
 Go to @app/models@ and create a file like the following (e.g. called Content):
 
-<code>
+<pre>
   class Content
     include Rich::Cms::Content
     storage :memory
   end
-</code>
+</pre>
 
 That was it actually! Depending on your choice of storage, you will need to add some extra specs. See the "Moneta repo":https://github.com/wycats/moneta/tree/master/lib/moneta/adapters for more documentation.
 
@@ -192,7 +192,7 @@ The following specifications are optional as Rich-Cms uses defaults:
 * @:before_edit@ (default: @nil@) - Javascript function called before showing the edit form of a content item.
 * @:after_update@ (default: @Rich.Cms.Editor.afterUpdate@) - Javascript function called after update a content item.
 
-<code>
+<pre>
   class Translation
     include Rich::Cms::Content
     storage     :memory
@@ -202,7 +202,7 @@ The following specifications are optional as Rich-Cms uses defaults:
       config.after_update "Rich.I18n.afterUpdate"
     end
   end
-</code>
+</pre>
 
 h2. Render Rich-CMS in your views
 
