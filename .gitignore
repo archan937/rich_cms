@@ -6,3 +6,4 @@ test/rails-2/dummy/log/*.log
 test/rails-3/dummy/log/*.log
 test/rails-2/dummy/tmp/*
 test/rails-3/dummy/tmp/*
+test/shared/mysql
