@@ -49,11 +49,7 @@ module Content
 
           @content.expects(:editable?).returns(true)
           @content.save
-          assert_not_equal Content.find("hello"), @content
-
-          @content.instance_variable_set :@value, nil
-          @content.instance_variable_set :@default_value, nil
-          assert           Content.find("hello"), @content
+          assert_equal     Content.find("hello"), @content
         end
 
         context "when no login required" do
