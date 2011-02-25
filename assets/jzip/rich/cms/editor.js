@@ -16,7 +16,7 @@ Rich.Cms.Editor = (function() {
       var toggler = $(event.target);
       toggler.hide().closest(".keys").find("select[name=" + toggler.attr("data-name") + "]").show();
     });
-    
+
     $("#rich_cms_panel .edit a.close").bind("click", function(event) {
       event.preventDefault();
       RaccoonTip.close();
@@ -107,15 +107,15 @@ Rich.Cms.Editor = (function() {
         } else if (specs.keys.indexOf(attr) != -1) {
           var available_keys = $.map(value.split(","), function(key) { return $.trim(key); });
           var default_key    = available_keys[0];
-          
+
           if (specs.keys.length > 1 && keys.find("select").length > 0) {
             keys.append("<span>, <span>");
           }
-          
+
           keys.append(available_keys.length == 1 ?
                         "<span>" + default_key + "<span>" :
                         "<a href='#' class='toggler' data-attr='" + attr + "' data-name='" + name + "'>" + default_key + "</a>");
-          keys.append("<select name='" + name + "' style='display: none'>" + 
+          keys.append("<select name='" + name + "' style='display: none'>" +
                          $.map(available_keys, function(key) { return "<option value='" + key + "'>" + key + "</option>"; }).join("") +
                       "</select>");
         } else {
@@ -123,7 +123,7 @@ Rich.Cms.Editor = (function() {
         }
       }
     });
-    
+
     $("#rich_cms_panel .edit form fieldset.inputs div.keys select").bind("blur", function(event) {
       var select  = $(event.target);
       var toggler = select.hide().closest(".keys").find(".toggler[data-name=" + select.attr("name") + "]").html(select.val()).show();
@@ -135,7 +135,7 @@ Rich.Cms.Editor = (function() {
           values.push(value);
         }
       });
-      
+
       content_item.attr(toggler.attr("data-attr"), values.join(", "));
     });
 
@@ -162,7 +162,8 @@ Rich.Cms.Editor = (function() {
     var identifier = $.map(specs.keys, function(key) { return "[" + key + "^=" + response["__identifier__"][key.replace(/^data-/, "")] + "]"; }).join("");
 
     var defaultFunction = function(form, response, selector, specs, identifier) {
-      $(identifier).html(response[specs.value.replace(/^data-/, "")]);
+      var value = response[specs.value.replace(/^data-/, "")];
+      $(identifier).html(value).attr(specs.value, value);
       if (typeof(SeatHolder) != "undefined") {
         SeatHolder.rebind();
       }
