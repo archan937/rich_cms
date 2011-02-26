@@ -38,7 +38,7 @@ Run the following in your console:
   sudo rake gems:install
 </pre>
 
-h2. Want to contribute to Rich-CMS?
+h2. Fancy contributing to Rich-CMS yourself?
 
 1. Create your own Rich-CMS fork "https://github.com/archan937/rich_cms/fork":https://github.com/archan937/rich_cms/fork
 2. Clone your Rich-CMS fork repository
