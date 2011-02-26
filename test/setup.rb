@@ -1,9 +1,13 @@
 STDOUT.sync = true
 
+require "rubygems"
+
 module TestSetup
   extend self
 
   def run
+    install_jeweler
+    rake_install
     bundle_install_rails 3
     bundle_install_rails 2
     ask_mysql_password
@@ -15,6 +19,26 @@ private
 
   def root_dir
     @root_dir ||= File.expand_path("../..", __FILE__)
+  end
+
+  def install_jeweler
+    begin
+      require "jeweler"
+    rescue LoadError
+    end
+    Jeweler
+  rescue
+    cmd = "cd #{root_dir} && gem install jeweler"
+    guts "Installing Jeweler gem (this may take a minute)"
+    puts cmd
+    `#{cmd}`
+  end
+
+  def rake_install
+    cmd = "cd #{root_dir} && rake install"
+    guts "Running 'rake install' in order to be able to run the Rails 2 generators"
+    puts cmd
+    `#{cmd}`
   end
 
   def bundle_install_rails(version)
