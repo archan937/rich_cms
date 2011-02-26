@@ -1,5 +1,5 @@
 PATH
-  remote: /Users/paulengel/Sites/enrichments/vendor/foo/rich_cms
+  remote: /Users/paulengel/Gems/rich_cms
   specs:
     rich_cms (3.0.1)
       haml (~> 3.0.25)
