@@ -21,6 +21,7 @@ module DummyApp
     @logic = logic
     restore_all
     stash_all
+    execute "bundle install"
     yield self if block_given?
     prepare_database
     @prepared = true
