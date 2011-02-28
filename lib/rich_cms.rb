@@ -1,6 +1,9 @@
+require "rich_support"
 require "jzip"
 require "haml"
 require "moneta"
+
+Rich::Support.append_gem_path File.expand_path("../..", __FILE__)
 
 %w(authlogic devise devise/version).each do |lib|
   begin
