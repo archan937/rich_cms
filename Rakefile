@@ -1,27 +1,11 @@
+require "bundler"
+Bundler::GemHelper.install_tasks
+
 require "rake"
 require "rake/testtask"
 require "rake/rdoctask"
 require "test/setup"
 require "test/integrator"
-
-begin
-  require "jeweler"
-  Jeweler::Tasks.new do |gemspec|
-    gemspec.name        = "rich_cms"
-    gemspec.summary     = "Enrichments (e9s) module for a pluggable CMS frontend"
-    gemspec.description = "Rich-CMS is a module of E9s (http://github.com/archan937/e9s) which provides a frontend for your CMS content. You can use this gem to manage CMS content or translations (in an internationalized application). The installation and setup process is very easily done. You will have to register content at the Rich-CMS engine and also you will have to specify the authentication mechanism. Both are one-liners."
-    gemspec.email       = "paul.engel@holder.nl"
-    gemspec.homepage    = "http://codehero.es/rails_gems_plugins/rich_cms"
-    gemspec.author      = "Paul Engel"
-
-    gemspec.add_dependency "jzip"  , "~> 1.0.11"
-    gemspec.add_dependency "haml"  , "~> 3.0.25"
-    gemspec.add_dependency "moneta", "~> 0.6.0"
-  end
-  Jeweler::GemcutterTasks.new
-rescue LoadError
-  puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
-end
 
 desc "Default: run unit tests."
 task :default => :test
@@ -60,18 +44,14 @@ namespace :test do
   Rake::TestTask.new(:"rails-2") do |t|
     t.libs    << "lib"
     t.libs    << "test"
-    t.pattern  = FileList.new("test/rails-2/dummy/test/unit/**/*_test.rb") do |list|
-                   # list.exclude(/integration_test/)
-                 end
+    t.pattern  = "test/rails-2/dummy/test/unit/**/*_test.rb"
     t.verbose  = true
   end
   desc "Test the rich_cms unit tests in Rails 3."
   Rake::TestTask.new(:"rails-3") do |t|
     t.libs    << "lib"
     t.libs    << "test"
-    t.pattern  = FileList.new("test/rails-3/dummy/test/unit/**/*_test.rb") do |list|
-                   # list.exclude(/integration_test/)
-                 end
+    t.pattern  = "test/rails-3/dummy/test/unit/**/*_test.rb"
     t.verbose  = true
   end
   desc "Run all integration tests (non-authenticated, with Devise, with Authlogic) in Rails 2 and 3."
@@ -132,7 +112,7 @@ namespace :stash do
   end
 end
 
-desc "Generate documentation for the rich_cms plugin."
+desc "Generate documentation for the Rich-CMS."
 Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = "rdoc"
   rdoc.title    = "Rich-CMS"
