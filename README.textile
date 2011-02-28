@@ -1,7 +1,7 @@
 
 h1. Rich-CMS
 
-A Rails gem (and also plugin) for a pluggable CMS frontend
+A Rails gem for a pluggable CMS frontend
 
 h2. Introduction
 
@@ -304,7 +304,7 @@ For support, remarks and requests please mail me at "paul.engel@holder.nl":mailt
 
 h2. Credit
 
-This Rails gem / plugin depends on:
+This Rails gem depends on:
 
 jQuery<br>
 "http://jquery.com":http://jquery.com
