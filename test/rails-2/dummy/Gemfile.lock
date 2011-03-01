@@ -1,10 +1,11 @@
 PATH
   remote: /Users/paulengel/Gems/rich_cms
   specs:
-    rich_cms (3.0.1)
+    rich_cms (3.1.0)
       haml (~> 3.0.25)
       jzip (~> 1.0.11)
       moneta (~> 0.6.0)
+      rich_support (~> 0.0.1)
 
 GEM
   remote: http://rubygems.org/
@@ -68,6 +69,7 @@ GEM
       activesupport (= 2.3.11)
       rake (>= 0.8.3)
     rake (0.8.7)
+    rich_support (0.0.1)
     rubyzip (0.9.4)
     selenium-webdriver (0.1.2)
       childprocess (~> 0.1.5)
