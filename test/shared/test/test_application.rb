@@ -30,7 +30,7 @@ class TestApplication < GemSuit::Application
     end
   end
 
-  def config_for_template(path)
+  def locals_for_template(path)
     case path
     when "Gemfile"
       auth_gem = case logic
@@ -39,10 +39,7 @@ class TestApplication < GemSuit::Application
                  when :authlogic
                    'gem "authlogic"'
                  end if rails_version == 2
-      {
-        "rails_gem_version" => {2 => "2.3.11", 3 => "3.0.4"},
-        "auth_gem"          => auth_gem
-      }
+      {:auth_gem => auth_gem}
     end
   end
 
