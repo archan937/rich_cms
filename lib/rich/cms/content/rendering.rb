@@ -47,6 +47,8 @@ module Rich
             def method_missing(method, *args)
               if %w(selector tag before_edit after_update).include? method.to_s
                 @klass.instance_variable_get(:@configuration)[method] = args.first
+              else
+                super
               end
             end
           end

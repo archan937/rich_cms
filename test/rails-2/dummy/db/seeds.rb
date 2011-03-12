@@ -1,1 +1,1 @@
-../../../shared/dummy/db/seeds.rb
+../../../shared/db/seeds.rb

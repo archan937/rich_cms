@@ -1,16 +1,17 @@
 source "http://rubygems.org"
 
 gem "rails", "3.0.4"
-gem "jeweler"
 gem "sqlite3-ruby", :require => "sqlite3"
 
 gem "authlogic"
 gem "devise", "~> 1.1.5"
 gem "rich_cms", :path => File.expand_path("../../../..", __FILE__)
 
-gem "mysql"
-gem "shoulda"
-gem "mocha"
-gem "capybara"
-gem "launchy"
-gem "hpricot"
+group :test do
+  gem "mysql"
+  gem "shoulda"
+  gem "mocha"
+  gem "capybara"
+  gem "launchy"
+  gem "hpricot"
+end
