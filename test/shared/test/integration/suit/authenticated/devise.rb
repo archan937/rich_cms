@@ -1,6 +1,6 @@
 require File.expand_path("../../../../test_application.rb", __FILE__)
 
-TestApplication.setup :devise
+TestApplication.setup :logic => :devise
 
 module Authenticated
   class DeviseTest < ActionController::IntegrationTest

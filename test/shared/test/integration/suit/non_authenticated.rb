@@ -1,6 +1,6 @@
 require File.expand_path("../../../test_application.rb", __FILE__)
 
-TestApplication.setup :none
+TestApplication.setup :logic => :none
 
 class NonAuthenticatedTest < ActionController::IntegrationTest
 
