@@ -13,3 +13,5 @@ begin
 rescue LoadError
   require File.expand_path("../../../../../lib/rich_cms", __FILE__)
 end
+
+include Rich::Cms
