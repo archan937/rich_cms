@@ -50,7 +50,7 @@ class TestApplication < GemSuit::Application
 private
 
   def logic
-    config[:logic]
+    config[:logic] || :devise
   end
 
   def generate_cms_admin
