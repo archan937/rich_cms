@@ -17,6 +17,7 @@ class TestApplication < GemSuit::Application
   def prepare
     case logic
     when :none
+      stash "config/initializers/devise.rb"
       generate_cms_content
     when :devise
       generate_cms_admin
@@ -40,10 +41,17 @@ class TestApplication < GemSuit::Application
                    'gem "authlogic"'
                  end if rails_version == 2
       {:auth_gem => auth_gem}
+    when "config/initializers/enrichments.rb"
+      klass = "#{logic.to_s.capitalize}User" if [:devise, :authlogic].include? logic
+      {:logic => logic, :klass => klass}
     end
   end
 
 private
+
+  def logic
+    config[:logic]
+  end
 
   def generate_cms_admin
     return unless [:devise, :authlogic].include? logic
