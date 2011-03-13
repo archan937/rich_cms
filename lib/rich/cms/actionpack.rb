@@ -1,2 +1,2 @@
-require File.join(File.dirname(__FILE__), "actionpack", "action_controller", "base.rb")
-require File.join(File.dirname(__FILE__), "actionpack", "action_view"      , "base.rb")
+require "rich/cms/actionpack/action_controller/base"
+require "rich/cms/actionpack/action_view/base"
