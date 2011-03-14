@@ -5,13 +5,12 @@ begin
 rescue LoadError
 end
 
-require "shoulda"
-require "mocha"
-
-begin
-  require File.expand_path("../../../../lib/rich_cms", __FILE__)
-rescue LoadError
-  require File.expand_path("../../../../../lib/rich_cms", __FILE__)
+if File.basename(File.expand_path("../..", __FILE__)) == "shared"
+  $:.unshift File.expand_path("../../../../lib", __FILE__)
+else
+  $:.unshift File.expand_path("../../../../../lib", __FILE__)
 end
 
-include Rich::Cms
+require "shoulda"
+require "mocha"
+require "rich_cms"
