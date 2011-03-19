@@ -362,7 +362,7 @@ h3. E9s modules
 
 h2. License
 
-Copyright (c) 2010 Paul Engel, released under the MIT license
+Copyright (c) 2011 Paul Engel, released under the MIT license
 
 "http://holder.nl":http://holder.nl - "http://codehero.es":http://codehero.es - "http://gettopup.com":http://gettopup.com - "http://twitter.com/archan937":http://twitter.com/archan937 - "paul.engel@holder.nl":mailto:paul.engel@holder.nl
 
