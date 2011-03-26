@@ -7,12 +7,12 @@ require "rake/rdoctask"
 desc "Default: run unit tests."
 task :default => :test
 
-desc "Run GemSuit unit tests in both dummy apps."
+desc "Test Rich-CMS"
 task :test do
-  system "suit test unit:all"
+  system "suit test"
 end
 
-desc "Generate documentation for the Rich-CMS."
+desc "Generate documentation for Rich-CMS."
 Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = "rdoc"
   rdoc.title    = "Rich-CMS"
