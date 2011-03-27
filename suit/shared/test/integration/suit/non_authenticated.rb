@@ -10,7 +10,7 @@ class NonAuthenticatedTest < ActionController::IntegrationTest
     end
 
     teardown do
-      TestApplication.restore_all
+      SuitApplication.restore_all
     end
 
     should "behave as expected" do

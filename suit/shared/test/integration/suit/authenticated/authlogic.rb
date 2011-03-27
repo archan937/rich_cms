@@ -1,6 +1,6 @@
 require File.expand_path("../../../../suit_application.rb", __FILE__)
 
-SuitApplication.test :logic => :authlogic_users
+SuitApplication.test :logic => :authlogic
 
 module Authenticated
   class AuthlogicTest < ActionController::IntegrationTest
@@ -12,7 +12,7 @@ module Authenticated
       end
 
       teardown do
-        TestApplication.restore_all
+        SuitApplication.restore_all
       end
 
       should "behave as expected" do
