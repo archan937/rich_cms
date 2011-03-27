@@ -26,9 +26,28 @@ class SuitApplication < GemSuit::Application
       generate_cms_content
     when :authlogic
       generate_cms_admin
-      correct_users_fixtures
+      correct_user_fixtures
       generate_cms_content
     end
+    skip :require, "test/suit_application/i18n_forgery.rb"
+  end
+
+  def restore_files
+    delete  "config/locales/devise.en.yml"
+    delete  "db/migrate/*.rb"
+    delete  "test/fixtures/cms_contents.yml"
+    delete  "test/fixtures/devise_users.yml"
+    delete  "test/unit/cms_content_test.rb"
+    delete  "test/unit/devise_user_test.rb"
+    restore "test/fixtures/**/rails-*.yml.#{STASHED_EXT}"
+  end
+
+  def stash_files
+    delete "db/migrate/*.rb"
+    stash  "app/models/*.rb"
+    stash  "config/initializers/devise.rb"
+    stash  "config/initializers/enrichments.rb"
+    stash  "test/fixtures/**/rails-*.yml"
   end
 
   def locals_for_template(path)
