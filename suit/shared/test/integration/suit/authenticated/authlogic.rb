@@ -1,6 +1,6 @@
-require File.expand_path("../../../../test_application.rb", __FILE__)
+require File.expand_path("../../../../suit_application.rb", __FILE__)
 
-TestApplication.setup :logic => :authlogic_users
+SuitApplication.test :logic => :authlogic_users
 
 module Authenticated
   class AuthlogicTest < ActionController::IntegrationTest
