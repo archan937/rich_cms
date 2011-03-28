@@ -17,7 +17,6 @@ class SuitApplication < GemSuit::Application
   def prepare
     case logic
     when :none
-      stash "config/initializers/devise.rb"
       generate_cms_content
     when :devise
       generate_cms_admin
