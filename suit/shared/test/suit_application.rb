@@ -54,10 +54,11 @@ class SuitApplication < GemSuit::Application
     when "Gemfile"
       auth_gem = case logic
                  when :devise
-                   'gem "devise", "1.0.9"'
+                   v = rails_version == 2 ? "1.0.9" : "~> 1.1.5"
+                   "gem \"devise\", \"#{v}\""
                  when :authlogic
-                   'gem "authlogic"'
-                 end if rails_version == 2
+                   "gem \"authlogic\""
+                 end
       {:auth_gem => auth_gem}
     when "config/initializers/enrichments.rb"
       klass = "#{logic.to_s.capitalize}User" if [:devise, :authlogic].include? logic
@@ -90,8 +91,6 @@ private
     return unless logic == :devise
 
     case rails_version
-    when 2
-      restore "config/initializers/devise.rb"
     when 3
       devise_config = expand_path("config/initializers/devise.rb")
       lines         = File.open(devise_config).readlines
