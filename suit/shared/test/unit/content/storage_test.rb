@@ -1,4 +1,4 @@
-require File.expand_path("../../../test_helper.rb"      , __FILE__)
+require File.expand_path("../../../test_helper.rb", __FILE__)
 
 module Content
   class StorageTest < ActiveSupport::TestCase
@@ -121,7 +121,7 @@ module Content
                     true
                   end
                 end
-                Auth.expects(:login_required?).at_least_once.returns(true)
+                Rich::Cms::Auth.expects(:login_required?).at_least_once.returns(true)
               end
 
               should "not be able to be saved and destroyed when not being logged in" do
@@ -131,7 +131,7 @@ module Content
               end
 
               should "be able to be saved and destroyed when allowed" do
-                Auth.expects(:admin).at_least_once.returns(User.new)
+                Rich::Cms::Auth.expects(:admin).at_least_once.returns(User.new)
 
                 assert @content.save
                 assert_equal(@value, Content.find(@key).value)
@@ -139,7 +139,7 @@ module Content
               end
 
               should "not be able to be saved and destroyed when restricted" do
-                Auth.expects(:admin).at_least_once.returns(user = User.new)
+                Rich::Cms::Auth.expects(:admin).at_least_once.returns(user = User.new)
                 user.stubs(:can_edit?).returns(false)
 
                 assert !@content.save
