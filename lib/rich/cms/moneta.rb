@@ -1,0 +1,1 @@
+require "rich/cms/moneta/active_record"

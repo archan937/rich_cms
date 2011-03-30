@@ -14,6 +14,7 @@ end
 
 require "rich/cms/actionpack"
 require "rich/cms/engine"
-require "rich/cms/content"
 require "rich/cms/auth"
+require "rich/cms/content"
+require "rich/cms/moneta"
 require "rich/cms/version"

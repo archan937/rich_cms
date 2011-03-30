@@ -63,6 +63,9 @@ class SuitApplication < GemSuit::Application
     when "config/initializers/enrichments.rb"
       klass = "#{logic.to_s.capitalize}User" if [:devise, :authlogic].include? logic
       {:logic => logic, :klass => klass}
+    when "db/schema.rb"
+      schema = File.read(File.expand_path("../suit_application/active_record_schema", __FILE__)) if config[:moneta] == "active_record"
+      {:schema => schema}
     end
   end
 

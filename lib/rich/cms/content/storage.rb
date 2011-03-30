@@ -65,7 +65,11 @@ module Rich
 
             def engine=(name)
               @engine = name.to_s.underscore
-              require "moneta/#{engine}"
+              begin
+                require "moneta/#{engine}"
+              rescue LoadError
+                require "rich/cms/moneta/#{engine}"
+              end
             end
 
             def store_class
@@ -73,6 +77,11 @@ module Rich
             end
 
             def instantiate_store
+              # options ||= :connection => {
+              #   :adapter => 'mysql',
+              #   :database => 'reports_test',
+              #   :username => 'root'
+              # }
               store_class.new options
             end
           end
