@@ -5,6 +5,7 @@ class ContentTest < ActiveSupport::TestCase
   context "A Rich-CMS content class" do
 
     setup do
+      Rich::Cms::Content.classes.clear
       forge_rich_i18n
       class Content
         include Rich::Cms::Content
