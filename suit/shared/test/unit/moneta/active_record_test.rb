@@ -1,7 +1,7 @@
+require File.expand_path("../../../suit_application.rb", __FILE__)
 require File.expand_path("../../../test_helper.rb"     , __FILE__)
-# require File.expand_path("../../../suit_application.rb", __FILE__)
 
-# SuitApplication.test :moneta => :active_record
+SuitApplication.setup :moneta => :active_record
 
 module Unit
   module Moneta
