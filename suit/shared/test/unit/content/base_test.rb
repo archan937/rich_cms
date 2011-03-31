@@ -65,7 +65,7 @@ module Content
                 true
               end
             end
-            Auth.expects(:login_required?).at_least_once.returns(true)
+            ::Rich::Cms::Auth.expects(:login_required?).at_least_once.returns(true)
           end
 
           should "not be editable when not being logged in" do
@@ -73,12 +73,12 @@ module Content
           end
 
           should "be editable when allowed" do
-            Auth.expects(:admin).at_least_once.returns(User.new)
+            ::Rich::Cms::Auth.expects(:admin).at_least_once.returns(User.new)
             assert @content.editable?
           end
 
           should "not be editable when restricted" do
-            Auth.expects(:admin).at_least_once.returns(user = User.new)
+            ::Rich::Cms::Auth.expects(:admin).at_least_once.returns(user = User.new)
             user.stubs(:can_edit?).returns(false)
             assert !@content.editable?
           end
