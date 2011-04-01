@@ -28,7 +28,6 @@ module Content
             end
 
             Content.send(:content_store).clear
-
             @key, @value = "header", "Welcome to Rich-CMS"
           end
 

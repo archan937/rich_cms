@@ -10,12 +10,13 @@ module Rich
             attr_accessors << :value
             @specs         = nil
             @content_store = nil
+            @sub_class     = base
           end
         end
 
         module ClassMethods
           def storage(engine, options = {}, &block)
-            @specs = Specs.new
+            @specs = Specs.new @sub_class
             specs.engine  = engine
             specs.options = options
             yield specs if block_given?
@@ -57,11 +58,15 @@ module Rich
           end
 
           def specs
-            @specs ||= Specs.new
+            @specs ||= Specs.new @sub_class
           end
 
           class Specs
             attr_accessor :engine, :options
+
+            def initialize(klass)
+              @klass = klass
+            end
 
             def engine=(name)
               @engine = name.to_s.underscore
@@ -77,11 +82,10 @@ module Rich
             end
 
             def instantiate_store
-              # options ||= :connection => {
-              #   :adapter => 'mysql',
-              #   :database => 'reports_test',
-              #   :username => 'root'
-              # }
+              case engine
+              when "active_record"
+                options = {:connection => YAML.load_file(File.expand_path("config/database.yml", Rails.root))[Rails.env], :table => @klass.name.tableize}.merge options
+              end
               store_class.new options
             end
           end

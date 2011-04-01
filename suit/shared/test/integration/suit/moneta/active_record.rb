@@ -9,7 +9,7 @@ module Suit
       context "Rich-CMS without authentication" do
         context "using the ActiveRecord store engine" do
           setup do
-            class Content
+            class CmsContent
               include Rich::Cms::Content
               storage :active_record
             end

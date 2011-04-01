@@ -10,18 +10,19 @@ module Unit
       context "A Rich-CMS content class" do
         context "using the ActiveRecord store engine" do
           setup do
-            class Content
+            class CmsContent
               include Rich::Cms::Content
-              storage :active_record
+              storage :active_record, :table => "cms_contents" # NOTE: specified table because of the test namespaces
             end
+            @key, @value = "header", "Welcome to Rich-CMS"
           end
 
           should "be defined" do
-            content = Content.new(@key)
+            content = CmsContent.new(@key)
             content.value = @value
             content.save
 
-            assert_equal @value, Content.find(@key).value
+            assert_equal @value, CmsContent.find(@key).value
           end
         end
       end
