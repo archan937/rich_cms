@@ -10,15 +10,14 @@ module Rich
             attr_accessors << :value
             @specs         = nil
             @content_store = nil
-            @sub_class     = base
+            @specs_args    = {:klass => base}
           end
         end
 
         module ClassMethods
           def storage(engine, options = {}, &block)
-            @specs = Specs.new @sub_class
+            @specs_args[:options] = options
             specs.engine  = engine
-            specs.options = options
             yield specs if block_given?
           end
 
@@ -58,14 +57,15 @@ module Rich
           end
 
           def specs
-            @specs ||= Specs.new @sub_class
+            @specs ||= Specs.new *@specs_args.values_at(:klass, :options).compact
           end
 
           class Specs
             attr_accessor :engine, :options
 
-            def initialize(klass)
-              @klass = klass
+            def initialize(klass, options = {})
+              @klass   = klass
+              @options = options
             end
 
             def engine=(name)
@@ -84,7 +84,7 @@ module Rich
             def instantiate_store
               case engine
               when "active_record"
-                options = {:connection => YAML.load_file(File.expand_path("config/database.yml", Rails.root))[Rails.env], :table => @klass.name.tableize}.merge options
+                options = {:connection => YAML.load_file(File.expand_path("config/database.yml", Rails.root))[Rails.env], :table => @klass.name.tableize}.merge @options
               end
               store_class.new options
             end
