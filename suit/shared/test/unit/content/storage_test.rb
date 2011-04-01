@@ -11,7 +11,7 @@ module Content
             storage :memory
           end
         end
-        assert_raise LoadError do
+        assert_raise LoadError, MissingSourceFile do
           class ContentWithFooStorage
             include Rich::Cms::Content
             storage :foo
