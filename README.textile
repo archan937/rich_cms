@@ -292,7 +292,7 @@ When specifying a custom after update Javascript function, you probably want to 
   end
 </pre>
 
-The JSON data provided will be look like:
+The JSON data provided will look like:
 
 <pre>
   {"__selector__": ".i18n", "__identifier__": {"locale": "nl", "key": "word.user"}, "value": "gebruiker", "translations": {"users": "gebruikers"}}
