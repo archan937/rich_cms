@@ -1,4 +1,3 @@
-
 Rich.Cms.Editor = (function() {
   var content_class        = "rich_cms_content", mark_class = "marked", edit_panel = "#rich_cms_panel",
       editable_content     = {}, content_items = "",

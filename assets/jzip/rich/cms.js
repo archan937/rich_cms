@@ -1,5 +1,8 @@
-
-Rich.Cms = {};
+Rich.Cms = (function() {
+  return {
+    version: "3.1.0"
+  };
+}());
 
 (function requireMissingLibs() {
   var id = "rc_dummy_script";
