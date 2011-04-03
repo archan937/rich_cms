@@ -3,7 +3,7 @@
 *.gem
 Gemfile.lock
 pkg/*
-suit/rails-*/dummy/db/test.sqlite3
+suit/rails-*/dummy/db/*.sqlite3
 suit/rails-*/dummy/log/*.log
 suit/rails-*/dummy/tmp/*
 suit/shared/mysql
