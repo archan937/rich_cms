@@ -4,7 +4,7 @@ SuitApplication.test :logic => :none, :moneta => :active_record
 
 module Suit
   module Moneta
-    class ActiveRecordTest < ActiveSupport::TestCase
+    class ActiveRecordTest < ActionController::IntegrationTest
 
       context "Rich-CMS without authentication" do
         context "using the ActiveRecord store engine" do
