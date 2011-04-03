@@ -59,7 +59,7 @@ class SuitApplication < GemSuit::Application
                  when :authlogic
                    "gem \"authlogic\""
                  end
-      {:auth_gem => auth_gem}
+      {:authentication_gem => auth_gem}
     when "config/initializers/enrichments.rb"
       klass = "#{logic.to_s.capitalize}User" if [:devise, :authlogic].include? logic
       {:logic => logic, :klass => klass}
