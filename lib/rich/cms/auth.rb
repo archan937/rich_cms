@@ -26,7 +26,7 @@ module Rich
           user_session = "#{klass.name}Session".constantize.new params[klass_symbol]
           user_session.save
         when :devise
-          if [Devise::VERSION::MAJOR, Devise::VERSION::MINOR].join(".").to_f < 1.1
+          if Devise::VERSION.to_f < 1.1
             warden.authenticate(:scope => klass_symbol)
           else
             begin
