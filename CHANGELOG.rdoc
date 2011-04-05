@@ -5,8 +5,8 @@
 * Bugfix: Corrected contains operator into equals within Rich.Cms.afterUpdate function. Thanks Chris Obdam (@chrisobdam) for contributing
 * Bugfix: Fixed logging into Rich-CMS when using Devise > 1.1.5
 * Using RaccoonTip v1.0.9 (which includes bugfix regarding Chrome and inputs)
-* Make sure html options get passed to tags when not in edit mode. Thanks Jeroen Bulters (@bulters) for contributing
-* Allow no wrapping tag in cases when no user is logged in. Thanks Jeroen Bulters (@bulters) for contributing
+* Bugfix: always rendering passed HTML attributes with CMS items (it was only when logged in as admin at first). Thanks Jeroen Bulters (@bulters) for contributing
+* Allow no wrapping tag in cases when no user is logged in (essential in case the extra 'span' will bork the layout). Thanks Jeroen Bulters (@bulters) for contributing
 * Bugfix: setting the data-value attribute after editing content
 
 == Version 3.0.0 (February 7, 2011)
