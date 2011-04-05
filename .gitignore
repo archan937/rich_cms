@@ -11,3 +11,4 @@ suit/shared/public/images/rich/cms/*
 suit/shared/public/javascripts/jquery/core.js
 suit/shared/public/javascripts/jquery/ui/rich_cms/*
 suit/shared/public/javascripts/rich_cms.js
+test/*
