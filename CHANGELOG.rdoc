@@ -1,5 +1,9 @@
 = Rich-CMS CHANGELOG
 
+== Version 3.0.1 (April 5, 2011)
+
+* Bugfix: Corrected contains operator into equals within Rich.Cms.afterUpdate function. Thanks Chris Obdam (@chrisobdam) for contributing
+
 == Version 3.0.0 (February 7, 2011)
 
 * Refactored the authentication code. Being able to run Rich-CMS with:
