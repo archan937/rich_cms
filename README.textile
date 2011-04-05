@@ -341,6 +341,7 @@ h2. Contributors
 Mark Mulder - "@bitterzoet":http://twitter.com/bitterzoet - "http://ikbenbitterzoet.com":http://ikbenbitterzoet.com
 Stephan Kaag - "@stephankaag":http://twitter.com/stephankaag - "http://hollandonrails.nl":http://hollandonrails.nl
 Jeroen Bulters - "@bulters":http://twitter.com/bulters - "http://bulte.rs":http://bulte.rs
+Chris Obdam - "@chrisobdam":http://twitter.com/chrisobdam - "http://holder.nl":http://holder.nl
 
 h2. ToDo's
 

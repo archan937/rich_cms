@@ -158,7 +158,7 @@ Rich.Cms.Editor = (function() {
   var afterUpdate = function(form, response) {
     var selector   = response["__selector__"];
     var specs      = editable_content[selector];
-    var identifier = $.map(specs.keys, function(key) { return "[" + key + "^=" + response["__identifier__"][key.replace(/^data-/, "")] + "]"; }).join("");
+    var identifier = $.map(specs.keys, function(key) { return "[" + key + "=" + response["__identifier__"][key.replace(/^data-/, "")] + "]"; }).join("");
 
     var defaultFunction = function(form, response, selector, specs, identifier) {
       var value = response[specs.value.replace(/^data-/, "")];

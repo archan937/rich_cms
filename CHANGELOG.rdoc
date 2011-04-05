@@ -5,6 +5,10 @@
 * Bugfix: always rendering passed HTML attributes with CMS items (it was only when logged in as admin at first). Thanks Jeroen Bulters (@bulters) for contributing
 * Allow no wrapping tag in cases when no user is logged in (handy in case the extra 'span' will bork the layout). Thanks Jeroen Bulters (@bulters) for contributing
 
+== Version 3.0.1 (April 5, 2011)
+
+* Bugfix: Corrected contains operator into equals within Rich.Cms.afterUpdate function. Thanks Chris Obdam (@chrisobdam) for contributing
+
 == Version 3.0.0 (February 7, 2011)
 
 * Refactored the authentication code. Being able to run Rich-CMS with:
