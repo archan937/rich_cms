@@ -7,7 +7,7 @@ require "rake/rdoctask"
 desc "Default: run unit tests."
 task :default => :test
 
-desc "Test Rich-CMS"
+desc "Test Rich-CMS."
 task :test do
   system "suit test unit"
 end
