@@ -1,5 +1,6 @@
 .DS_Store
 pkg/*
+Gemfile.lock
 test/rails-2/dummy/db/*.sqlite3
 test/rails-3/dummy/db/*.sqlite3
 test/rails-2/dummy/log/*.log
