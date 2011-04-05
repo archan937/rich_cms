@@ -309,6 +309,9 @@ This Rails gem depends on:
 jQuery<br>
 "http://jquery.com":http://jquery.com
 
+GemSuit<br>
+"https://github.com/archan937/gem_suit":https://github.com/archan937/gem_suit
+
 Devise (optional)<br>
 "http://github.com/plataformatec/devise":http://github.com/plataformatec/devise
 
@@ -356,6 +359,7 @@ The all-in-one gem at - "http://codehero.es/rails_gems_plugins/e9s":http://codeh
 
 h3. E9s modules
 
+* Rich-Support <br> "http://github.com/archan937/rich_support":http://github.com/archan937/rich_support
 * Rich-CMS <br> "http://codehero.es/rails_gems_plugins/rich_cms":http://codehero.es/rails_gems_plugins/rich_cms <br> "http://github.com/archan937/rich_cms":http://github.com/archan937/rich_cms
 * Rich-i18n <br> "http://codehero.es/rails_gems_plugins/rich_i18n":http://codehero.es/rails_gems_plugins/rich_i18n <br> "http://github.com/archan937/rich_i18n":http://github.com/archan937/rich_i18n
 * Rich-pluralization <br> "http://codehero.es/rails_gems_plugins/rich_pluralization":http://codehero.es/rails_gems_plugins/rich_pluralization <br> "http://github.com/archan937/rich_pluralization":http://github.com/archan937/rich_pluralization
