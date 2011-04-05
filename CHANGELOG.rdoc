@@ -2,8 +2,9 @@
 
 == Version 3.1.0 (xxxx, 2011)
 
-* Bugfix: always rendering passed HTML attributes with CMS items (it was only when logged in as admin at first). Thanks Jeroen Bulters (@bulters) for contributing
-* Allow no wrapping tag in cases when no user is logged in (handy in case the extra 'span' will bork the layout). Thanks Jeroen Bulters (@bulters) for contributing
+* Using GemSuit and Rich-Support (booya!)
+* Using Moneta to support numerous storage engines other than ActiveRecord (such as MongoDB, Redis, in memory, Datamapper and many more)
+* Removed plugin related code
 
 == Version 3.0.1 (April 5, 2011)
 
