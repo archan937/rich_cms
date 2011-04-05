@@ -1,4 +1,3 @@
-
 Rich.Cms.Editor = (function() {
   var content_class        = "rich_cms_content", mark_class = "marked", edit_panel = "#rich_cms_panel",
       editable_content     = {}, content_items = "",
@@ -159,7 +158,7 @@ Rich.Cms.Editor = (function() {
   var afterUpdate = function(form, response) {
     var selector   = response["__selector__"];
     var specs      = editable_content[selector];
-    var identifier = $.map(specs.keys, function(key) { return "[" + key + "^=" + response["__identifier__"][key.replace(/^data-/, "")] + "]"; }).join("");
+    var identifier = $.map(specs.keys, function(key) { return "[" + key + "=" + response["__identifier__"][key.replace(/^data-/, "")] + "]"; }).join("");
 
     var defaultFunction = function(form, response, selector, specs, identifier) {
       var value = response[specs.value.replace(/^data-/, "")];
