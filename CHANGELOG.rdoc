@@ -6,7 +6,7 @@
 * Using Moneta to support numerous storage engines other than ActiveRecord (such as MongoDB, Redis, in memory, Datamapper and many more)
 * Removed plugin related code
 
-== Version 3.0.1 (April 5, 2011)
+== Version 3.0.1 (April 6, 2011)
 
 * Bugfix: Corrected contains operator into equals within Rich.Cms.afterUpdate function. Thanks Chris Obdam (@chrisobdam) for contributing
 * Bugfix: Fixed logging into Rich-CMS when using Devise > 1.1.5
