@@ -10,7 +10,7 @@ Please check out an online demo of Rich-CMS at the "Rich-CMS":http://codehero.es
 
 h2. Installation
 
-h3. Using Rich-CMS as gem in Rails 3
+h3. Using Rich-CMS in Rails 3
 
 Add Rich-CMS in @Gemfile@ as a gem dependency:
 
@@ -24,7 +24,7 @@ Run the following in your console to install with Bundler:
   bundle install
 </pre>
 
-h3. Using Rich-CMS as gem in Rails 2
+h3. Using Rich-CMS in Rails 2
 
 Add Rich-CMS in @environment.rb@ as a gem dependency:
 
