@@ -47,37 +47,50 @@ h2. Fancy contributing to Rich-CMS yourself?
   git clone git@github.com:<username>/rich_cms.git && cd rich_cms
 </pre>
 
-3. Run the test suite setup rake task (only once) and you will get a notice how to create a Firefox profile 'capybara' to run integration tests
+3. Setup your environment in order to use the "GemSuit":https://github.com/archan937/gem_suit tests provided within Rich-CMS
 
 <pre>
-  rake test:setup
+  suit fit
 </pre>
 
-4. Run a test rake task (e.g. integration tests)
+*Attention*: Don't forget to add a Firefox profile called @capybara@ if you haven't already (see the instructions printed in your console)
+
+4. Run tests (e.g. the GemSuit integration tests) as follows
 
 <pre>
-  rake test:integration
+  suit -v
 </pre>
 
-5. You can list the test rake tasks with the following
+*Note*: Running the GemSuit integration tests take in a couple of minutes as it will test *8 different environments*:
+
+Every GemSuit integration test starts with a blank Rails application, runs the required Rails generators and tests the front-end within Firefox with Capybara
+
+* Rails *2* - *Authlogic* authenticated with *Moneta in-memory* storage
+* Rails *2* - *Devise* authenticated with *Moneta in-memory* storage
+* Rails *2* - *non-authenticated* with *Moneta ActiveRecord* storage
+* Rails *2* - *non-authenticated* with *Moneta in-memory* storage
+* Rails *3* - *Authlogic* authenticated with *Moneta in-memory* storage
+* Rails *3* - *Devise* authenticated with *Moneta in-memory* storage
+* Rails *3* - *non-authenticated* with *Moneta ActiveRecord* storage
+* Rails *3* - *non-authenticated* with *Moneta in-memory* storage
+
+5. You can list all the command line commands with the following
 
 <pre>
-  rake -T test
+  suit help
 </pre>
 
 6. Start either of the dummy Rails applications for development purposes
 
 <pre>
-  test/rails
+  suit s
 </pre>
 
 *Note*: This runs the Rails 3 dummy app
 
 <pre>
-  test/rails 2
+  suit s -r2
 </pre>
-
-*Note*: This command specifies the Rails version to be run (which is Rails 2 in this example)
 
 7. *Get on programming* and send your pull request! ;)
 
@@ -183,7 +196,8 @@ The following specifications are optional as Rich-Cms uses defaults:
 
 h3. Create your CMS content class
 
-The storage of Rich-CMS content is powered with "Moneta":https://github.com/wycats/moneta. Doing this gives you the freedom to choose the storage engine you want to use (e.g. Mongo, Redis, Tyrant, Memcache, DataMapper and many others).
+The storage of Rich-CMS content is powered with "Moneta":https://github.com/wycats/moneta. Doing this gives you the freedom to choose the storage engine you want to use (e.g. Mongo, Redis, Tyrant, Memcache, DataMapper, ActiveRecord and many others).
+
 Go to @app/models@ and create a file like the following (e.g. called Content):
 
 <pre>
@@ -198,25 +212,23 @@ That was it actually! Depending on your choice of storage, you will need to add 
 A Rich-CMS content class can be configured as you can specify your own key(s) and you can customize the Javascript registration hash used for editing content in the front end:
 
 * @:class_name@ - The class of the CMS content model which contain the data
-
-The following specifications are optional as Rich-Cms uses defaults:
-
 * @:before_edit@ (default: @nil@) - Javascript function called before showing the edit form of a content item.
 * @:after_update@ (default: @Rich.Cms.Editor.afterUpdate@) - Javascript function called after update a content item.
 
 <pre>
   class Translation
     include Rich::Cms::Content
-    storage     :memory
+    storage     :active_record
     identifiers :locale, :key
 
     configure ".translation" do |config|
       config.before_edit  "Rich.I18n.beforeEdit"
       config.after_update "Rich.I18n.afterUpdate"
     end
-
   end
 </pre>
+
+*Note*: Please notice that @Translation@ uses @ActiveRecord@ as storage engine
 
 h2. Render Rich-CMS in your views
 
@@ -238,18 +250,18 @@ Rich-CMS requires a rendered DOM element provided with meta data of the content 
 <pre>
   >> key = "test_content"
   => "test_content"
-  >> rich_cms_tag(".cms_content", key)
-  => "<div class='cms_content' data-key='test_content' data-value='Hello world!'>Hello world!</div>"
+  >> rich_cms_tag(".rcms_content", key)
+  => "<div class='rcms_content' data-key='test_content' data-value='Hello world!'>Hello world!</div>"
 </pre>
 
 When using a combined key for content identification, just call it as follows:
 
 <pre>
-  >> rich_cms_tag(".cms_content", {:key => key, :locale => I18n.locale})
-  => "<div class='cms_content' data-key='test_content' data-locale='nl' data-value='Hallo wereld!'>Hallo wereld!</div>"
+  >> rich_cms_tag(".rcms_content", {:key => key, :locale => I18n.locale})
+  => "<div class='rcms_content' data-key='test_content' data-locale='nl' data-value='Hallo wereld!'>Hallo wereld!</div>"
 </pre>
 
-*Note*: In this case, the content was registered with @Rich::Cms::Engine.register(".cms_content", {:class_name => "Cms::StaticContent", :key => [:key, :locale]})@
+*Note*: In this case, the content was registered with @Rich::Cms::Engine.register(".rcms_content", {:class_name => "Cms::StaticContent", :key => [:key, :locale]})@
 
 The helper method is provided with the following options:
 
@@ -259,8 +271,8 @@ The helper method is provided with the following options:
 
 <pre>
   ...
-  <%= rich_cms_tag ".cms_content", "test_content", :as => :html %>
-  <%= rich_cms_tag ".cms_content", {:key => "test_content", :locale => I18n.locale} %>
+  <%= rich_cms_tag ".rcms_content", "test_content", :as => :html %>
+  <%= rich_cms_tag ".rcms_content", {:key => "test_content", :locale => I18n.locale} %>
   ...
 </pre>
 
@@ -273,7 +285,7 @@ h2. Customizing the after update implementation
 The @update@ action response of @Rich::CmsController@ is provided with "JSON":http://www.json.org data regarding the updated content item. The response will be passed to the @after_update@ Javascript function. Its default JSON data:
 
 <pre>
-  {"__selector__": ".cms_content", "__identifier__": {"key": "test_paragraph"}, "value": "Hello world!"}
+  {"__selector__": ".rcms_content", "__identifier__": {"key": "test_paragraph"}, "value": "Hello world!"}
 </pre>
 
 *Note*: @__selector__@ and @__identifier__@ are *always* provided in the JSON data.
@@ -283,19 +295,24 @@ When specifying a custom after update Javascript function, you probably want to 
 <pre>
   class Translation
     include Rich::Cms::Content
-    storage :memory
+    storage     :memory
+    identifiers :locale, :key
+
+    configure ".translation" do |config|
+      config.before_edit  "Rich.I18n.beforeEdit"
+      config.after_update "Rich.I18n.afterUpdate"
+    end
 
     def to_rich_cms_response(params)
       {:value => value, :translations => Hash[*params[:derivative_keys].split(";").uniq.collect{|x| [x, x.t]}.flatten]}
     end
-
   end
 </pre>
 
 The JSON data provided will look like:
 
 <pre>
-  {"__selector__": ".i18n", "__identifier__": {"locale": "nl", "key": "word.user"}, "value": "gebruiker", "translations": {"users": "gebruikers"}}
+  {"__selector__": ".translation", "__identifier__": {"locale": "nl", "key": "word.user"}, "value": "gebruiker", "translations": {"users": "gebruikers"}}
 </pre>
 
 h2. Contact me
@@ -341,10 +358,10 @@ CLEditor<br>
 
 h2. Contributors
 
-Mark Mulder - "@bitterzoet":http://twitter.com/bitterzoet - "http://ikbenbitterzoet.com":http://ikbenbitterzoet.com
-Stephan Kaag - "@stephankaag":http://twitter.com/stephankaag - "http://hollandonrails.nl":http://hollandonrails.nl
-Jeroen Bulters - "@bulters":http://twitter.com/bulters - "http://bulte.rs":http://bulte.rs
-Chris Obdam - "@chrisobdam":http://twitter.com/chrisobdam - "http://holder.nl":http://holder.nl
+* Mark Mulder - "@bitterzoet":http://twitter.com/bitterzoet - "http://ikbenbitterzoet.com":http://ikbenbitterzoet.com
+* Stephan Kaag - "@stephankaag":http://twitter.com/stephankaag - "http://hollandonrails.nl":http://hollandonrails.nl
+* Jeroen Bulters - "@bulters":http://twitter.com/bulters - "http://bulte.rs":http://bulte.rs
+* Chris Obdam - "@chrisobdam":http://twitter.com/chrisobdam - "http://holder.nl":http://holder.nl
 
 h2. ToDo's
 
