@@ -9,7 +9,7 @@ task :default => :test
 
 desc "Test Rich-CMS."
 task :test do
-  system "suit test unit"
+  system "suit test unit -v"
 end
 
 desc "Generate documentation for Rich-CMS."
