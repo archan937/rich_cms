@@ -66,7 +66,7 @@ module Rich
 
           tag = options[:tag] || @group.tag || (%w(text html).include?(options[:as].to_s.downcase) ? :div : :span)
 
-          if options[:tag] == :none && !Auth.can_edit?(@object)
+          if options[:tag] == :none
             "#{value.blank? ? default : value}"
           else
             # Make default for editable
