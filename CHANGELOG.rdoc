@@ -3,8 +3,21 @@
 == Version 3.1.0 (xxxx, 2011)
 
 * Using GemSuit and Rich-Support (booya!)
+* Testing 8 environments with GemSuit:
+  - Rails 2: Authlogic authenticated with Moneta in-memory storage
+  - Rails 2: Devise authenticated with Moneta in-memory storage
+  - Rails 2: non-authenticated with Moneta ActiveRecord storage
+  - Rails 2: non-authenticated with Moneta in-memory storage
+  - Rails 3: Authlogic authenticated with Moneta in-memory storage
+  - Rails 3: Devise authenticated with Moneta in-memory storage
+  - Rails 3: non-authenticated with Moneta ActiveRecord storage
+  - Rails 3: non-authenticated with Moneta in-memory storage
 * Using Moneta to support numerous storage engines other than ActiveRecord (such as MongoDB, Redis, in memory, Datamapper and many more)
 * Removed plugin related code
+
+== Version 3.0.2 (April 7, 2011)
+
+* Bugfix: fixed undefined method 'can_edit?' for Rich::Cms::Auth:Module error. Thanks Cameron Priest (@cameronpriest) for mentioning
 
 == Version 3.0.1 (April 6, 2011)
 
