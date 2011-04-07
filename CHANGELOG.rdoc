@@ -1,5 +1,9 @@
 = Rich-CMS CHANGELOG
 
+== Version 3.0.2 (April 7, 2011)
+
+* Bugfix: fixed undefined method 'can_edit?' for Rich::Cms::Auth:Module error. Thanks Cameron Priest (@cameronpriest) for mentioning
+
 == Version 3.0.1 (April 6, 2011)
 
 * Bugfix: Corrected contains operator into equals within Rich.Cms.afterUpdate function. Thanks Chris Obdam (@chrisobdam) for contributing
