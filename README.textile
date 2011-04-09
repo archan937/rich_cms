@@ -53,9 +53,7 @@ h2. Fancy contributing to Rich-CMS yourself?
   suit fit
 </pre>
 
-*Attention*: Don't forget to add a Firefox profile called @capybara@ if you haven't already (see the instructions printed in your console)
-
-4. Run tests (e.g. the GemSuit integration tests) as follows
+4. Run tests (e.g. the GemSuit integration tests) as follows (make sure you have "Firefox":www.getfirefox.com installed)
 
 <pre>
   suit -v
@@ -93,6 +91,8 @@ Every GemSuit integration test starts with a blank Rails application, runs the r
 </pre>
 
 7. *Get on programming* and send your pull request! ;)
+
+*Note*: For more information about GemSuit, please visit "it's Github page":https://github.com/archan937/gem_suit.
 
 h2. Use the provided Rails generators
 
