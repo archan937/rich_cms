@@ -53,7 +53,7 @@ module ActionView
         when 1
           selector = Rich::Cms::Content.classes.first.css_selector
         else
-          raise ArgumentError, "Please specify the Rich-CMS content CSS selector as there are more than one Rich-CMS content classes: #{Rich::Cms::Content.classes.collect(&:name).join(", ")}".yellow
+          raise ArgumentError, "Specify the Rich-CMS content CSS selector as there are more than one Rich-CMS content classes: #{Rich::Cms::Content.classes.collect(&:name).join(", ")}"
         end
       end
 
