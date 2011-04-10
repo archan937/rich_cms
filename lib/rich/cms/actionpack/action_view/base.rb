@@ -37,8 +37,34 @@ module ActionView
       Rich::Cms::Content.javascript_hash
     end
 
-    def rich_cms_tag(selector, identifier, options = {})
-      Rich::Cms::Content.fetch(selector, identifier).to_tag options
+    def rich_cms_tag(*args)
+      raise ArgumentError, "wrong number of arguments (#{args.size} for 3)" if args.size > 3
+
+      options    = args.extract_options!
+      identifier = args.pop
+      selector   = args.pop
+
+      raise ArgumentError unless args.empty? # just to be sure
+
+      if selector.nil?
+        case Rich::Cms::Content.classes.size
+        when 0
+          # let Rich::Cms::Content.fetch raise an error
+        when 1
+          selector = Rich::Cms::Content.classes.first.css_selector
+        else
+          raise ArgumentError, "Please specify the Rich-CMS content CSS selector as there are more than one Rich-CMS content classes"
+        end
+      end
+
+      begin
+        Rich::Cms::Content.fetch(selector, identifier).to_tag options
+      rescue Rich::Cms::Content::SelectorNotMatchedError => e
+        raise unless Rich::Cms::Content.classes.size == 1
+        selector = Rich::Cms::Content.classes.first.css_selector
+        warn "#{e.message} (using #{selector} as default)"
+        retry
+      end
     end
 
   end
