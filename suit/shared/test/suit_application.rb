@@ -28,7 +28,7 @@ class SuitApplication < GemSuit::Application
       correct_user_fixtures
       generate_cms_content
     end
-    skip :require, "test/suit_application/i18n_forgery.rb"
+    skip :require, "test/suit_application/rich/i18n_forgery.rb"
   end
 
   def restore_files
