@@ -53,7 +53,7 @@ module ActionView
         when 1
           selector = Rich::Cms::Content.classes.first.css_selector
         else
-          raise ArgumentError, "Please specify the Rich-CMS content CSS selector as there are more than one Rich-CMS content classes"
+          raise ArgumentError, "Please specify the Rich-CMS content CSS selector as there are more than one Rich-CMS content classes: #{Rich::Cms::Content.classes.collect(&:name).join(", ")}".yellow
         end
       end
 
@@ -62,7 +62,7 @@ module ActionView
       rescue Rich::Cms::Content::SelectorNotMatchedError => e
         raise unless Rich::Cms::Content.classes.size == 1
         selector = Rich::Cms::Content.classes.first.css_selector
-        warn "#{e.message} (using #{selector} as default)"
+        warn "[WARNING] #{e.message} and thus using #{selector.inspect} instead".yellow
         retry
       end
     end
