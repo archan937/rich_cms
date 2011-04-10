@@ -3,4 +3,4 @@ Rich::Cms::Auth.setup do |config|
   config.klass = "DeviseUser"
 end
 
-require File.expand_path("test/suit_application/rich/i18n_forgery", Rails.root)
+# require File.expand_path("test/suit_application/rich/i18n_forgery", Rails.root)
