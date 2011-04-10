@@ -335,14 +335,14 @@ When having multiple Rich-CMS content classes defined, pass the corresponding CS
 
 The (optional) options hash can contain the following keys:
 
-* @:as@ (*default*: auto-determined @:string@ or @:text@)
+* @:as@ - *default*: auto-determined @:string@ or @:text@
   Specify the input type shown in the edit form (@:string@ for an input text, @:text@ for a textarea and @:html@ for a WYSIWYG HTML editor).
-* @:tag@ (*default*: auto-determined @:div@ or @:span@)
+* @:tag@ - *default*: auto-determined @:div@ or @:span@
   The HTML tag used for content items. You can also specify @:none@ as value: in that case, no HTML tag will be wrapped around the content when no admin is logged in (essential in case the extra @span@ will bork the layout).
-* @:html@ (*default*: @{}@)
+* @:html@ - *default*: @{}@
   HTML attributes added to the content tag (e.g. @:id@, @:class@)
 
-*Note*: the WYSIWYG editor used is the "jQuery":http://jquery.com/ based "CLEditor":http://premiumsoftware.net/cleditor.
+*Note*: The WYSIWYG editor used is the "jQuery":http://jquery.com/ based "CLEditor":http://premiumsoftware.net/cleditor
 
 A few examples:
 
@@ -353,6 +353,8 @@ A few examples:
   <%= rich_cms_tag "application.index.welcome_text", :tag => :p, :html => {:class => "welcome", :style => "display: none"} %>
   ...
 </pre>
+
+*Note*: The last statement only passes when only *one* Rich-CMS content class is defined
 
 h3. Rich-CMS in your browser
 
