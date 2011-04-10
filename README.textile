@@ -44,7 +44,7 @@ h2. Fancy contributing to Rich-CMS yourself?
 2. Clone your Rich-CMS fork repository
 
 <pre>
-  git clone git@github.com:<username>/rich_cms.git && cd rich_cms
+  git clone git@github.com:<your_username>/rich_cms.git && cd rich_cms
 </pre>
 
 3. Setup your environment in order to use the "GemSuit":https://github.com/archan937/gem_suit tests provided within Rich-CMS
