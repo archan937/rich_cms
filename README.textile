@@ -98,12 +98,12 @@ h2. Use the provided Rails generators
 
 Rich-CMS requires one entity:
 
-* A model used for CMS content storage (which is powered with "Moneta":https://github.com/wycats/moneta by Rich-CMS)
+* A model used for CMS content storage (which is powered with "Moneta":https://github.com/wycats/moneta)
 
 For (optional) authentication, Rich-CMS requires one of the following:
 
 * A @Devise@ authenticated admin model
-* A @Authlogic@ authenticated admin model
+* An @Authlogic@ authenticated admin model
 
 Fortunately, Rich-CMS is provided with two Rails generators with which you can generate those entities.
 
@@ -171,13 +171,13 @@ Run the following in your console:
   script/generate rich_cms_content -m
 </pre>
 
-In case you have used the Rails generators, you can skip the *Create required entities manually* section and go straight to *Render Rich-CMS in your views*.
+In case you have used the Rails generators, you can skip the *Create required entities manually* and go straight to *Render Rich-CMS in your views*.
 
 h2. Create required entities manually
 
 h3. Specify the authentication mechanism
 
-Rich-CMS can be used without an authentication mechanism (which is the default by the way), you just have to open "/cms" in your browser and you are ready to go. But it is common to have authentication and Rich-CMS support "Devise":http://github.com/plataformatec/devise and "Authlogic":http://github.com/binarylogic/authlogic.
+Rich-CMS can be used without an authentication mechanism (which is the default by the way), you just have to open "/cms" in your browser and you are ready to go. But it is common to have authentication and Rich-CMS thus supports "Devise":http://github.com/plataformatec/devise and "Authlogic":http://github.com/binarylogic/authlogic.
 
 Provide the authentication logic as a symbol (e.g. @:devise@) and the authenticated class like this:
 
@@ -190,15 +190,18 @@ Provide the authentication logic as a symbol (e.g. @:devise@) and the authentica
 
 The following specifications are optional as Rich-Cms uses defaults:
 
-* @:inputs@ (default: @[:email, :password]@) - The attributes used for the login panel of Rich-CMS
-* @:identifier@ (default: based on @inputs@) - The method used for displaying the identity of the current Rich-CMS admin (this is the first entry of @inputs@, so usually @:email@)
-* @:current_admin_method@ (default: based on @klass@) - The controller method used to retrieve the current Rich-CMS admin (e.g. @current_user@ when configured @User@ as authenticated class)
+* @:inputs@ - *default*: @[:email, :password]@
+  The attributes used for the login panel of Rich-CMS
+* @:identifier@ - *default*: based on @inputs@
+  The method used for displaying the identity of the current Rich-CMS admin (this is the first entry of @inputs@, so usually @:email@)
+* @:current_admin_method@ - *default*: based on @klass@
+  The controller method used to retrieve the current Rich-CMS admin (e.g. @current_user@ when configured @User@ as authenticated class)
 
 h3. Create your CMS content class
 
-The storage of Rich-CMS content is powered with "Moneta":https://github.com/wycats/moneta. Doing this gives you the freedom to choose the storage engine you want to use (e.g. Mongo, Redis, Tyrant, Memcache, DataMapper, ActiveRecord and many others).
+The storage mechanism of Rich-CMS content is powered with "Moneta":https://github.com/wycats/moneta. Doing this gives you the freedom to choose the storage engine you want to use (e.g. Mongo, Redis, Tyrant, Memcache, DataMapper, ActiveRecord and many others).
 
-Go to @app/models@ and create a file like the following (e.g. called Content):
+Go to @app/models@ and create a file like the following (e.g. called @Content@):
 
 <pre>
   class Content
@@ -207,13 +210,65 @@ Go to @app/models@ and create a file like the following (e.g. called Content):
   end
 </pre>
 
-That was it actually! Depending on your choice of storage, you will need to add some extra specs. See the "Moneta repo":https://github.com/wycats/moneta/tree/master/lib/moneta/adapters for more documentation.
+In short: include the @Rich::Cms::Content@ module and specify which storage engine you want to use. And that was it actually!
 
-A Rich-CMS content class can be configured as you can specify your own key(s) and you can customize the Javascript registration hash used for editing content in the front end:
+Depending on your choice of storage engine, you will need to add some extra specs. See the "Moneta repo":https://github.com/wycats/moneta/tree/master/lib/moneta/adapters for more documentation.
 
-* @:class_name@ - The class of the CMS content model which contain the data
-* @:before_edit@ (default: @nil@) - Javascript function called before showing the edit form of a content item.
-* @:after_update@ (default: @Rich.Cms.Editor.afterUpdate@) - Javascript function called after update a content item.
+There are also additional class methods which you can call of course:
+
+h4. Identifiers
+
+As already mentioned, Rich-CMS uses Moneta for an unified key / value store interface. But you can still let the key (identifier) consist out of multiple segments. Rich-CMS will concatenate the segments with a default delimiter @;@ in the specified order within the class definition.
+
+<pre>
+  class Content
+    include Rich::Cms::Content
+    storage :memory
+    identifiers :locale, :key # <= Rich-CMS will concatenate the identifier in this order
+  end
+</pre>
+
+As an example, @:locale => :nl, :key => "application.index.header"@ will result in @"nl:application.index.header"@. You can change the delimiter by overriding the @delimiter@ method:
+
+<pre>
+  ...
+    identifiers :locale, :key
+
+    def delimiter
+      ";" # <= {:locale => :nl, :key => "application.index.header"} will result in "nl;application.index.header"
+    end
+  end
+</pre>
+
+*Note*: You might want to check out "rich/i18n_forgery.rb":https://github.com/archan937/rich_cms/blob/edge/suit/shared/test/suit_application/rich/i18n_forgery.rb for further documentation (especially the protected method @identity_hash_for@).
+
+h4. Configure
+
+When it comes to rendering Rich-CMS content in the front-end, there are three points of attention regarding the Rich-CMS content:
+
+* the CSS selector of the Rich-CMS content class in question
+* the Javascript function called before showing the edit form of a content item
+* the Javascript function called after updating a content item
+
+Rich-CMS uses the CSS selector to match the corresponding Rich-CMS content class in the front-end. At default, the CSS selector is based on the underscored content class name prefixed with @"rcms_"@.
+
+So @Content@ will result in "@.rcms_content@" and @Translation@ in @".rcms_translation"@. When the class name starts with @Cms@, it will be ignored. For instance, @CmsContent@ will result in @".rcms_content"@.
+
+At default, the @before_edit@ hook is not assigned and the @after_update@ hook is assign to the Javascript function @Rich.Cms.Editor.afterUpdate@.
+
+h4. A few examples
+
+A simple Rich-CMS class:
+
+<pre>
+  class Content
+    include Rich:Cms::Content
+    storage :memory
+    configure ".custom_css_class"
+  end
+</pre>
+
+A slight more advanced example of a Rich-CMS class:
 
 <pre>
   class Translation
@@ -221,7 +276,7 @@ A Rich-CMS content class can be configured as you can specify your own key(s) an
     storage     :active_record
     identifiers :locale, :key
 
-    configure ".translation" do |config|
+    configure do |config| # for a custom CSS selector: configure ".translation" do |config|
       config.before_edit  "Rich.I18n.beforeEdit"
       config.after_update "Rich.I18n.afterUpdate"
     end
@@ -245,34 +300,57 @@ Add the following line at the beginning of the @<body>@ tag:
 
 h3. Use the Rich-CMS helper method
 
-Rich-CMS requires a rendered DOM element provided with meta data of the content instance. Fortunately, you can call a helper method to render Rich-CMS content tags. Just specify the identifier of the content type and the key of the CMS content instance in question:
+Rich-CMS requires a rendered DOM element provided with meta data of the content entry. Fortunately, you can call a helper method to render Rich-CMS content tags. It accepts the following arguments:
+
+* @css_selector@ - The CSS selector of the corresponding Rich-CMS content class
+* @identifier@ - The identifier of the Rich-CMS content entry (use a hash when dealing with a combined identifier)
+* @options@ - Options used to customize the rendered content tag
+
+Please take notice: *The CSS selector is only obligated when having more than one Rich-CMS content class defined!*
 
 <pre>
   >> key = "test_content"
   => "test_content"
-  >> rich_cms_tag(".rcms_content", key)
+  >> rich_cms_tag(key)
   => "<div class='rcms_content' data-key='test_content' data-value='Hello world!'>Hello world!</div>"
 </pre>
 
+*Note*: There is only Rich-CMS content defined called @Content@
+
 When using a combined key for content identification, just call it as follows:
+
+<pre>
+  >> rich_cms_tag({:key => key, :locale => I18n.locale})
+  => "<div class='rcms_content' data-key='test_content' data-locale='nl' data-value='Hallo wereld!'>Hallo wereld!</div>"
+</pre>
+
+*Note*: In this case, the (*only*) Rich-CMS content class was defined with @identifiers :locale, :key@
+
+When having multiple Rich-CMS content classes defined, pass the corresponding CSS selector:
 
 <pre>
   >> rich_cms_tag(".rcms_content", {:key => key, :locale => I18n.locale})
   => "<div class='rcms_content' data-key='test_content' data-locale='nl' data-value='Hallo wereld!'>Hallo wereld!</div>"
 </pre>
 
-*Note*: In this case, the content was registered with @Rich::Cms::Engine.register(".rcms_content", {:class_name => "Cms::StaticContent", :key => [:key, :locale]})@
+The (optional) options hash can contain the following keys:
 
-The helper method is provided with the following options:
+* @:as@ (*default*: auto-determined @:string@ or @:text@)
+  Specify the input type shown in the edit form (@:string@ for an input text, @:text@ for a textarea and @:html@ for a WYSIWYG HTML editor).
+* @:tag@ (*default*: auto-determined @:div@ or @:span@)
+  The HTML tag used for content items. You can also specify @:none@ as value: in that case, no HTML tag will be wrapped around the content when no admin is logged in (essential in case the extra @span@ will bork the layout).
+* @:html@ (*default*: @{}@)
+  HTML attributes added to the content tag (e.g. @:id@, @:class@)
 
-* @:as@ (default: auto-determine @:string@ or @:text@) - Specify the input type shown in the edit form (@:string@ for an input text, @:text@ for a textarea and @:html@ for a WYSIWYG HTML editor).
-* @:tag@ (default: auto-determine @:div@ or @:span@) - The HTML tag used for content items. You can also specify @:none@ as value: in that case, no HTML tag will be wrapped around the content when no admin is logged in (handy in case the extra @span@ will bork the layout).
-* @:html@ (default: @{}@) - HTML attributes added to the content tag (e.g. @:id@, @:class@)
+*Note*: the WYSIWYG editor used is the "jQuery":http://jquery.com/ based "CLEditor":http://premiumsoftware.net/cleditor.
+
+A few examples:
 
 <pre>
   ...
   <%= rich_cms_tag ".rcms_content", "test_content", :as => :html %>
-  <%= rich_cms_tag ".rcms_content", {:key => "test_content", :locale => I18n.locale} %>
+  <%= rich_cms_tag ".rcms_content", {:key => "test_content", :locale => I18n.locale}, :tag => :p %>
+  <%= rich_cms_tag "application.index.welcome_text", :tag => :p, :html => {:class => "welcome", :style => "display: none"} %>
   ...
 </pre>
 
@@ -282,7 +360,7 @@ Open "http://localhost:3000/cms":http://localhost:3000/cms, log in and start man
 
 h2. Customizing the after update implementation
 
-The @update@ action response of @Rich::CmsController@ is provided with "JSON":http://www.json.org data regarding the updated content item. The response will be passed to the @after_update@ Javascript function. Its default JSON data:
+The @update@ action response of @Rich::CmsController@ consists of "JSON":http://www.json.org data regarding the updated content item. The response will be passed to the @after_update@ Javascript function. Its default JSON data:
 
 <pre>
   {"__selector__": ".rcms_content", "__identifier__": {"key": "test_paragraph"}, "value": "Hello world!"}
@@ -290,7 +368,7 @@ The @update@ action response of @Rich::CmsController@ is provided with "JSON":ht
 
 *Note*: @__selector__@ and @__identifier__@ are *always* provided in the JSON data.
 
-When specifying a custom after update Javascript function, you probably want to acquire more information than provided in the default JSON data. You can customize this by defining the @to_rich_cms_response@ method in the CMS content model class:
+When specifying a custom after update Javascript function, you probably want to acquire more information than provided in the default JSON data. You can customize this by defining the @to_rich_cms_response@ method in the CMS content model class and the hash will be merged with the default response hash:
 
 <pre>
   class Translation
@@ -309,7 +387,7 @@ When specifying a custom after update Javascript function, you probably want to 
   end
 </pre>
 
-The JSON data provided will look like:
+The JSON data returned will look like:
 
 <pre>
   {"__selector__": ".translation", "__identifier__": {"locale": "nl", "key": "word.user"}, "value": "gebruiker", "translations": {"users": "gebruikers"}}
@@ -365,10 +443,13 @@ h2. Contributors
 
 h2. ToDo's
 
+* Add cache feature which uses the standard Rails cache
+* Provide web pages management (e.g. Rich-Pages)
+* Provide object management (e.g. articles and products)
+* Provide file uploads (e.g. images)
 * Check out compatibility with Devise 1.2.0
 * Provide better conventions for content rendering
-* Provide tools to use Textile, MarkDown, image files upload and models (e.g. products)
-* Add cache feature which uses the standard Rails cache (rich_cms_tag ".cms_content", "test_content", :cache => true)
+* Provide tools to use Textile, MarkDown
 
 h2. Enrichments
 
@@ -376,7 +457,7 @@ The all-in-one gem at - "http://codehero.es/rails_gems_plugins/e9s":http://codeh
 
 h3. E9s modules
 
-* Rich-Support <br> "http://github.com/archan937/rich_support":http://github.com/archan937/rich_support
+* Rich-Support <br> "http://codehero.es":http://codehero.es <br> "http://github.com/archan937/rich_support":http://github.com/archan937/rich_support
 * Rich-CMS <br> "http://codehero.es/rails_gems_plugins/rich_cms":http://codehero.es/rails_gems_plugins/rich_cms <br> "http://github.com/archan937/rich_cms":http://github.com/archan937/rich_cms
 * Rich-i18n <br> "http://codehero.es/rails_gems_plugins/rich_i18n":http://codehero.es/rails_gems_plugins/rich_i18n <br> "http://github.com/archan937/rich_i18n":http://github.com/archan937/rich_i18n
 * Rich-pluralization <br> "http://codehero.es/rails_gems_plugins/rich_pluralization":http://codehero.es/rails_gems_plugins/rich_pluralization <br> "http://github.com/archan937/rich_pluralization":http://github.com/archan937/rich_pluralization
