@@ -4,7 +4,7 @@ SuitApplication.test :logic => :devise
 
 module Suit
   module Authenticated
-    class DeviseTest < ActionController::IntegrationTest
+    class DeviseTest < GemSuit::IntegrationTest
       fixtures :devise_users
 
       context "Rich-CMS implemented with Devise" do

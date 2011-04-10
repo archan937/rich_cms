@@ -2,7 +2,7 @@ require File.expand_path("../../../suit_application.rb", __FILE__)
 
 SuitApplication.test :logic => :none
 
-class NonAuthenticatedTest < ActionController::IntegrationTest
+class NonAuthenticatedTest < GemSuit::IntegrationTest
 
   context "Rich-CMS without authentication" do
     setup do

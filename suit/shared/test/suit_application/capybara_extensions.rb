@@ -1,4 +1,4 @@
-module ActionController
+module GemSuit
   class IntegrationTest
 
     def login

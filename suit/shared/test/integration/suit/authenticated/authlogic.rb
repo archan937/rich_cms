@@ -4,7 +4,7 @@ SuitApplication.test :logic => :authlogic
 
 module Suit
   module Authenticated
-    class AuthlogicTest < ActionController::IntegrationTest
+    class AuthlogicTest < GemSuit::IntegrationTest
       fixtures :authlogic_users
 
       context "Rich-CMS implemented with Authlogic" do
