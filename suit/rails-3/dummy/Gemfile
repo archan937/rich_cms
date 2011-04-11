@@ -8,6 +8,7 @@ gem "devise", "~> 1.1.5"
 gem "rich_cms", :path => File.expand_path("../../../..", __FILE__)
 
 group :test do
+  gem "mysql"
   gem "shoulda"
   gem "mocha"
   gem "hpricot"

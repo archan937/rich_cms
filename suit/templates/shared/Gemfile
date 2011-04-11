@@ -1,7 +1,7 @@
 source "http://rubygems.org"
 
 gem "rails", "<%= rails_gem_version %>"
-gem "sqlite3-ruby", :require => "sqlite3"
+gem "mysql"
 <%= authentication_gem %>
 gem "rich_cms", :path => File.expand_path("../../../..", __FILE__)
 
