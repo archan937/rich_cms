@@ -50,10 +50,10 @@ h2. Fancy contributing to Rich-CMS yourself?
 3. Setup your environment in order to use the "GemSuit":https://github.com/archan937/gem_suit tests provided within Rich-CMS
 
 <pre>
-  suit fit
+  suit fit -v
 </pre>
 
-4. Run tests (e.g. the GemSuit integration tests) as follows (make sure you have "Firefox":www.getfirefox.com installed)
+4. Run tests (e.g. the GemSuit integration tests) as follows (make sure you have "Firefox":http://www.getfirefox.com installed)
 
 <pre>
   suit -v
@@ -90,9 +90,11 @@ Every GemSuit integration test starts with a blank Rails application, runs the r
   suit s -r2
 </pre>
 
-7. *Get on programming* and send your pull request! ;)
+7. Open the Rails application in your browser with "http://localhost:3000/cms":http://localhost:3000/cms and log in with <code>paul.engel@holder.nl</code> and @testrichcms@.
 
-*Note*: For more information about GemSuit, please visit "it's Github page":https://github.com/archan937/gem_suit.
+8. *Get on programming* and send your pull request! ;)
+
+*Note*: For more information about GemSuit, please visit "its Github page":https://github.com/archan937/gem_suit.
 
 h2. Use the provided Rails generators
 
@@ -129,7 +131,7 @@ You can alter the class name as follows:
 
 *Using Authlogic*
 
-You can use Authlogic by specifying the @-a@ or @--authlogic@ option:
+You can use "Authlogic":http://github.com/binarylogic/authlogic by specifying the @-a@ or @--authlogic@ option:
 
 <pre>
   rails g rich:cms_admin CodeHeroes::User -a -m
@@ -315,7 +317,7 @@ Please take notice: *The CSS selector is only obligated when having more than on
   => "<div class='rcms_content' data-key='test_content' data-value='Hello world!'>Hello world!</div>"
 </pre>
 
-*Note*: There is only Rich-CMS content defined called @Content@
+*Note*: There is only *one* Rich-CMS content defined called @Content@
 
 When using a combined key for content identification, just call it as follows:
 
