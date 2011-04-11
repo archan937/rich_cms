@@ -9,9 +9,11 @@ module Suit
       context "Rich-CMS without authentication" do
         context "using the ActiveRecord store engine" do
           setup do
+            Object.send :remove_const, :CmsContent
+            Rich::Cms::Content.classes.clear
             class CmsContent
               include Rich::Cms::Content
-              storage :active_record
+              storage :active_record, :table_name => "cms_contents"
             end
             visit "/cms/logout"
           end

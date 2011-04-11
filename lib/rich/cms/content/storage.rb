@@ -84,7 +84,8 @@ module Rich
             def instantiate_store
               case engine
               when "active_record"
-                options = {:connection => YAML.load_file(File.expand_path("config/database.yml", Rails.root))[Rails.env], :table => @klass.name.tableize}.merge @options
+                options = {:connection => YAML.load_file(File.expand_path("config/database.yml", Rails.root))[Rails.env],
+                           :table      => @options.delete(:table_name) || @klass.name.tableize}.merge @options
               end
               store_class.new options
             end
