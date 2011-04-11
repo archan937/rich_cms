@@ -11,6 +11,8 @@ class SuitApplication < GemSuit::Application
       "Devise"
     when :authlogic
       "Authlogic"
+    end.tap do |result|
+      result << " - Moneta #{config[:moneta].to_s.split("_").collect(&:capitalize).join("")}" unless config[:moneta].to_s.empty?
     end
   end
 
