@@ -89,7 +89,7 @@ module Content
             storage :memory
             configure ".content_b"
 
-            def to_rich_cms_response
+            def to_rich_cms_response(params)
               {:timestamp => "1982-08-01 13:37:04", :__selector__ => ".foo_bar"}
             end
           end

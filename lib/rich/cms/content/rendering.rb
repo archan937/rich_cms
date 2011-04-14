@@ -106,11 +106,11 @@ module Rich
 
           end
 
-          def to_json
-            to_rich_cms_response.merge :__selector__ => self.class.css_selector, :__identifier__ => {:store_key => store_key}, :value => value
+          def to_json(params = {})
+            to_rich_cms_response(params).merge :__selector__ => self.class.css_selector, :__identifier__ => {:store_key => store_key}, :value => value
           end
 
-          def to_rich_cms_response
+          def to_rich_cms_response(params)
             # Override this in subclasses
             {}
           end
