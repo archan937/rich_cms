@@ -317,10 +317,10 @@ Rich-CMS requires a rendered DOM element provided with meta data of the content 
 Please take notice: *The CSS selector is only obligated when having more than one Rich-CMS content class defined!*
 
 <pre>
-  >> key = "test_content"
-  => "test_content"
-  >> rich_cms_tag(key)
-  => "<div class='rcms_content' data-key='test_content' data-value='Hello world!'>Hello world!</div>"
+  >> key = "hello_world"
+  => "hello_world"
+  >> ActionView::Base.new.rich_cms_tag(key)
+  => "<div class='rcms_content' data-store_key='hello_world' data-value='Hello world!'>Hello world!</div>"
 </pre>
 
 *Note*: There is only *one* Rich-CMS content defined called @Content@
@@ -328,8 +328,8 @@ Please take notice: *The CSS selector is only obligated when having more than on
 When using a combined key for content identification, just call it as follows:
 
 <pre>
-  >> rich_cms_tag({:key => key, :locale => I18n.locale})
-  => "<div class='rcms_content' data-key='test_content' data-locale='nl' data-value='Hallo wereld!'>Hallo wereld!</div>"
+  >> ActionView::Base.new.rich_cms_tag({:key => key, :locale => I18n.locale})
+  => "<div class='rcms_content' data-store_key='nl:hello_world' data-value='Hallo wereld!'>Hallo wereld!</div>"
 </pre>
 
 *Note*: In this case, the (*only*) Rich-CMS content class was defined with @identifiers :locale, :key@
@@ -337,8 +337,8 @@ When using a combined key for content identification, just call it as follows:
 When having multiple Rich-CMS content classes defined, pass the corresponding CSS selector:
 
 <pre>
-  >> rich_cms_tag(".rcms_content", {:key => key, :locale => I18n.locale})
-  => "<div class='rcms_content' data-key='test_content' data-locale='nl' data-value='Hallo wereld!'>Hallo wereld!</div>"
+  >> ActionView::Base.new.rich_cms_tag(".rcms_translation", {:key => key, :locale => I18n.locale})
+  => "<div class='rcms_translation' data-store_key='nl:hello_world' data-value='Hallo wereld!'>Hallo wereld!</div>"
 </pre>
 
 The (optional) options hash can contain the following keys:
@@ -356,13 +356,13 @@ A few examples:
 
 <pre>
   ...
-  <%= rich_cms_tag ".rcms_content", "test_content", :as => :html %>
-  <%= rich_cms_tag ".rcms_content", {:key => "test_content", :locale => I18n.locale}, :tag => :p %>
+  <%= rich_cms_tag ".rcms_content", "about_us_page", :as => :html %>
+  <%= rich_cms_tag ".rcms_content", {:key => "welcome_text", :locale => I18n.locale}, :tag => :p %>
   <%= rich_cms_tag "application.index.welcome_text", :tag => :p, :html => {:class => "welcome", :style => "display: none"} %>
   ...
 </pre>
 
-*Note*: The last statement only passes when only *one* Rich-CMS content class is defined
+*Note*: The last statement passes when only *one* Rich-CMS content class is defined
 
 h3. Rich-CMS in your browser
 
@@ -373,7 +373,7 @@ h2. Customizing the after update implementation
 The @update@ action response of @Rich::CmsController@ consists of "JSON":http://www.json.org data regarding the updated content item. The response will be passed to the @after_update@ Javascript function. Its default JSON data:
 
 <pre>
-  {"__selector__": ".rcms_content", "__identifier__": {"key": "test_paragraph"}, "value": "Hello world!"}
+  {"__selector__": ".rcms_content", "__identifier__": {"store_key": "hello_world"}, "value": "Hello world!"}
 </pre>
 
 *Note*: @__selector__@ and @__identifier__@ are *always* provided in the JSON data.
@@ -400,7 +400,7 @@ When specifying a custom after update Javascript function, you probably want to 
 The JSON data returned will look like:
 
 <pre>
-  {"__selector__": ".translation", "__identifier__": {"locale": "nl", "key": "word.user"}, "value": "gebruiker", "translations": {"users": "gebruikers"}}
+  {"__selector__": ".translation", "__identifier__": {"store_key": "nl:word.user"}, "value": "gebruiker", "translations": {"users": "gebruikers"}}
 </pre>
 
 h2. Contact me
