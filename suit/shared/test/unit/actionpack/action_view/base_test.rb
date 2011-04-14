@@ -47,14 +47,18 @@ module Unit
             end
 
             should "fetch a CmsContent entry when only the key is passed" do
-              Rich::Cms::Content.expects(:fetch).with(CmsContent.css_selector, @key).returns CmsContent.new(:key => @key)
+              content = CmsContent.new :key => @key
+              content.expects :to_tag
+              Rich::Cms::Content.expects(:fetch).with(CmsContent.css_selector, @key).returns content
               ::ActionView::Base.new.rich_cms_tag @key
             end
 
             should "fetch a CmsContent entry when passed a non-matching selector and warn about it" do
+              content = CmsContent.new :key => @key
+              content.expects :to_tag
               ::ActionView::Base.any_instance.expects(:warn)
               Rich::Cms::Content             .expects(:fetch).with(".bogus_selector"      , @key).raises  Rich::Cms::Content::SelectorNotMatchedError
-              Rich::Cms::Content             .expects(:fetch).with(CmsContent.css_selector, @key).returns CmsContent.new(:key => @key)
+              Rich::Cms::Content             .expects(:fetch).with(CmsContent.css_selector, @key).returns content
               ::ActionView::Base.new.rich_cms_tag ".bogus_selector", @key
             end
 
@@ -80,10 +84,14 @@ module Unit
               end
 
               should "fetch content as expected when passing valid arguments" do
-                Rich::Cms::Content.expects(:fetch).with(CmsContent .css_selector, @key).returns CmsContent .new(:key => @key)
+                content = CmsContent.new :key => @key
+                content.expects :to_tag
+                Rich::Cms::Content.expects(:fetch).with(CmsContent .css_selector, @key).returns content
                 ::ActionView::Base.new.rich_cms_tag     CmsContent .css_selector, @key
 
-                Rich::Cms::Content.expects(:fetch).with(MoreContent.css_selector, @key).returns MoreContent.new(:key => @key)
+                more_content = MoreContent.new :key => @key
+                more_content.expects :to_tag
+                Rich::Cms::Content.expects(:fetch).with(MoreContent.css_selector, @key).returns more_content
                 ::ActionView::Base.new.rich_cms_tag     MoreContent.css_selector, @key
 
                 more_content = MoreContent.new(:key => @key)
