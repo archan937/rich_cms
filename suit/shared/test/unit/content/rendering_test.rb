@@ -1,8 +1,10 @@
-require File.expand_path("../../../test_helper.rb", __FILE__)
-require "hpricot"
+require File.expand_path("../../../test_helper.rb"            , __FILE__)
+require File.expand_path("../rendering_test/helper_methods.rb", __FILE__)
 
 module Content
   class RenderingTest < ActiveSupport::TestCase
+
+    include HelperMethods
 
     context "A Rich-CMS content class" do
       context "using the memory store engine" do
@@ -52,39 +54,85 @@ module Content
           assert_equal "{#{expected}}", Rich::Cms::Content.javascript_hash
         end
 
-        context "when no login required" do
-          should "render meta data" do
-            # assert
-          end
-        end
-
-        context "when requiring a logged in admin" do
+        context "when rendering to tag" do
           setup do
-            class User
-              def can_edit?(content)
-                true
-              end
-            end
-            # Auth.expects(:login_required?).at_least_once.returns(true)
-          end
-
-          should "not render meta data when not being logged in" do
             class Content
               include Rich::Cms::Content
               storage :memory
+              configure ".rich_cms_content"
             end
-            # assert
+            forge_rich_i18n
+
+            @content     = Content    .new :key => "hello_world"
+            @translation = Translation.new :key => "hello_world", :locale => "nl"
+
+            Content    .send(:content_store).clear
+            Translation.send(:content_store).clear
           end
 
-          should "render meta data when allowed" do
-            # Auth.expects(:admin).at_least_once.returns(User.new)
-            # assert
+          context "when no login required" do
+            setup do
+              Rich::Cms::Auth.expects(:login_required?).at_least_once.returns false
+            end
+
+            should "render meta data" do
+              assert_all     content_expections_with_meta_data, @content
+              assert_all translation_expections_with_meta_data, @translation
+
+              stored_content, stored_translation = update_and_fetch_contents @content, @translation
+
+              assert_all     stored_content_expections_with_meta_data, stored_content
+              assert_all stored_translation_expections_with_meta_data, stored_translation
+            end
           end
 
-          should "not render meta data when restricted" do
-            # Auth.expects(:admin).at_least_once.returns(user = User.new)
-            # user.stubs(:can_edit?).returns(false)
-            # assert
+          context "when requiring login" do
+            setup do
+              class User
+                def can_edit?(content)
+                  true
+                end
+              end
+              Rich::Cms::Auth.expects(:login_required?).at_least_once.returns true
+            end
+
+            should "not render meta data when not being logged in" do
+              Rich::Cms::Auth.expects(:admin).at_least_once.returns nil
+
+              assert_all     content_expections_without_meta_data, @content
+              assert_all translation_expections_without_meta_data, @translation
+
+              stored_content, stored_translation = update_and_fetch_contents @content, @translation
+
+              assert_all     content_expections_without_meta_data, stored_content
+              assert_all translation_expections_without_meta_data, stored_translation
+            end
+
+            should "render meta data when allowed" do
+              Rich::Cms::Auth.expects(:admin).at_least_once.returns User.new
+
+              assert_all     content_expections_with_meta_data, @content
+              assert_all translation_expections_with_meta_data, @translation
+
+              stored_content, stored_translation = update_and_fetch_contents @content, @translation
+
+              assert_all     stored_content_expections_with_meta_data, stored_content
+              assert_all stored_translation_expections_with_meta_data, stored_translation
+            end
+
+            should "not render meta data when restricted" do
+              user = User.new
+              user.expects(:can_edit?).at_least_once.returns false
+              Rich::Cms::Auth.expects(:admin).at_least_once.returns user
+
+              assert_all     content_expections_without_meta_data, @content
+              assert_all translation_expections_without_meta_data, @translation
+
+              stored_content, stored_translation = update_and_fetch_contents @content, @translation
+
+              assert_all     content_expections_without_meta_data, stored_content
+              assert_all translation_expections_without_meta_data, stored_translation
+            end
           end
         end
 

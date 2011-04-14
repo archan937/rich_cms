@@ -78,19 +78,20 @@ module Rich
 
         module InstanceMethods
 
-          # TODO: Clean up this method and add tests! Also include options[:html] and additional keys (e.g. :derivative_key, :derivative_value)
           def to_tag(options = {})
             if (tag = derive_tag(options)).nil?
               value
             else
-              if class_name = self.class.css_selector.match(/^\.\w+$/)
-                (options[:html] ||= {}).store :class, [class_name.to_s.gsub(/^\./, ""), options[:html].try(:fetch, :class, nil)].compact.join(" ")
-              end
-
               attrs = ActiveSupport::OrderedHash.new
 
+              (options[:html] || {}).each do |key, value|
+                attrs[key.to_sym] = value
+              end
+
               if editable?
-                attrs["class"]                    = options[:html].delete(:class)
+                if class_name = self.class.css_selector.match(/^\.\w+$/)
+                  attrs[:class] = [class_name.to_s.gsub(/^\./, ""), attrs.try(:fetch, :class, nil)].compact.join " "
+                end
                 attrs["data-store_key"]           = store_key
                 attrs["data-value"]               = @store_value
                 attrs["data-editable_input_type"] = options[:as] if %w(string text html).include? options[:as].to_s.downcase
@@ -99,9 +100,10 @@ module Rich
               attrs = attrs.collect{|key, value| "#{key}=\"#{::ERB::Util.html_escape value}\""}.join(" ")
               text  = editable? && default_value? ? "< #{value} >" : value
 
-              "<#{tag} #{attrs}>#{text}</#{tag}>"
+              "<#{[tag, (attrs unless attrs.empty?)].compact.join(" ")}>#{text}</#{tag}>"
 
             end.html_safe
+
           end
 
           # TODO: Complete this method and add tests!
