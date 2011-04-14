@@ -35,6 +35,31 @@ module Content
           assert_equal ".bar_content" , Bar.css_selector
           assert_equal({:as  => :html}, Foo.configuration)
           assert_equal({:tag => :h1  }, Bar.configuration)
+
+          assert_expectation({}, %q{
+                             <h1 class="bar_content" data-store_key="some_key" data-value="">
+                               < some key >
+                             </h1>},
+                             Bar.new(:key => "some_key"))
+
+          assert_expectation({:tag => :none}, %q{
+                             <span class="bar_content" data-store_key="some_key" data-value="">
+                               < some key >
+                             </span>},
+                             Bar.new(:key => "some_key"))
+
+          Rich::Cms::Auth.expects(:login_required?).at_least_once.returns true
+          Rich::Cms::Auth.expects(:admin).at_least_once.returns nil
+
+          assert_expectation({}, %q{
+                             <h1>
+                               some key
+                             </h1>},
+                             Bar.new(:key => "some_key"))
+
+          assert_expectation({:tag => :none}, %q{
+                             some key},
+                             Bar.new(:key => "some_key"))
         end
 
         should "return the expected javascript hash (per CMS content class)" do

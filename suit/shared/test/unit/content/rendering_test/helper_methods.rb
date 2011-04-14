@@ -31,23 +31,25 @@ module Content
 
       def assert_all(expectations, content)
         expectations.in_groups_of(2) do |options, html|
+          assert_expectation options, html, content
+        end
+      end
 
-          a = hpricot html
-          b = hpricot content.to_tag(options)
-          a_attributes = a.raw_attributes unless a.is_a? Hpricot::Text
-          b_attributes = b.raw_attributes unless a.is_a? Hpricot::Text
+      def assert_expectation(options, html, content)
+        a = hpricot html
+        b = hpricot content.to_tag(options)
+        a_attributes = a.raw_attributes unless a.is_a? Hpricot::Text
+        b_attributes = b.raw_attributes unless a.is_a? Hpricot::Text
 
-          begin
-            assert_equal a.tag_name  , b.tag_name
-            assert_equal a.html.strip, b.html.strip
-            assert_equal a_attributes, b_attributes
+        begin
+          assert_equal a.tag_name  , b.tag_name
+          assert_equal a.html.strip, b.html.strip
+          assert_equal a_attributes, b_attributes
 
-          rescue Test::Unit::AssertionFailedError => e
-            puts "\nOptions: #{options.inspect}"
-            puts "HTML: #{html.inspect}"
-            raise
-          end
-
+        rescue Test::Unit::AssertionFailedError => e
+          puts "\nOptions: #{options.inspect}"
+          puts "HTML: #{html.inspect}"
+          raise
         end
       end
 
