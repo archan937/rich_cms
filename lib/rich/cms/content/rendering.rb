@@ -106,7 +106,6 @@ module Rich
 
           end
 
-          # TODO: Complete this method and add tests!
           def to_json
             to_rich_cms_response.merge :__selector__ => self.class.css_selector, :__identifier__ => {:store_key => store_key}, :value => value
           end

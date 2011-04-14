@@ -54,6 +54,32 @@ module Content
           assert_equal "{#{expected}}", Rich::Cms::Content.javascript_hash
         end
 
+        should "return the expected hash for the JSON response" do
+          class ContentA
+            include Rich::Cms::Content
+            storage :memory
+          end
+          class ContentB
+            include Rich::Cms::Content
+            storage :memory
+            configure ".content_b"
+
+            def to_rich_cms_response
+              {:timestamp => "1982-08-01 13:37:04", :__selector__ => ".foo_bar"}
+            end
+          end
+          forge_rich_i18n
+
+          assert_equal({:__selector__ => ".rcms_content_a"  , :__identifier__ => {:store_key => "some_key"}   , :value => "some key"},
+                       ContentA.new(:key => "some_key").to_json)
+
+          assert_equal({:__selector__ => ".content_b"       , :__identifier__ => {:store_key => "some_key"}   , :value => "some key", :timestamp => "1982-08-01 13:37:04"},
+                       ContentB.new(:key => "some_key").to_json)
+
+          assert_equal({:__selector__ => ".rcms_translation", :__identifier__ => {:store_key => "nl:some_key"}, :value => "some key"},
+                       Translation.new(:key => "some_key", :locale => "nl").to_json)
+        end
+
         context "when rendering to tag" do
           setup do
             class Content
