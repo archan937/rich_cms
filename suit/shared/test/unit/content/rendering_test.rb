@@ -76,13 +76,13 @@ module Content
             end
 
             should "render meta data" do
-              assert_all     content_expections_with_meta_data, @content
-              assert_all translation_expections_with_meta_data, @translation
+              assert_all     content_expectations_with_meta_data, @content
+              assert_all translation_expectations_with_meta_data, @translation
 
               stored_content, stored_translation = update_and_fetch_contents @content, @translation
 
-              assert_all     stored_content_expections_with_meta_data, stored_content
-              assert_all stored_translation_expections_with_meta_data, stored_translation
+              assert_all     stored_content_expectations_with_meta_data, stored_content
+              assert_all stored_translation_expectations_with_meta_data, stored_translation
             end
           end
 
@@ -99,25 +99,25 @@ module Content
             should "not render meta data when not being logged in" do
               Rich::Cms::Auth.expects(:admin).at_least_once.returns nil
 
-              assert_all     content_expections_without_meta_data, @content
-              assert_all translation_expections_without_meta_data, @translation
+              assert_all     content_expectations_without_meta_data, @content
+              assert_all translation_expectations_without_meta_data, @translation
 
               stored_content, stored_translation = update_and_fetch_contents @content, @translation
 
-              assert_all     content_expections_without_meta_data, stored_content
-              assert_all translation_expections_without_meta_data, stored_translation
+              assert_all     content_expectations_without_meta_data, stored_content
+              assert_all translation_expectations_without_meta_data, stored_translation
             end
 
             should "render meta data when allowed" do
               Rich::Cms::Auth.expects(:admin).at_least_once.returns User.new
 
-              assert_all     content_expections_with_meta_data, @content
-              assert_all translation_expections_with_meta_data, @translation
+              assert_all     content_expectations_with_meta_data, @content
+              assert_all translation_expectations_with_meta_data, @translation
 
               stored_content, stored_translation = update_and_fetch_contents @content, @translation
 
-              assert_all     stored_content_expections_with_meta_data, stored_content
-              assert_all stored_translation_expections_with_meta_data, stored_translation
+              assert_all     stored_content_expectations_with_meta_data, stored_content
+              assert_all stored_translation_expectations_with_meta_data, stored_translation
             end
 
             should "not render meta data when restricted" do
@@ -125,13 +125,13 @@ module Content
               user.expects(:can_edit?).at_least_once.returns false
               Rich::Cms::Auth.expects(:admin).at_least_once.returns user
 
-              assert_all     content_expections_without_meta_data, @content
-              assert_all translation_expections_without_meta_data, @translation
+              assert_all     content_expectations_without_meta_data, @content
+              assert_all translation_expectations_without_meta_data, @translation
 
               stored_content, stored_translation = update_and_fetch_contents @content, @translation
 
-              assert_all     content_expections_without_meta_data, stored_content
-              assert_all translation_expections_without_meta_data, stored_translation
+              assert_all     content_expectations_without_meta_data, stored_content
+              assert_all translation_expectations_without_meta_data, stored_translation
             end
           end
         end

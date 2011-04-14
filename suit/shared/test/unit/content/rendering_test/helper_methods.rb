@@ -65,8 +65,8 @@ module Content
       # // Expections with meta data
       # //////////////////////////////////
 
-      def content_expections_with_meta_data
-        @content_expections_with_meta_data ||= [
+      def content_expectations_with_meta_data
+        @content_expectations_with_meta_data ||= [
           {}, %q{
             <span class="rich_cms_content" data-store_key="hello_world" data-value="">
               < hello world >
@@ -103,8 +103,8 @@ module Content
             </div>}]
       end
 
-      def translation_expections_with_meta_data
-        @translation_expections_with_meta_data ||= [
+      def translation_expectations_with_meta_data
+        @translation_expectations_with_meta_data ||= [
           {}, %q{
             <span class="rcms_translation" data-store_key="nl:hello_world" data-value="">
               < hello world >
@@ -141,32 +141,32 @@ module Content
             </div>}]
       end
 
-      def stored_content_expections_with_meta_data
-        @stored_content_expections_with_meta_data ||= content_expections_with_meta_data.in_groups_of(2).collect{|x| [x[0], replace_value(x[1], "Hello world!")]}.flatten
+      def stored_content_expectations_with_meta_data
+        @stored_content_expectations_with_meta_data ||= content_expectations_with_meta_data.in_groups_of(2).collect{|x| [x[0], replace_value(x[1], "Hello world!")]}.flatten
       end
 
-      def stored_translation_expections_with_meta_data
-        @stored_translation_expections_with_meta_data ||= translation_expections_with_meta_data.in_groups_of(2).collect{|x| [x[0], replace_value(x[1], "Hallo wereld!")]}.flatten
+      def stored_translation_expectations_with_meta_data
+        @stored_translation_expectations_with_meta_data ||= translation_expectations_with_meta_data.in_groups_of(2).collect{|x| [x[0], replace_value(x[1], "Hallo wereld!")]}.flatten
       end
 
       # //////////////////////////////////
       # // Expections without meta data
       # //////////////////////////////////
 
-      def content_expections_without_meta_data
-        @content_expections_without_meta_data ||= content_expections_with_meta_data.in_groups_of(2).collect{|x| [x[0], strip_meta_data(*x)]}.flatten
+      def content_expectations_without_meta_data
+        @content_expectations_without_meta_data ||= content_expectations_with_meta_data.in_groups_of(2).collect{|x| [x[0], strip_meta_data(*x)]}.flatten
       end
 
-      def translation_expections_without_meta_data
-        @translation_expections_without_meta_data ||= translation_expections_with_meta_data.in_groups_of(2).collect{|x| [x[0], strip_meta_data(*x)]}.flatten
+      def translation_expectations_without_meta_data
+        @translation_expectations_without_meta_data ||= translation_expectations_with_meta_data.in_groups_of(2).collect{|x| [x[0], strip_meta_data(*x)]}.flatten
       end
 
-      def stored_content_expections_without_meta_data
-        @stored_content_expections_without_meta_data ||= stored_content_expections_with_meta_data.in_groups_of(2).collect{|x| [x[0], strip_meta_data(*x)]}.flatten
+      def stored_content_expectations_without_meta_data
+        @stored_content_expectations_without_meta_data ||= stored_content_expectations_with_meta_data.in_groups_of(2).collect{|x| [x[0], strip_meta_data(*x)]}.flatten
       end
 
-      def stored_translation_expections_without_meta_data
-        @stored_translation_expections_without_meta_data ||= stored_translation_expections_with_meta_data.in_groups_of(2).collect{|x| [x[0], strip_meta_data(*x)]}.flatten
+      def stored_translation_expectations_without_meta_data
+        @stored_translation_expectations_without_meta_data ||= stored_translation_expectations_with_meta_data.in_groups_of(2).collect{|x| [x[0], strip_meta_data(*x)]}.flatten
       end
 
     end
