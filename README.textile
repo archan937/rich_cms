@@ -72,6 +72,12 @@ Every GemSuit integration test starts with a blank Rails application, runs the r
 * Rails *3* - *non-authenticated* with *Moneta ActiveRecord* storage
 * Rails *3* - *non-authenticated* with *Moneta in-memory* storage
 
+To run unit tests in both Rails 2 and 3
+
+<pre>
+  suit test unit -v
+</pre>
+
 5. You can list all the command line commands with the following
 
 <pre>
