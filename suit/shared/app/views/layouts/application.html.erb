@@ -1,6 +1,7 @@
 <html>
   <head>
     <title>Test Application - Rails <%= Rails::VERSION::STRING %> - <%= Rich::Cms::Auth.logic.try(:to_s).try(:classify) || "Non authenticated" %></title>
+    <%= javascript_include_tag "jquery-1.5.2.min" %>
     <%= stylesheet_link_tag "app" %>
   </head>
   <body>
