@@ -38,6 +38,7 @@ module Rich
       end
 
       def logout
+        return unless admin?
         adapter.logout if enabled?
         adapter.session[:rich_cms] = nil
       end
