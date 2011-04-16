@@ -59,8 +59,8 @@ module Content
         content    .save
         translation.save
 
-        [Rich::Cms::Content.fetch(content    .class.css_selector, content    .store_key),
-         Rich::Cms::Content.fetch(translation.class.css_selector, translation.store_key)]
+        [Rich::Cms::Content.fetch(content    .class.css_class, content    .store_key),
+         Rich::Cms::Content.fetch(translation.class.css_class, translation.store_key)]
       end
 
       # //////////////////////////////////

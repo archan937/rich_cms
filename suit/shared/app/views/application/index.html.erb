@@ -1,14 +1,14 @@
 <div class="content">
   <div class="left">
-    <%= rich_cms_tag "header"                 , :tag => :h1   %>
-    <%= rich_cms_tag ".cms_content", "content", :as  => :html %>
+    <%= rich_cms_tag "header"                , :tag => :h1   %>
+    <%= rich_cms_tag "cms_content", "content", :as  => :html %>
     <p>
-      <%= rich_cms_tag ".rcms_content", "text", :tag => :none %>
+      <%= rich_cms_tag "rcms_content", "text", :tag => :none %>
     </p>
   </div>
   <ul>
     <li>
-      <%= link_to rich_cms_tag(".rcms_content", "Home"), "#" %>
+      <%= link_to rich_cms_tag("rcms_content", "Home"), "#" %>
     </li>
     <li>
       <%= link_to "GemSuit", "https://github.com/archan937/gem_suit" %>
@@ -18,7 +18,7 @@
     </li>
     <% ["Documentation", "Support", "About me"].each do |x| %>
     <li>
-      <%= link_to rich_cms_tag(".rcms_content", x), "#" %>
+      <%= link_to rich_cms_tag("rcms_content", x), "#" %>
     </li>
     <% end %>
   </ul>

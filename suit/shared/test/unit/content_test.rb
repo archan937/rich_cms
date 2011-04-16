@@ -21,25 +21,25 @@ class ContentTest < ActiveSupport::TestCase
       Content    .new(:key => "header", :value  => "Welcome to Rich-CMS" ).save
       Translation.new(:key => "hello" , :locale => :nl, :value => "hallo").save
 
-      assert_equal "Welcome to Rich-CMS", Rich::Cms::Content.fetch(".rcms_content"    , :key => "header").value
-      assert_equal "hallo"              , Rich::Cms::Content.fetch(".rcms_translation", :key => "hello", :locale => :nl).value
+      assert_equal "Welcome to Rich-CMS", Rich::Cms::Content.fetch("rcms_content"    , :key => "header").value
+      assert_equal "hallo"              , Rich::Cms::Content.fetch("rcms_translation", :key => "hello", :locale => :nl).value
     end
 
-    should "raise a SelectorNotMatchedError when passing a non-matching selector" do
-      assert_raise Rich::Cms::Content::SelectorNotMatchedError do
-        Rich::Cms::Content.fetch ".bogus_selector", "some_key"
+    should "raise a CssClassNotMatchedError when passing a non-matching CSS class" do
+      assert_raise Rich::Cms::Content::CssClassNotMatchedError do
+        Rich::Cms::Content.fetch "bogus_css_class", "some_key"
       end
     end
 
     should "raise an ArgumentError when passing invalid parameters to fetch CMS content" do
       assert_raise ArgumentError do
-        Rich::Cms::Content.fetch ".rcms_content"
+        Rich::Cms::Content.fetch "rcms_content"
       end
       assert_raise ArgumentError do
         Rich::Cms::Content.fetch :key => "hello", :locale => :nl
       end
       assert_raise ArgumentError do
-        Rich::Cms::Content.fetch ".some_class", @key, "foo", "bar"
+        Rich::Cms::Content.fetch "some_class", @key, "foo", "bar"
       end
     end
 

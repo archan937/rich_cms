@@ -13,9 +13,9 @@ module Rich
     end
 
     def update
-      css_selector, identifier, value = *params[:content_item].values_at(:__selector__, :store_key, :value)
+      css_class, identifier, value = *params[:content_item].values_at(:__css_class__, :store_key, :value)
 
-      content       = Cms::Content.fetch css_selector, identifier
+      content       = Cms::Content.fetch css_class, identifier
       content.value = value
 
       render :json => content.save_and_return(:always).to_json(params)

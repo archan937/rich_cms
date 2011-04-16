@@ -6,7 +6,7 @@ module Rich
   module Cms
     module Content
 
-      class SelectorNotMatchedError < StandardError; end
+      class CssClassNotMatchedError < StandardError; end
 
       def self.included(base)
         base.send :include, Base
@@ -26,21 +26,21 @@ module Rich
         (@@classes << klass).sort!{|a, b| a.name <=> b.name}
       end
 
-      def fetch(css_selector, identifier)
+      def fetch(css_class, identifier)
         raise NotImplementedError, "You cannot fetch Rich-CMS content without having defined at least one Rich-CMS content class" if @@classes.empty?
 
-        klass = @@classes.detect{|x| x.css_selector == css_selector.downcase}
-        raise SelectorNotMatchedError, "Could not find matching Rich-CMS content class for #{css_selector.inspect} in #{@@classes.collect(&:css_selector).inspect}" if klass.nil?
+        klass = @@classes.detect{|x| x.css_class == css_class.downcase}
+        raise CssClassNotMatchedError, "Could not find matching Rich-CMS content class for #{css_class.inspect} in #{@@classes.collect(&:css_class).inspect}" if klass.nil?
 
         klass.find_or_initialize identifier
       end
 
       def javascript_hash
         pairs = @@classes.sort do |a, b|
-                            a.css_selector <=> b.css_selector
+                            a.css_class <=> b.css_class
                           end.
                           collect do |klass|
-                           "#{klass.css_selector.inspect}: #{klass.to_javascript_hash}"
+                           "#{klass.css_class.inspect}: #{klass.to_javascript_hash}"
                           end
         "{#{pairs.join ", "}}".html_safe
       end

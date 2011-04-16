@@ -32,7 +32,7 @@ module Unit
                 ::ActionView::Base.new.rich_cms_tag @key
               end
               assert_raise NotImplementedError do
-                ::ActionView::Base.new.rich_cms_tag ".some_class", @key
+                ::ActionView::Base.new.rich_cms_tag "some_class", @key
               end
             end
           end
@@ -49,17 +49,17 @@ module Unit
             should "fetch a CmsContent entry when only the key is passed" do
               content = CmsContent.new :key => @key
               content.expects :to_tag
-              Rich::Cms::Content.expects(:fetch).with(CmsContent.css_selector, @key).returns content
+              Rich::Cms::Content.expects(:fetch).with(CmsContent.css_class, @key).returns content
               ::ActionView::Base.new.rich_cms_tag @key
             end
 
-            should "fetch a CmsContent entry when passed a non-matching selector and warn about it" do
+            should "fetch a CmsContent entry when passed a non-matching CSS class and warn about it" do
               content = CmsContent.new :key => @key
               content.expects :to_tag
               ::ActionView::Base.any_instance.expects(:warn)
-              Rich::Cms::Content             .expects(:fetch).with(".bogus_selector"      , @key).raises  Rich::Cms::Content::SelectorNotMatchedError
-              Rich::Cms::Content             .expects(:fetch).with(CmsContent.css_selector, @key).returns content
-              ::ActionView::Base.new.rich_cms_tag ".bogus_selector", @key
+              Rich::Cms::Content             .expects(:fetch).with("bogus_css_class"   , @key).raises  Rich::Cms::Content::CssClassNotMatchedError
+              Rich::Cms::Content             .expects(:fetch).with(CmsContent.css_class, @key).returns content
+              ::ActionView::Base.new.rich_cms_tag "bogus_css_class", @key
             end
 
             context "and with MoreContent defined" do
@@ -77,27 +77,27 @@ module Unit
                 end
               end
 
-              should "raise an error when having passed a non-matched selector" do
-                assert_raise Rich::Cms::Content::SelectorNotMatchedError do
-                  ::ActionView::Base.new.rich_cms_tag ".bogus_selector", @key
+              should "raise an error when having passed a non-matched CSS class" do
+                assert_raise Rich::Cms::Content::CssClassNotMatchedError do
+                  ::ActionView::Base.new.rich_cms_tag "bogus_css_class", @key
                 end
               end
 
               should "fetch content as expected when passing valid arguments" do
                 content = CmsContent.new :key => @key
                 content.expects :to_tag
-                Rich::Cms::Content.expects(:fetch).with(CmsContent .css_selector, @key).returns content
-                ::ActionView::Base.new.rich_cms_tag     CmsContent .css_selector, @key
+                Rich::Cms::Content.expects(:fetch).with(CmsContent .css_class, @key).returns content
+                ::ActionView::Base.new.rich_cms_tag     CmsContent .css_class, @key
 
                 more_content = MoreContent.new :key => @key
                 more_content.expects :to_tag
-                Rich::Cms::Content.expects(:fetch).with(MoreContent.css_selector, @key).returns more_content
-                ::ActionView::Base.new.rich_cms_tag     MoreContent.css_selector, @key
+                Rich::Cms::Content.expects(:fetch).with(MoreContent.css_class, @key).returns more_content
+                ::ActionView::Base.new.rich_cms_tag     MoreContent.css_class, @key
 
                 more_content = MoreContent.new(:key => @key)
                 more_content.expects(:to_tag).with(:tag => :p)
-                Rich::Cms::Content.expects(:fetch).with(MoreContent.css_selector, @key).returns more_content
-                ::ActionView::Base.new.rich_cms_tag     MoreContent.css_selector, @key, :tag => :p
+                Rich::Cms::Content.expects(:fetch).with(MoreContent.css_class, @key).returns more_content
+                ::ActionView::Base.new.rich_cms_tag     MoreContent.css_class, @key, :tag => :p
               end
             end
           end

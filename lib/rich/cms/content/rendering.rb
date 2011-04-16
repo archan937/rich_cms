@@ -9,7 +9,7 @@ module Rich
           base.extend ClassMethods
           base.send :include, InstanceMethods
           base.class_eval do
-            @css_selector  = nil
+            @css_class     = nil
             @configuration = nil
           end
         end
@@ -19,13 +19,13 @@ module Rich
             @configuration ||= {}
           end
 
-          def css_selector(selector = nil)
-            (@css_selector = selector.to_s.downcase unless selector.nil?) || @css_selector || ".rcms_#{self.name.demodulize.underscore}".gsub(/(cms_){2,}/, "cms_")
+          def css_class(klass = nil)
+            (@css_class = klass.to_s.downcase unless klass.nil?) || @css_class || "rcms_#{self.name.demodulize.underscore}".gsub(/(cms_){2,}/, "cms_")
           end
 
           def configure(*args, &block)
             @configuration = args.extract_options!.symbolize_keys!
-            @css_selector  = args.first unless args.first.nil?
+            @css_class     = args.first unless args.first.nil?
             config_mock.instance_eval(&block) if block_given?
           end
 
@@ -45,7 +45,7 @@ module Rich
             end
 
             def method_missing(method, *args)
-              if %w(selector tag before_edit after_update).include? method.to_s
+              if %w(tag before_edit after_update).include? method.to_s
                 @klass.instance_variable_get(:@configuration)[method] = args.first
               else
                 super
@@ -89,9 +89,7 @@ module Rich
               end
 
               if editable?
-                if class_name = self.class.css_selector.match(/^\.\w+$/)
-                  attrs[:class] = [class_name.to_s.gsub(/^\./, ""), attrs.try(:fetch, :class, nil)].compact.join " "
-                end
+                attrs[:class]                     = [self.class.css_class, attrs.try(:fetch, :class, nil)].compact.join " "
                 attrs["data-store_key"]           = store_key
                 attrs["data-value"]               = @store_value
                 attrs["data-editable_input_type"] = options[:as] if %w(string text html).include? options[:as].to_s.downcase
@@ -107,7 +105,7 @@ module Rich
           end
 
           def to_json(params = {})
-            to_rich_cms_response(params).merge :__selector__ => self.class.css_selector, :__identifier__ => {:store_key => store_key}, :value => value
+            to_rich_cms_response(params).merge :__css_class__ => self.class.css_class, :__identifier__ => {:store_key => store_key}, :value => value
           end
 
           def to_rich_cms_response(params)

@@ -6,7 +6,7 @@ Rich.Cms.Editor = (function() {
 
   var register = function(hash) {
     $.extend(editable_content, hash);
-    content_items = $.keys(editable_content).join(",");
+    content_items = $.map($.keys(editable_content), function(css_class) { return "." + css_class; }).join(",");
   };
 
   var bind = function() {
@@ -76,14 +76,14 @@ Rich.Cms.Editor = (function() {
     var inputs       = $("#rich_cms_panel .edit form fieldset.inputs");
 
     var attrs        = content_item.get(0).attributes;
-    var selector     = $.grep($.keys(editable_content), function(s) {
-                         return content_item.is(s);
+    var css_class    = $.grep($.keys(editable_content), function(css_class) {
+                         return content_item.is("." + css_class);
                        })[0];
-    var specs        = editable_content[selector];
+    var specs        = editable_content[css_class];
 
     keys.find("select,a,span").remove();
     inputs.find(":input,div.cleditorMain").remove();
-    inputs.append("<input name='content_item[__selector__]' type='hidden' value='" + selector + "'/>");
+    inputs.append("<input name='content_item[__css_class__]' type='hidden' value='" + css_class + "'/>");
 
     $.each(attrs, function(index, attribute) {
       var attr = attribute.name;
@@ -140,7 +140,7 @@ Rich.Cms.Editor = (function() {
 
     if (specs.beforeEdit) {
       var identifier = $.map(specs.keys, function(key) { return "[" + key + "=" + content_item.attr(key) + "]"; }).join("");
-      specs.beforeEdit.apply(null, [inputs, selector, specs, identifier]);
+      specs.beforeEdit.apply(null, [inputs, css_class, specs, identifier]);
     }
 
     $(edit_panel).show();
@@ -156,11 +156,11 @@ Rich.Cms.Editor = (function() {
   };
 
   var afterUpdate = function(form, response) {
-    var selector   = response["__selector__"];
-    var specs      = editable_content[selector];
+    var css_class  = response["__css_class__"];
+    var specs      = editable_content[css_class];
     var identifier = $.map(specs.keys, function(key) { return "[" + key + "=" + response["__identifier__"][key.replace(/^data-/, "")] + "]"; }).join("");
 
-    var defaultFunction = function(form, response, selector, specs, identifier) {
+    var defaultFunction = function(form, response, css_class, specs, identifier) {
       var value = response[specs.value.replace(/^data-/, "")];
       $(identifier).html(value).attr(specs.value, value);
       if (typeof(SeatHolder) != "undefined") {
@@ -168,7 +168,7 @@ Rich.Cms.Editor = (function() {
       }
     };
 
-    (specs.afterUpdate || defaultFunction).apply(null, [form, response, selector, specs, identifier]);
+    (specs.afterUpdate || defaultFunction).apply(null, [form, response, css_class, specs, identifier]);
   };
 
   return {

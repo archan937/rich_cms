@@ -20,7 +20,7 @@ module Content
           class Bar
             include Rich::Cms::Content
             storage   :memory
-            configure ".bar_content", :tag => :h1
+            configure "bar_content", :tag => :h1
           end
           forge_rich_i18n
 
@@ -31,8 +31,8 @@ module Content
         end
 
         should "be configurable" do
-          assert_equal ".rcms_foo"    , Foo.css_selector
-          assert_equal ".bar_content" , Bar.css_selector
+          assert_equal "rcms_foo"     , Foo.css_class
+          assert_equal "bar_content"  , Bar.css_class
           assert_equal({:as  => :html}, Foo.configuration)
           assert_equal({:tag => :h1  }, Bar.configuration)
 
@@ -68,14 +68,14 @@ module Content
           assert_equal @javascript_hashes[Translation], Translation.to_javascript_hash
         end
 
-        should "return the expected CSS selector" do
-          assert_equal ".bar_content"     , Bar.css_selector
-          assert_equal ".rcms_foo"        , Foo.css_selector
-          assert_equal ".rcms_translation", Translation.css_selector
+        should "return the expected CSS class" do
+          assert_equal "bar_content"     , Bar.css_class
+          assert_equal "rcms_foo"        , Foo.css_class
+          assert_equal "rcms_translation", Translation.css_class
         end
 
         should "return the expected javascript hash (for all CMS content classes)" do
-          expected = @javascript_hashes.collect{|klass, value| "#{klass.css_selector.inspect}: #{value}"}.join ", "
+          expected = @javascript_hashes.collect{|klass, value| "#{klass.css_class.inspect}: #{value}"}.join ", "
           assert_equal "{#{expected}}", Rich::Cms::Content.javascript_hash
         end
 
@@ -87,21 +87,21 @@ module Content
           class ContentB
             include Rich::Cms::Content
             storage :memory
-            configure ".content_b"
+            configure "content_b"
 
             def to_rich_cms_response(params)
-              {:timestamp => "1982-08-01 13:37:04", :__selector__ => ".foo_bar"}
+              {:timestamp => "1982-08-01 13:37:04", :__css_class__ => "foo_bar"}
             end
           end
           forge_rich_i18n
 
-          assert_equal({:__selector__ => ".rcms_content_a"  , :__identifier__ => {:store_key => "some_key"}   , :value => "some key"},
+          assert_equal({:__css_class__ => "rcms_content_a"  , :__identifier__ => {:store_key => "some_key"}   , :value => "some key"},
                        ContentA.new(:key => "some_key").to_json)
 
-          assert_equal({:__selector__ => ".content_b"       , :__identifier__ => {:store_key => "some_key"}   , :value => "some key", :timestamp => "1982-08-01 13:37:04"},
+          assert_equal({:__css_class__ => "content_b"       , :__identifier__ => {:store_key => "some_key"}   , :value => "some key", :timestamp => "1982-08-01 13:37:04"},
                        ContentB.new(:key => "some_key").to_json)
 
-          assert_equal({:__selector__ => ".rcms_translation", :__identifier__ => {:store_key => "nl:some_key"}, :value => "some key"},
+          assert_equal({:__css_class__ => "rcms_translation", :__identifier__ => {:store_key => "nl:some_key"}, :value => "some key"},
                        Translation.new(:key => "some_key", :locale => "nl").to_json)
         end
 
@@ -110,7 +110,7 @@ module Content
             class Content
               include Rich::Cms::Content
               storage :memory
-              configure ".rich_cms_content"
+              configure "rich_cms_content"
             end
             forge_rich_i18n
 
