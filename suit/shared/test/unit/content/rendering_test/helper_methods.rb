@@ -108,37 +108,37 @@ module Content
       def translation_expectations_with_meta_data
         @translation_expectations_with_meta_data ||= [
           {}, %q{
-            <span class="rcms_translation" data-store_key="nl:hello_world" data-value="">
+            <span class="i18n" data-store_key="nl:hello_world" data-derivative_key="nl:hello_world" data-value="">
               < hello world >
             </span>},
 
           {:tag => :none}, %q{
-            <span class="rcms_translation" data-store_key="nl:hello_world" data-value="">
+            <span class="i18n" data-store_key="nl:hello_world" data-derivative_key="nl:hello_world" data-value="">
               < hello world >
             </span>},
 
           {:html => {:id => "content1", :class => "editable"}}, %q{
-            <span id="content1" class="rcms_translation editable" data-store_key="nl:hello_world" data-value="">
+            <span id="content1" class="i18n editable" data-store_key="nl:hello_world" data-derivative_key="nl:hello_world" data-value="">
               < hello world >
             </span>},
 
           {:tag => :h1}, %q{
-            <h1 class="rcms_translation" data-store_key="nl:hello_world" data-value="">
+            <h1 class="i18n" data-store_key="nl:hello_world" data-derivative_key="nl:hello_world" data-value="">
               < hello world >
             </h1>},
 
           {:as => :string}, %q{
-            <span class="rcms_translation" data-store_key="nl:hello_world" data-value="" data-editable_input_type="string">
+            <span class="i18n" data-store_key="nl:hello_world" data-derivative_key="nl:hello_world" data-value="" data-editable_input_type="string">
               < hello world >
             </span>},
 
           {:as => :text}, %q{
-            <div class="rcms_translation" data-store_key="nl:hello_world" data-value="" data-editable_input_type="text">
+            <div class="i18n" data-store_key="nl:hello_world" data-derivative_key="nl:hello_world" data-value="" data-editable_input_type="text">
               < hello world >
             </div>},
 
           {:as => :html}, %q{
-            <div class="rcms_translation" data-store_key="nl:hello_world" data-value="" data-editable_input_type="html">
+            <div class="i18n" data-store_key="nl:hello_world" data-derivative_key="nl:hello_world" data-value="" data-editable_input_type="html">
               < hello world >
             </div>}]
       end

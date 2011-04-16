@@ -24,9 +24,15 @@ module GemSuit
       page.execute_script "$('div#rich_cms_dock a.mark').click()"
     end
 
-    def edit_content(key)
-      page.execute_script "$('.rcms_content.marked[data-store_key=" + key + "]').click()"
+    def edit_content(key, css_class = "rcms_content")
+      page.execute_script <<-JAVASCRIPT
+        $(".#{css_class}.marked[data-store_key=#{key}]").click();
+      JAVASCRIPT
       assert find("#raccoon_tip").visible?
+    end
+
+    def edit_translation(key)
+      edit_content "#{I18n.locale}#{Translation.delimiter}#{key}", Translation.css_class
     end
 
     def fill_in_and_submit(selector, with, submit)
@@ -35,11 +41,13 @@ module GemSuit
           begin
             fill_in key.to_s, :with => value
           rescue Selenium::WebDriver::Error::ElementNotDisplayedError
-            page.execute_script "var input = $('#{selector} [name=\"#{key}\"]');" +
-                                "if (input.data('cleditor')) {" +
-                                "  input.val('#{value}');" +
-                                "  input.data('cleditor').updateFrame();" +
-                                "}"
+            page.execute_script <<-JAVASCRIPT
+              var input = $("#{selector} [name='#{key}']");
+              if (input.data("cleditor")) {
+                input.val("#{value}");
+                input.data("cleditor").updateFrame();
+              }
+            JAVASCRIPT
           end
         end
       end

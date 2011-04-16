@@ -93,6 +93,10 @@ module Rich
                 attrs["data-store_key"]           = store_key
                 attrs["data-value"]               = @store_value
                 attrs["data-editable_input_type"] = options[:as] if %w(string text html).include? options[:as].to_s.downcase
+
+                (options[:data] || {}).each do |key, value|
+                  attrs["data-#{key}"] = value
+                end
               end
 
               attrs = attrs.collect{|key, value| "#{key}=\"#{::ERB::Util.html_escape value}\""}.join(" ")

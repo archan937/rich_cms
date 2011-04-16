@@ -15,10 +15,12 @@ module Rich
 
       def self.included(base)
         base.send :include, Rich::Cms::Content
+        base.send :include, InstanceMethods
         base.extend ClassMethods
+
         base.class_eval do
           identifiers :locale, :key
-          configure do |config|
+          configure "i18n" do |config|
             config.before_edit  "Rich.I18n.beforeEdit"
             config.after_update "Rich.I18n.afterUpdate"
           end
@@ -26,7 +28,6 @@ module Rich
       end
 
       module ClassMethods
-
       protected
 
         def identity_hash_for(identifier)
@@ -40,7 +41,16 @@ module Rich
             [I18n.locale, identifier].join(delimiter) :
             identifier
         end
+      end
 
+      module InstanceMethods
+        def to_tag(options = {})
+          super options.merge(:data => {:derivative_key => store_key})
+        end
+
+        def to_rich_cms_response(params)
+          {:translations => {store_key => value}}
+        end
       end
 
     end
@@ -50,4 +60,10 @@ end
 class Translation
   include Rich::I18nForgery::Content
   storage :memory
+end
+
+class String
+  def t(options = {})
+    Translation.find_or_initialize(self.underscore).to_tag options
+  end
 end

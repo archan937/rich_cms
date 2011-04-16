@@ -11,8 +11,13 @@ class SuitApplication < GemSuit::Application
       "Devise"
     when :authlogic
       "Authlogic"
-    end.tap do |result|
-      result << " - Moneta #{config[:moneta].to_s.split("_").collect(&:capitalize).join("")}" unless config[:moneta].to_s.empty?
+    end.tap do |desc|
+      unless config[:moneta].to_s.empty?
+        desc << " - Moneta #{config[:moneta].to_s.split("_").collect(&:capitalize).join("")}"
+      end
+      if config[:require] == :i18n_forgery
+        desc << " - I18n forgery"
+      end
     end
   end
 
@@ -30,12 +35,13 @@ class SuitApplication < GemSuit::Application
       correct_user_fixtures
       generate_cms_content
     end
-    skip :require, "test/suit_application/rich/i18n_forgery.rb"
+    skip :require, "test/suit_application/rich/i18n_forgery.rb" unless config[:require] == :i18n_forgery
   end
 
   def restore_files
     delete  "config/locales/devise.en.yml"
     delete  "db/migrate/*.rb"
+    delete  "public/javascripts/rich_i18n.js"
     delete  "test/fixtures/cms_contents.yml"
     delete  "test/fixtures/devise_users.yml"
     delete  "test/unit/cms_content_test.rb"
@@ -49,6 +55,11 @@ class SuitApplication < GemSuit::Application
     stash  "config/initializers/devise.rb"
     stash  "config/initializers/enrichments.rb"
     stash  "test/fixtures/**/rails-*.yml"
+    if config[:require] == :i18n_forgery
+      stash "app/views/application/index.html.erb"
+      copy  expand_path("test/integration/suit/rich/index.html.erb"      ), "app/views/application/index.html.erb"
+      copy  expand_path("test/integration/suit/rich/rich_i18n_forgery.js"), "public/javascripts/rich_i18n_forgery.js"
+    end
   end
 
   def locals_for_template(path)

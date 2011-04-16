@@ -26,8 +26,8 @@ module Content
 
           @javascript_hashes = ActiveSupport::OrderedHash.new
           @javascript_hashes[Bar        ] = %Q({keys: ["data-store_key"], value: "data-value"})
-          @javascript_hashes[Foo        ] = %Q({keys: ["data-store_key"], value: "data-value"})
           @javascript_hashes[Translation] = %Q({keys: ["data-store_key"], value: "data-value", beforeEdit: Rich.I18n.beforeEdit, afterUpdate: Rich.I18n.afterUpdate})
+          @javascript_hashes[Foo        ] = %Q({keys: ["data-store_key"], value: "data-value"})
         end
 
         should "be configurable" do
@@ -69,9 +69,9 @@ module Content
         end
 
         should "return the expected CSS class" do
-          assert_equal "bar_content"     , Bar.css_class
-          assert_equal "rcms_foo"        , Foo.css_class
-          assert_equal "rcms_translation", Translation.css_class
+          assert_equal "bar_content", Bar.css_class
+          assert_equal "rcms_foo"   , Foo.css_class
+          assert_equal "i18n"       , Translation.css_class
         end
 
         should "return the expected javascript hash (for all CMS content classes)" do
@@ -95,13 +95,20 @@ module Content
           end
           forge_rich_i18n
 
-          assert_equal({:__css_class__ => "rcms_content_a"  , :__identifier__ => {:store_key => "some_key"}   , :value => "some key"},
+          assert_equal({:__css_class__   => "rcms_content_a",
+                        :__identifier__  => {:store_key => "some_key"},
+                        :value           => "some key"},
                        ContentA.new(:key => "some_key").to_json)
 
-          assert_equal({:__css_class__ => "content_b"       , :__identifier__ => {:store_key => "some_key"}   , :value => "some key", :timestamp => "1982-08-01 13:37:04"},
+          assert_equal({:__css_class__   => "content_b",
+                        :__identifier__  => {:store_key => "some_key"},
+                        :value           => "some key", :timestamp => "1982-08-01 13:37:04"},
                        ContentB.new(:key => "some_key").to_json)
 
-          assert_equal({:__css_class__ => "rcms_translation", :__identifier__ => {:store_key => "nl:some_key"}, :value => "some key"},
+          assert_equal({:__css_class__  => "i18n",
+                        :__identifier__ => {:store_key => "nl:some_key"},
+                        :value          => "some key",
+                        :translations   => {"nl:some_key" => "some key"}},
                        Translation.new(:key => "some_key", :locale => "nl").to_json)
         end
 

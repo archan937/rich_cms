@@ -59,18 +59,20 @@ h2. Fancy contributing to Rich-CMS yourself?
   suit -v
 </pre>
 
-*Note*: Running the GemSuit integration tests take in a couple of minutes as it will test *8 different environments*:
+*Note*: Running the GemSuit integration tests take in a couple of minutes as it will test *10 different environments*:
 
 Every GemSuit integration test starts with a blank Rails application, runs the required Rails generators and tests the front-end within Firefox with Capybara
 
 * Rails *2* - *Authlogic* authenticated with *Moneta in-memory* storage
 * Rails *2* - *Devise* authenticated with *Moneta in-memory* storage
-* Rails *2* - *non-authenticated* with *Moneta ActiveRecord* storage
 * Rails *2* - *non-authenticated* with *Moneta in-memory* storage
+* Rails *2* - *non-authenticated* with *Moneta ActiveRecord* storage
+* Rails *2* - *non-authenticated* with *Rich-i18n forgery (combined keys)*
 * Rails *3* - *Authlogic* authenticated with *Moneta in-memory* storage
 * Rails *3* - *Devise* authenticated with *Moneta in-memory* storage
-* Rails *3* - *non-authenticated* with *Moneta ActiveRecord* storage
 * Rails *3* - *non-authenticated* with *Moneta in-memory* storage
+* Rails *3* - *non-authenticated* with *Moneta ActiveRecord* storage
+* Rails *3* - *non-authenticated* with *Rich-i18n forgery (combined keys)*
 
 To run unit tests in both Rails 2 and 3
 
@@ -393,8 +395,12 @@ When specifying a custom after update Javascript function, you probably want to 
       config.after_update "Rich.I18n.afterUpdate"
     end
 
+    def to_tag(options = {})
+      super options.merge(:data => {:derivative_key => store_key})
+    end
+
     def to_rich_cms_response(params)
-      {:value => value, :translations => Hash[*params[:derivative_keys].split(";").uniq.collect{|x| [x, x.t]}.flatten]}
+      {:translations => Hash[*params[:derivative_keys].split(";").uniq.collect{|x| [x, x.t]}.flatten]}
     end
   end
 </pre>
@@ -459,7 +465,7 @@ h2. ToDo's
 * Provide web pages management (e.g. Rich-Pages)
 * Provide object management (e.g. articles and products)
 * Provide file uploads (e.g. images)
-* Check out compatibility with Devise 1.2.0
+* Check out compatibility with Devise 1.2 and 1.3
 * Provide better conventions for content rendering
 * Provide tools to use Textile, MarkDown
 

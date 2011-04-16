@@ -21,8 +21,8 @@ class ContentTest < ActiveSupport::TestCase
       Content    .new(:key => "header", :value  => "Welcome to Rich-CMS" ).save
       Translation.new(:key => "hello" , :locale => :nl, :value => "hallo").save
 
-      assert_equal "Welcome to Rich-CMS", Rich::Cms::Content.fetch("rcms_content"    , :key => "header").value
-      assert_equal "hallo"              , Rich::Cms::Content.fetch("rcms_translation", :key => "hello", :locale => :nl).value
+      assert_equal "Welcome to Rich-CMS", Rich::Cms::Content.fetch("rcms_content", :key => "header").value
+      assert_equal "hallo"              , Rich::Cms::Content.fetch("i18n"        , :key => "hello", :locale => :nl).value
     end
 
     should "raise a CssClassNotMatchedError when passing a non-matching CSS class" do

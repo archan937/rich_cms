@@ -1,0 +1,25 @@
+<div class="content">
+  <div class="left">
+    <%= "header" .t :tag => :h1   %>
+    <%= "content".t :as  => :html %>
+    <p>
+      <%= rich_cms_tag "rcms_content", "text", :tag => :none %>
+    </p>
+  </div>
+  <ul>
+    <li>
+      <%= link_to rich_cms_tag("rcms_content", "Home"), "#" %>
+    </li>
+    <li>
+      <%= link_to "GemSuit", "https://github.com/archan937/gem_suit" %>
+    </li>
+    <li>
+      <%= link_to "Rich-CMS", "https://github.com/archan937/rich_cms/tree/edge" %>
+    </li>
+    <% ["Documentation", "Support", "About me"].each do |x| %>
+    <li>
+      <%= link_to x.t, "#" %>
+    </li>
+    <% end %>
+  </ul>
+</div>
