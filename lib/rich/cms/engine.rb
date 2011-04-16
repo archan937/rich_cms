@@ -2,9 +2,6 @@ module Rich
   module Cms
     class Engine < Rails::Engine
 
-      class RichCmsError < StandardError
-      end
-
       class << self
 
         def init
