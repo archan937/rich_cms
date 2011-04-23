@@ -7,12 +7,14 @@ module Rich
 
         def self.included(base)
           base.extend ClassMethods
+          base.send :include, InstanceMethods
           base.class_eval do
             @identifiers = nil
           end
         end
 
         module ClassMethods
+
           def identifiers(*vars)
             if vars.empty?
               prepare_identifiers
@@ -69,6 +71,15 @@ module Rich
               self.attr_accessor attribute
             end
           end
+
+        end
+
+        module InstanceMethods
+
+          def identity_hash
+            self.class.send :identity_hash_for, store_key
+          end
+
         end
 
       end
