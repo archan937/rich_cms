@@ -64,6 +64,8 @@ end
 
 class String
   def t(options = {})
-    Translation.find_or_initialize(self.underscore).to_tag options
+    split(" ").collect do |key|
+      Translation.find(key.underscore).to_tag options
+    end.join(" ").html_safe
   end
 end
