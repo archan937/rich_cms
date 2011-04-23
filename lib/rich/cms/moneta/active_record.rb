@@ -13,14 +13,14 @@ module Moneta
       set_primary_key 'key'
 
       def parsed_value
-        JSON.parse(value)['root']
+        value
       end
     end
 
     def initialize(options = {})
       @options = options
       Store.establish_connection(@options[:connection] || raise("Must specify :connection"))
-      Store.set_table_name(@options[:table] || 'moneta_store')
+      Store.set_table_name(@options[:table_name] || 'moneta_store')
     end
 
     module Implementation
@@ -40,11 +40,11 @@ module Moneta
       def []=(key, value)
         record = Store.find_by_key(key)
         if record
-          record.update_attributes!(:value => {'root' => value}.to_json)
+          record.update_attributes!(:value => value)
         else
           store = Store.new
           store.key = key
-          store.value = {'root' => value}.to_json
+          store.value = value
           store.save!
         end
       end

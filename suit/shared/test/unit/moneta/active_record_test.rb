@@ -12,7 +12,7 @@ module Unit
           setup do
             class CmsContent
               include Rich::Cms::Content
-              storage :active_record, :table => "cms_contents" # NOTE: specified table because of the test namespaces
+              storage :active_record, :table_name => "cms_contents" # NOTE: specified table because of the test namespaces
             end
             @key, @value = "header", "Welcome to Rich-CMS"
           end
