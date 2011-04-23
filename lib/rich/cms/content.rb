@@ -26,6 +26,12 @@ module Rich
         (@@classes << klass).sort!{|a, b| a.name <=> b.name}
       end
 
+      def check_in_memory_storage
+        @@classes.each do |klass|
+          warn "[WARNING] #{klass.name} is using #{klass.content_store.class.name} (in memory) as storage engine".yellow if klass.content_store.is_a?(Hash)
+        end
+      end
+
       def fetch(css_class, identifier)
         raise NotImplementedError, "You cannot fetch Rich-CMS content without having defined at least one Rich-CMS content class" if @@classes.empty?
 
