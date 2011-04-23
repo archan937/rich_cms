@@ -18,7 +18,7 @@ module Rich
       content       = Cms::Content.fetch css_class, identifier
       content.value = value
 
-      render :json => content.save_and_return(:always).to_json(params)
+      render :json => content.save_and_return(:always).to_json(params[:content_item])
     end
 
   private
