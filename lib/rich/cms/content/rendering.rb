@@ -100,7 +100,7 @@ module Rich
               end
 
               attrs = attrs.collect{|key, value| "#{key}=\"#{::ERB::Util.html_escape value}\""}.join(" ")
-              text  = editable? && default_value? ? "< #{value} >" : value
+              text  = derive_text
 
               "<#{[tag, (attrs unless attrs.empty?)].compact.join(" ")}>#{text}</#{tag}>"
 
@@ -117,13 +117,17 @@ module Rich
             {}
           end
 
-        private
-
           def derive_tag(options)
             tag = options[:tag] || configuration[:tag]
             return if !editable? && tag == :none
             (tag unless tag == :none) || (%w(text html).include?(options[:as].to_s.downcase) ? :div : :span)
           end
+
+          def derive_text
+            editable? && default_value? ? "< #{value} >" : value
+          end
+
+        private
 
           def configuration
             self.class.send :configuration
