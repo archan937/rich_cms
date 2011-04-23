@@ -22,6 +22,8 @@ module Rich
           end
 
           def find(identifier, *alternatives)
+            raise NotImplementedError, "Please specify the storage engine of #{self.name}." if @specs.nil?
+
             default = nil
             [identifier, *alternatives].each do |arg|
               if arg.is_a?(Hash) && arg.size == 1 && arg.values.first == :is_default
