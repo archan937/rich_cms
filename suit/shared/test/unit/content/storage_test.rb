@@ -55,10 +55,6 @@ module Content
               end
             end
 
-            should "return nil when not having matched any of the passed identifiers" do
-              assert_nil Content.find(*@args)
-            end
-
             should "return the first matching content" do
               Content.new(:key => "email_address", :value => "E-mailadres").save
               assert_equal Content.find("email_address"), Content.find(*@args)
@@ -69,12 +65,13 @@ module Content
 
             should "return a new instance when having found none of the passed identifiers and having passed a default" do
               assert_equal Content.new(:key => "label.email_address"),
-                           Content.find("label.(registration_form).User.email_address", "label.User.email_address", {"label.email_address" => :is_default}, "email_address")
+                           Content.find("label.(registration_form).User.email_address", "label.User.email_address", {"label.email_address" => :default}, "email_address")
             end
           end
 
           context "when having created an instance" do
             setup do
+              Content.send(:content_store).clear
               @content = Content.new :key => @key, :value => @value
             end
 
@@ -87,9 +84,9 @@ module Content
 
             should "memoize the default value" do
               content = Content.new :key => "header"
-              content.expects(:default_value).once.returns("header")
+              assert_nil content.instance_variable_get(:"@default_value")
               content.value
-              content.value
+              assert_equal "header", content.instance_variable_get(:"@default_value")
             end
 
             context "when having called save_and_return" do
@@ -108,8 +105,10 @@ module Content
             context "when no login required" do
               should "be able to be saved and destroyed" do
                 assert @content.save
+                assert Content.has_key?(@key)
                 assert_equal(@value, Content.find(@key).value)
                 assert @content.destroy
+                assert !Content.has_key?(@key)
               end
             end
 
@@ -125,7 +124,7 @@ module Content
 
               should "not be able to be saved and destroyed when not being logged in" do
                 assert !@content.save
-                assert_nil Content.find(@key)
+                assert !Content.has_key?(@key)
                 assert !@content.destroy
               end
 
@@ -133,8 +132,10 @@ module Content
                 Rich::Cms::Auth.expects(:admin).at_least_once.returns(User.new)
 
                 assert @content.save
+                assert Content.has_key?(@key)
                 assert_equal(@value, Content.find(@key).value)
                 assert @content.destroy
+                assert !Content.has_key?(@key)
               end
 
               should "not be able to be saved and destroyed when restricted" do
@@ -142,7 +143,7 @@ module Content
                 user.stubs(:can_edit?).returns(false)
 
                 assert !@content.save
-                assert_nil Content.find(@key)
+                assert !Content.has_key?(@key)
                 assert !@content.destroy
               end
             end

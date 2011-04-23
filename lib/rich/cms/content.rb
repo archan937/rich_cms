@@ -38,7 +38,7 @@ module Rich
         klass = @@classes.detect{|x| x.css_class == css_class.downcase}
         raise CssClassNotMatchedError, "Could not find matching Rich-CMS content class for #{css_class.inspect} in #{@@classes.collect(&:css_class).inspect}" if klass.nil?
 
-        klass.find_or_initialize identifier
+        klass.find identifier
       end
 
       def javascript_hash

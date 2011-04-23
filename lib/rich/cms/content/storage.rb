@@ -8,17 +8,17 @@ module Rich
           base.send :include, InstanceMethods
           base.class_eval do
             attr_accessors << :value
-            @specs         = nil
-            @content_store = nil
-            @specs_args    = {:klass => base}
           end
         end
 
         module ClassMethods
-          def storage(engine, options = {}, &block)
-            @specs_args[:options] = options
-            specs.engine  = engine
-            yield specs if block_given?
+
+          delegate :has_key?, :to => :content_store
+
+          def storage(engine_name, options = {})
+            @specs ||= Specs.new self
+            @specs.engine  = engine_name
+            @specs.options = options
           end
 
           def find(identifier, *alternatives)
@@ -26,52 +26,46 @@ module Rich
 
             default = nil
             [identifier, *alternatives].each do |arg|
-              if arg.is_a?(Hash) && arg.size == 1 && arg.values.first == :is_default
-                identifier = default = arg.keys.first
+              if arg.is_a?(Hash) && arg.size == 1 && arg.values.first == :default
+                id = default = arg.keys.first
               else
-                identifier = arg
+                id = arg
               end
-              if content = find_by_identifier(identifier)
+              if content = find_by_identifier(id)
                 return content
               end
             end
-            self.new default unless default.nil?
-          end
-
-          def find_or_initialize(identifier, *alternatives)
-            find(identifier, *alternatives) || self.new(identifier)
+            self.new identity_hash_for(default || identifier)
           end
 
         private
 
+          delegate :content_store, :to => :"@specs"
+
           def find_by_identifier(identifier)
             instance = self.new identity_hash_for(identifier)
 
-            return unless content_store.has_key? instance.store_key
+            return unless has_key?(instance.store_key) || valid_match?(instance)
 
             instance.tap do |i|
               instance.instance_variable_set :"@store_value", content_store[instance.store_key]
             end
           end
 
-          def content_store
-            @content_store ||= specs.instantiate_store
-          end
-
-          def specs
-            @specs ||= Specs.new *@specs_args.values_at(:klass, :options).compact
+          def valid_match?(instance)
+            false
           end
 
           class Specs
             attr_accessor :engine, :options
 
-            def initialize(klass, options = {})
-              @klass   = klass
-              @options = options
+            def initialize(klass)
+              @klass = klass
             end
 
-            def engine=(name)
-              @engine = name.to_s.underscore
+            def engine=(engine_name)
+              @engine  = engine_name.to_s.underscore
+              @store   = nil
               begin
                 require "moneta/#{engine}"
               rescue LoadError
@@ -83,24 +77,30 @@ module Rich
               "Moneta::#{engine.classify}".constantize if engine
             end
 
-            def instantiate_store
-              case engine
-              when "active_record"
-                options = {:connection => YAML.load_file(File.expand_path("config/database.yml", Rails.root))[Rails.env],
-                           :table      => @options.delete(:table_name) || @klass.name.tableize}.merge @options
+            def content_store
+              @store ||= begin
+                opts = case engine
+                       when "active_record"
+                         {:connection => YAML.load_file(File.expand_path("config/database.yml", Rails.root))[Rails.env],
+                          :table_name => @klass.name.tableize}
+                       else
+                         {}
+                       end
+                store_class.new opts.merge(@options)
               end
-              store_class.new options
             end
           end
+
         end
 
         module InstanceMethods
+
           def store_key
             self.class.identifiers.collect{|x| send x}.join self.class.delimiter
           end
 
           def value
-            ((@value unless @value.blank?) || (@store_value unless @store_value.blank?)).try(:html_safe) || (@default_value ||= default_value)
+            ((@value unless @value.blank?) || (@store_value unless @store_value.blank?)).try(:html_safe) || default_value
           end
 
           def value=(val)
@@ -132,7 +132,7 @@ module Rich
         protected
 
           def default_value
-            store_key.split(/#{self.class.delimiter}|\./).last.gsub("_", " ")
+            @default_value ||= store_key.split(/#{self.class.delimiter}|\./).last.gsub("_", " ")
           end
 
         private
@@ -140,6 +140,7 @@ module Rich
           def content_store
             self.class.send :content_store
           end
+
         end
 
       end
