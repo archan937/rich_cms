@@ -25,9 +25,9 @@ module Content
           forge_rich_i18n
 
           @javascript_hashes = ActiveSupport::OrderedHash.new
-          @javascript_hashes[Bar        ] = %Q({keys: ["data-store_key"], value: "data-value"})
-          @javascript_hashes[Translation] = %Q({keys: ["data-store_key"], value: "data-value", beforeEdit: Rich.I18n.beforeEdit, afterUpdate: Rich.I18n.afterUpdate})
-          @javascript_hashes[Foo        ] = %Q({keys: ["data-store_key"], value: "data-value"})
+          @javascript_hashes[Bar        ] = %Q({keys: ["data-store_key"], value: "data-store_value"})
+          @javascript_hashes[Translation] = %Q({keys: ["data-store_key"], value: "data-store_value", beforeEdit: Rich.I18n.beforeEdit, afterUpdate: Rich.I18n.afterUpdate})
+          @javascript_hashes[Foo        ] = %Q({keys: ["data-store_key"], value: "data-store_value"})
         end
 
         should "be configurable" do
@@ -37,13 +37,13 @@ module Content
           assert_equal({:tag => :h1  }, Bar.configuration)
 
           assert_expectation({}, %q{
-                             <h1 class="bar_content" data-store_key="some_key" data-value="">
+                             <h1 class="bar_content" data-store_key="some_key" data-store_value="">
                                < some key >
                              </h1>},
                              Bar.new(:key => "some_key"))
 
           assert_expectation({:tag => :none}, %q{
-                             <span class="bar_content" data-store_key="some_key" data-value="">
+                             <span class="bar_content" data-store_key="some_key" data-store_value="">
                                < some key >
                              </span>},
                              Bar.new(:key => "some_key"))
@@ -97,17 +97,17 @@ module Content
 
           assert_equal({:__css_class__   => "rcms_content_a",
                         :__identifier__  => {:store_key => "some_key"},
-                        :value           => "some key"},
+                        :store_value     => "some key"},
                        ContentA.new(:key => "some_key").to_json)
 
           assert_equal({:__css_class__   => "content_b",
                         :__identifier__  => {:store_key => "some_key"},
-                        :value           => "some key", :timestamp => "1982-08-01 13:37:04"},
+                        :store_value     => "some key", :timestamp => "1982-08-01 13:37:04"},
                        ContentB.new(:key => "some_key").to_json)
 
           assert_equal({:__css_class__  => "i18n",
                         :__identifier__ => {:store_key => "nl:some_key"},
-                        :value          => "some key",
+                        :store_value    => "some key",
                         :translations   => {"nl:some_key" => "some key"}},
                        Translation.new(:key => "some_key", :locale => "nl").to_json)
         end

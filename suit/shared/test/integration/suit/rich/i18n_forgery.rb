@@ -35,17 +35,17 @@ module Suit
 
             edit_translation "header"
             assert_equal "i18n", find("#raccoon_tip input[name='content_item[__css_class__]']").value
-            assert_equal ""    , find("#raccoon_tip input[name='content_item[value]']"        ).value
+            assert_equal ""    , find("#raccoon_tip input[name='content_item[store_value]']"  ).value
 
-            fill_in_and_submit "#raccoon_tip", {:"content_item[value]" => "Try out Rich-CMS!"}, "Save"
+            fill_in_and_submit "#raccoon_tip", {:"content_item[store_value]" => "Try out Rich-CMS!"}, "Save"
             assert_equal "Try out Rich-CMS!" , find(".left h1.i18n" ).text
             assert_equal "< content >"       , find(".left div.i18n").text
 
             edit_translation "content"
-            assert_equal "i18n", find("#raccoon_tip input[name='content_item[__css_class__]']").value
-            assert_equal ""    , find("#raccoon_tip textarea[name='content_item[value]']"     ).value
+            assert_equal "i18n", find("#raccoon_tip input[name='content_item[__css_class__]']" ).value
+            assert_equal ""    , find("#raccoon_tip textarea[name='content_item[store_value]']").value
 
-            fill_in_and_submit "#raccoon_tip", {:"content_item[value]" => "<p>Lorem ipsum dolor sit amet.</p>"}, "Save"
+            fill_in_and_submit "#raccoon_tip", {:"content_item[store_value]" => "<p>Lorem ipsum dolor sit amet.</p>"}, "Save"
             assert_equal "Try out Rich-CMS!"          , find(".left h1.i18n"   ).text
             assert_equal "Lorem ipsum dolor sit amet.", find(".left div.i18n p").text
 

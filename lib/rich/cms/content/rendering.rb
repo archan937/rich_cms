@@ -56,7 +56,7 @@ module Rich
           def data_pairs
             pairs         = ActiveSupport::OrderedHash.new
             pairs[:keys ] = ["store_key"]
-            pairs[:value] = "value"
+            pairs[:value] = "store_value"
 
             pairs.collect do |key, value|
               collected = [value].flatten.collect{|x| "data-#{x}"}
@@ -91,7 +91,7 @@ module Rich
               if editable?
                 attrs[:class]                     = [self.class.css_class, attrs.try(:fetch, :class, nil)].compact.join " "
                 attrs["data-store_key"]           = store_key
-                attrs["data-value"]               = @store_value
+                attrs["data-store_value"]         = @store_value
                 attrs["data-editable_input_type"] = options[:as] if %w(string text html).include? options[:as].to_s.downcase
 
                 (options[:data] || {}).each do |key, value|
@@ -109,7 +109,7 @@ module Rich
           end
 
           def to_json(params = {})
-            (to_rich_cms_response(params) || {}).merge :__css_class__ => self.class.css_class, :__identifier__ => {:store_key => store_key}, :value => value
+            (to_rich_cms_response(params) || {}).merge :__css_class__ => self.class.css_class, :__identifier__ => {:store_key => store_key}, :store_value => value
           end
 
           def to_rich_cms_response(params)

@@ -41,9 +41,9 @@ Rich.I18n = (function() {
     },
     afterUpdate: function(form, response, selector, specs, identifier) {
       $.each(response.translations, function(key, value) {
-        $(     ".i18n" + identifier + "[data-derivative_key=" + key + "]")            .attr("data-value", response.value).html(              value);
-        $("input.i18n" + identifier + "[data-derivative_key=" + key + "][value]")     .attr("data-value", response.value).attr("value"     , value);
-        $("input.i18n" + identifier + "[data-derivative_key=" + key + "][seatholder]").attr("data-value", response.value).attr("seatholder", value);
+        $(     ".i18n" + identifier + "[data-derivative_key=" + key + "]")            .attr("data-store_value", response.store_value).html(              value);
+        $("input.i18n" + identifier + "[data-derivative_key=" + key + "][value]")     .attr("data-store_value", response.store_value).attr("value"     , value);
+        $("input.i18n" + identifier + "[data-derivative_key=" + key + "][seatholder]").attr("data-store_value", response.store_value).attr("seatholder", value);
       });
       SeatHolder.rebind();
     }

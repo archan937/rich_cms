@@ -13,7 +13,7 @@ module Rich
     end
 
     def update
-      css_class, identifier, value = *params[:content_item].values_at(:__css_class__, :store_key, :value)
+      css_class, identifier, value = *params[:content_item].values_at(:__css_class__, :store_key, :store_value)
 
       content       = Cms::Content.fetch css_class, identifier
       content.value = value

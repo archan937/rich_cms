@@ -324,7 +324,7 @@ Please take notice: *The CSS class is only obligated when having more than one R
   >> key = "hello_world"
   => "hello_world"
   >> ActionView::Base.new.rich_cms_tag(key)
-  => "<div class='rcms_content' data-store_key='hello_world' data-value='Hello world!'>Hello world!</div>"
+  => "<div class='rcms_content' data-store_key='hello_world' data-store_value='Hello world!'>Hello world!</div>"
 </pre>
 
 *Note*: There is only *one* Rich-CMS content defined called @Content@
@@ -333,7 +333,7 @@ When using a combined key for content identification, just call it as follows:
 
 <pre>
   >> ActionView::Base.new.rich_cms_tag({:key => key, :locale => I18n.locale})
-  => "<div class='rcms_content' data-store_key='nl:hello_world' data-value='Hallo wereld!'>Hallo wereld!</div>"
+  => "<div class='rcms_content' data-store_key='nl:hello_world' data-store_value='Hallo wereld!'>Hallo wereld!</div>"
 </pre>
 
 *Note*: In this case, the (*only*) Rich-CMS content class was defined with @identifiers :locale, :key@
@@ -342,7 +342,7 @@ When having multiple Rich-CMS content classes defined, pass the corresponding CS
 
 <pre>
   >> ActionView::Base.new.rich_cms_tag(".rcms_translation", {:key => key, :locale => I18n.locale})
-  => "<div class='rcms_translation' data-store_key='nl:hello_world' data-value='Hallo wereld!'>Hallo wereld!</div>"
+  => "<div class='rcms_translation' data-store_key='nl:hello_world' data-store_value='Hallo wereld!'>Hallo wereld!</div>"
 </pre>
 
 The (optional) options hash can contain the following keys:
@@ -374,13 +374,13 @@ Open "http://localhost:3000/cms":http://localhost:3000/cms, log in and start man
 
 h2. Customizing the after update implementation
 
-The @update@ action response of @Rich::CmsController@ consists of "JSON":http://www.json.org data regarding the updated content item. The response will be passed to the @after_update@ Javascript function. Its default JSON data:
+The @update@ action response of @Rich::CmsController@ consists of "JSON":http://www.json.org data regarding the updated content item. The response will be passed to the @after_update@ Javascript function which contains a simple JSON hash. Its default is as follows:
 
 <pre>
-  {"__css_class__": "rcms_content", "__identifier__": {"store_key": "hello_world"}, "value": "Hello world!"}
+  {"__css_class__": "rcms_content", "__identifier__": {"store_key": "hello_world"}, "store_value": "Hello world!"}
 </pre>
 
-*Note*: @__css_class__@ and @__identifier__@ are *always* provided in the JSON data.
+*Note*: @__css_class__@, @__identifier__@ and @store_value@ are *always* provided in the JSON data.
 
 When specifying a custom after update Javascript function, you probably want to acquire more information than provided in the default JSON data. You can customize this by defining the @to_rich_cms_response@ method in the CMS content model class and the hash will be merged with the default response hash:
 
@@ -396,7 +396,7 @@ When specifying a custom after update Javascript function, you probably want to 
     end
 
     def to_tag(options = {})
-      super options.merge(:data => {:derivative_key => store_key})
+      super options.merge(:data => {:derivative_key => derivative_key})
     end
 
     def to_rich_cms_response(params)
@@ -408,7 +408,7 @@ When specifying a custom after update Javascript function, you probably want to 
 The JSON data returned will look like:
 
 <pre>
-  {"__css_class__": "translation", "__identifier__": {"store_key": "nl:word.user"}, "value": "gebruiker", "translations": {"users": "gebruikers"}}
+  {"__css_class__": "translation", "__identifier__": {"store_key": "nl:word.user"}, "store_value": "gebruiker", "translations": {"users": "gebruikers"}}
 </pre>
 
 h2. Contact me
