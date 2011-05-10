@@ -44,7 +44,7 @@ module Rich
           end
 
           def editable?
-            Auth.can_edit? self
+            cmsable? && Auth.can_edit?(self)
           end
 
           def ==(other)

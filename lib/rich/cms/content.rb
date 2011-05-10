@@ -12,6 +12,7 @@ module Rich
         base.send :include, Base
         base.send :include, Identification
         base.send :include, Storage
+        base.send :include, Cmsable
         base.send :include, Rendering
       end
 

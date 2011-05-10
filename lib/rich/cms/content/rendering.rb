@@ -15,6 +15,7 @@ module Rich
         end
 
         module ClassMethods
+
           def configuration
             @configuration ||= {}
           end
@@ -30,7 +31,7 @@ module Rich
           end
 
           def to_javascript_hash
-            "{#{data_pairs.concat(callback_pairs).collect{|key, value| "#{key}: #{value}"}.join ", "}}".html_safe
+            cmsable? ? "{#{data_pairs.concat(callback_pairs).collect{|key, value| "#{key}: #{value}"}.join ", "}}".html_safe : ""
           end
 
         private
@@ -74,6 +75,7 @@ module Rich
               end
             end
           end
+
         end
 
         module InstanceMethods
@@ -109,7 +111,11 @@ module Rich
           end
 
           def to_json(params = {})
-            (to_rich_cms_response(params) || {}).merge :__css_class__ => self.class.css_class, :__identifier__ => {:store_key => store_key}, :store_value => value
+            if editable?
+              (to_rich_cms_response(params) || {}).merge :__css_class__ => self.class.css_class, :__identifier__ => {:store_key => store_key}, :store_value => value
+            else
+              {}
+            end
           end
 
           def to_rich_cms_response(params)
