@@ -3,6 +3,7 @@
 == Version 3.1.0 (xxxx, 2011)
 
 * Using GemSuit and Rich-Support (booya!)
+* Using Jzip v1.1.0
 * Refactored the content code. Using Moneta to support numerous storage engines other than ActiveRecord (such as MongoDB, Redis, in memory, Datamapper and many more)
 * Introduced `cmsable` which provides you to mark Rich::Cms::Content classes as cmsable (or not)
 * Testing 8 environments with GemSuit:
