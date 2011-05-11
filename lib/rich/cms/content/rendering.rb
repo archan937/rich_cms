@@ -102,7 +102,13 @@ module Rich
               end
 
               attrs = attrs.collect{|key, value| "#{key}=\"#{::ERB::Util.html_escape value}\""}.join(" ")
-              text  = derive_text
+              text  = begin
+                unless options[:locals].blank?
+                  Mustache.render derive_text, options[:locals]
+                else
+                  derive_text
+                end
+              end
 
               "<#{[tag, (attrs unless attrs.empty?)].compact.join(" ")}>#{text}</#{tag}>"
 

@@ -6,6 +6,7 @@
 * Using Jzip v1.1.0
 * Refactored the content code. Using Moneta to support numerous storage engines other than ActiveRecord (such as MongoDB, Redis, in memory, Datamapper and many more)
 * Introduced `cmsable` which provides you to mark Rich::Cms::Content classes as cmsable (or not)
+* Being able to render Mustache content. Thanks Peter Beers and Johan Vermeulen (@johpie) for contributing
 * Testing 8 environments with GemSuit:
   - Rails 2: Authlogic authenticated with Moneta in-memory storage
   - Rails 2: Devise authenticated with Moneta in-memory storage

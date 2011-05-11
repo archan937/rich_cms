@@ -2,6 +2,7 @@ require "rich_support"
 require "jzip"
 require "haml"
 require "moneta"
+require "mustache"
 
 Rich::Support.append_gem_path File.expand_path("../..", __FILE__)
 

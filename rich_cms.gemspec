@@ -24,4 +24,5 @@ Gem::Specification.new do |s|
   s.add_dependency "jzip"        , "~> 1.1.0"
   s.add_dependency "haml"        , "~> 3.0.25"
   s.add_dependency "moneta"      , "~> 0.6.0"
+  s.add_dependency "mustache"    , "~> 0.99.3"
 end

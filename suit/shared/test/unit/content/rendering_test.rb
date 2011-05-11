@@ -1,6 +1,8 @@
 require File.expand_path("../../../test_helper.rb"            , __FILE__)
 require File.expand_path("../rendering_test/helper_methods.rb", __FILE__)
 
+require "hpricot"
+
 module Content
   class RenderingTest < ActiveSupport::TestCase
 
@@ -126,6 +128,18 @@ module Content
 
             Content    .send(:content_store).clear
             Translation.send(:content_store).clear
+          end
+
+          should "be able to render Mustache" do
+            @mustache_content = Content.new(:key => "mustache1")
+            @mustache_content.value = "Hi, {{name}}!"
+            @mustache_content.save
+
+            assert_equal "Hi, Vicky!", Hpricot(@mustache_content.to_tag(:locals => {:name => "Vicky"})).children[0].html
+            assert_equal({"class"            => "rich_cms_content",
+                          "data-store_key"   => "mustache1",
+                          "data-store_value" => "Hi, {{name}}!"},
+                         Hpricot(@mustache_content.to_tag(:locals => {:name => "Vicky"})).children[0].raw_attributes)
           end
 
           context "when no login required" do
