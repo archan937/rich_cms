@@ -50,7 +50,7 @@ h2. Fancy contributing to Rich-CMS yourself?
 3. Setup your environment in order to use the "GemSuit":https://github.com/archan937/gem_suit tests provided within Rich-CMS
 
 <pre>
-  suit fit -v
+  gem install gem_suit && suit fit -v
 </pre>
 
 4. Run tests (e.g. the GemSuit integration tests) as follows (make sure you have "Firefox":http://www.getfirefox.com installed)
