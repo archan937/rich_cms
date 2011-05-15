@@ -5,7 +5,7 @@ class <%= model_class_name %>Session < Authlogic::Session::Base
   params_key "user_credentials"
 
   def to_key
-    new_record? ? nil : [self.send self.class.primary_key]
+    new_record? ? nil : [self.send(self.class.primary_key)]
   end
 
 end
