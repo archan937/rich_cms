@@ -1,0 +1,1 @@
+require "rich/cms/core/object"

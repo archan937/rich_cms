@@ -353,10 +353,14 @@ The (optional) options hash can contain the following keys:
   The HTML tag used for content items. You can also specify @:none@ as value: in that case, no HTML tag will be wrapped around the content when no admin is logged in (essential in case the extra @span@ will bork the layout).
 * @:html@ - *default*: @{}@
   HTML attributes added to the content tag (e.g. @:id@, @:class@)
+* @:locals@ - *default*: @nil@
+  When assigned a Hash, Rich-CMS assumes the content concerns a "Mustache":https://github.com/defunkt/mustache template and will render it with the passed @locals@.
+* @:collection@ - *default*: @nil@
+  When assigned an array, Rich-CMS assumes the content concerns a "Mustache":https://github.com/defunkt/mustache template and will render it with the (optional) passed @locals@ and the @attr_cmsable@ attributes.
 
 *Note*: The WYSIWYG editor used is the "jQuery":http://jquery.com/ based "CLEditor":http://premiumsoftware.net/cleditor
 
-A few examples:
+h4. A few examples
 
 <pre>
   ...
@@ -367,6 +371,69 @@ A few examples:
 </pre>
 
 *Note*: The last statement passes when only *one* Rich-CMS content class is defined
+
+h4. A locals example
+
+The Rich-CMS content used:
+
+<pre>
+  header = Content.new :key => "welcome_header"
+  header.value = "Hi, {{name}}!"
+  header.save
+</pre>
+
+The ERB template:
+
+<pre>
+  ...
+  <%= rich_cms_tag "welcome_header", :tag => :h1, :locals => {:name => "Vicky"} %>
+  ...
+</pre>
+
+The compiled HTML:
+
+<pre>
+  <h1>
+    Hi, Vicky!
+  </h1>
+</pre>
+
+h4. A collection example
+
+The Rich-CMS content and collection used:
+
+<pre>
+  class AttrCmsableContent # propably < ActiveRecord::Base
+    attr_accessor :name    # an attribute provided by ActiveRecord::Base
+    attr_cmsable  :name
+  end
+
+  @collection = %w(Vicky Johnny Paul).collect{|name| AttrCmsableContent.new.tap{|c| c.name = name}}
+
+  header = Content.new :key => "welcome_header"
+  header.value = "Hi, {{name}}!"
+  header.save
+</pre>
+
+The ERB template:
+
+<pre>
+  ...
+  <ul>
+    <%= rich_cms_tag "welcome_header", :tag => :li, :collection => @collection %>
+  <ul>
+  ...
+</pre>
+
+The compiled HTML:
+
+<pre>
+  <ul>
+    <li>Hi, Vicky!</li>
+    <li>Hi, Johnny!</li>
+    <li>Hi, Paul!</li>
+  </ul>
+</pre>
 
 h3. Rich-CMS in your browser
 

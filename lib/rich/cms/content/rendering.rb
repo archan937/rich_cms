@@ -101,19 +101,28 @@ module Rich
                 end
               end
 
-              attrs = attrs.collect{|key, value| "#{key}=\"#{::ERB::Util.html_escape value}\""}.join(" ")
-              text  = begin
-                unless options[:locals].blank?
-                  Mustache.render derive_text, options[:locals]
-                else
-                  derive_text
-                end
-              end
+              attrs      = attrs.collect{|key, value| "#{key}=\"#{::ERB::Util.html_escape value}\""}.join(" ")
+              tag_string = "<#{[tag, (attrs unless attrs.empty?)].compact.join(" ")}>%s</#{tag}>"
 
-              "<#{[tag, (attrs unless attrs.empty?)].compact.join(" ")}>#{text}</#{tag}>"
+              if options.include? :collection
+                render_collection tag_string, options
+              else
+                tag_string % derive_text(options)
+              end
 
             end.html_safe
 
+          end
+
+          def derive_tag(options)
+            tag = options[:tag] || configuration[:tag]
+            return if !editable? && tag == :none
+            (tag unless tag == :none) || (%w(text html).include?(options[:as].to_s.downcase) ? :div : :span)
+          end
+
+          def derive_text(options)
+            text = editable? && default_value? ? "< #{value} >" : value
+            options.include?(:locals) ? Mustache.render(text, options[:locals]) : text
           end
 
           def to_json(params = {})
@@ -128,17 +137,17 @@ module Rich
             # Override this in subclasses
           end
 
-          def derive_tag(options)
-            tag = options[:tag] || configuration[:tag]
-            return if !editable? && tag == :none
-            (tag unless tag == :none) || (%w(text html).include?(options[:as].to_s.downcase) ? :div : :span)
-          end
-
-          def derive_text
-            editable? && default_value? ? "< #{value} >" : value
-          end
-
         private
+
+          def render_collection(tag_string, options)
+            options[:collection].collect do |entry|
+
+              raise ArgumentError, "Expected at least one cmsable attribute for #{entry.class} (use attr_cmsable in class definitino)" if entry.class.attr_cmsables.empty?
+              locals = (options[:locals].try(:dup) || {}).stringify_keys.merge Hash[*entry.class.attr_cmsables.collect{|x| [x.to_s, entry.send(x)]}.flatten]
+              tag_string % derive_text(:locals => locals)
+
+            end.join ""
+          end
 
           def configuration
             self.class.send :configuration

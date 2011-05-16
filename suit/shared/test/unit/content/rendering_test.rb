@@ -130,16 +130,62 @@ module Content
             Translation.send(:content_store).clear
           end
 
-          should "be able to render Mustache" do
-            @mustache_content = Content.new(:key => "mustache1")
-            @mustache_content.value = "Hi, {{name}}!"
-            @mustache_content.save
+          context "when rendering Mustache content" do
+            context "when having passed locals" do
+              should "be able to render Mustache" do
 
-            assert_equal "Hi, Vicky!", Hpricot(@mustache_content.to_tag(:locals => {:name => "Vicky"})).children[0].html
-            assert_equal({"class"            => "rich_cms_content",
-                          "data-store_key"   => "mustache1",
-                          "data-store_value" => "Hi, {{name}}!"},
-                         Hpricot(@mustache_content.to_tag(:locals => {:name => "Vicky"})).children[0].raw_attributes)
+                mustache_content = Content.new :key => "mustache1"
+                mustache_content.value = "Hi, {{name}}!"
+                mustache_content.save
+
+                tag = Hpricot(mustache_content.to_tag(:locals => {:name => "Vicky"})).children[0]
+
+                assert_equal "Hi, Vicky!", tag.html
+                assert_equal({"class"            => "rich_cms_content",
+                              "data-store_key"   => "mustache1",
+                              "data-store_value" => "Hi, {{name}}!"},
+                             tag.raw_attributes)
+              end
+            end
+
+            context "when having passed a collection" do
+              setup do
+                class NonAttrCmsableContent
+                end
+                class AttrCmsableContent
+                  attr_accessor :name # usually an automatically defined attribute by ActiveRecord::Base
+                  attr_cmsable  :name
+                end
+                @mustache_content = Content.new :key => "mustache1"
+                @mustache_content.value = "Hi, {{name}}!"
+                @mustache_content.save
+              end
+
+              should "verify defined attr_cmsables" do
+                assert_raise ArgumentError do
+                  @mustache_content.to_tag :collection => [NonAttrCmsableContent.new]
+                end
+                assert_raise ArgumentError do
+                  @mustache_content.to_tag :collection => [NonAttrCmsableContent.new, AttrCmsableContent.new]
+                end
+                assert_nothing_raised ArgumentError do
+                  @mustache_content.to_tag :collection => [AttrCmsableContent.new]
+                end
+              end
+
+              should "be able to render Mustache" do
+                names      = %w(Vicky Johnny Paul)
+                collection = names.collect{|name| AttrCmsableContent.new.tap{|c| c.name = name}}
+
+                Hpricot(@mustache_content.to_tag(:collection => collection)).each_child_with_index do |tag, index|
+                  assert_equal "Hi, #{names[index]}!", tag.html
+                  assert_equal({"class"            => "rich_cms_content",
+                                "data-store_key"   => "mustache1",
+                                "data-store_value" => "Hi, {{name}}!"},
+                               tag.raw_attributes)
+                end
+              end
+            end
           end
 
           context "when no login required" do

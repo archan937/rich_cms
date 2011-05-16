@@ -13,6 +13,7 @@ Rich::Support.append_gem_path File.expand_path("../..", __FILE__)
   end
 end
 
+require "rich/cms/core"
 require "rich/cms/actionpack"
 require "rich/cms/engine"
 require "rich/cms/auth"
