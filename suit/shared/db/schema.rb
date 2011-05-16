@@ -1,4 +1,16 @@
-ActiveRecord::Schema.define(:version => 19820801133704) do
+# This file is auto-generated from the current state of the database. Instead
+# of editing this file, please use the migrations feature of Active Record to
+# incrementally modify your database, and then regenerate this schema definition.
+#
+# Note that this schema.rb definition is the authoritative source for your
+# database schema. If you need to create the application database on another
+# system, you should be using db:schema:load, not running all the migrations
+# from scratch. The latter is a flawed and unsustainable approach (the more migrations
+# you'll amass, the slower it'll run and the greater likelihood for issues).
+#
+# It's strongly recommended to check this file into your version control system.
+
+ActiveRecord::Schema.define(:version => 20110516230551) do
 
   create_table "authlogic_users", :force => true do |t|
     t.string   "name"
@@ -17,6 +29,15 @@ ActiveRecord::Schema.define(:version => 19820801133704) do
   end
 
   add_index "authlogic_users", ["email"], :name => "index_authlogic_users_on_email"
+
+  create_table "cms_contents", :force => true do |t|
+    t.string   "key"
+    t.text     "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "cms_contents", ["key"], :name => "index_cms_contents_on_key"
 
   create_table "devise_users", :force => true do |t|
     t.string   "email",                               :default => "", :null => false
@@ -37,13 +58,10 @@ ActiveRecord::Schema.define(:version => 19820801133704) do
   add_index "devise_users", ["email"], :name => "index_devise_users_on_email", :unique => true
   add_index "devise_users", ["reset_password_token"], :name => "index_devise_users_on_reset_password_token", :unique => true
 
-  create_table "cms_contents", :force => true do |t|
-    t.string   "key"
-    t.text     "value"
+  create_table "people", :force => true do |t|
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "cms_contents", ["key"], :name => "index_cms_contents_on_key"
 
 end

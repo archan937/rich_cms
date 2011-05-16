@@ -2,14 +2,16 @@
   <div class="left">
     <%= rich_cms_tag "header"                , :tag => :h1   %>
     <%= rich_cms_tag "cms_content", "content", :as  => :html %>
-    <p>
-      <%= rich_cms_tag "rcms_content", "text", :tag => :none %>
-    </p>
+    <h2>Mustache content</h2>
     <p>
       <%= rich_cms_tag "mustache1", :as => :html, :locals => {:name => "Vicky"} %>
     </p>
+    <h2>People</h2>
+    <ul class="people">
+      <%= rich_cms_tag "person", :as => :html, :tag => :li, :collection => @people %>
+    </ul>
   </div>
-  <ul>
+  <ul class="sidebar">
     <li>
       <%= link_to rich_cms_tag("rcms_content", "Home"), "#" %>
     </li>
