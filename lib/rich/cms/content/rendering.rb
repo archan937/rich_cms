@@ -31,7 +31,7 @@ module Rich
           end
 
           def to_javascript_hash
-            cmsable? ? "{#{data_pairs.concat(callback_pairs).collect{|key, value| "#{key}: #{value}"}.join ", "}}".html_safe : ""
+            cmsable? ? "{#{data_pairs.concat(callback_pairs).collect{|key, value| "#{key}: #{value}"}.join(", ")}}".html_safe : ""
           end
 
         private
@@ -89,6 +89,7 @@ module Rich
               (options[:html] || {}).each do |key, value|
                 attrs[key.to_sym] = value
               end
+              attrs[:mustache_locals] = options.delete(:locals) if options.include? :locals
 
               if editable?
                 attrs[:class]                     = [self.class.css_class, attrs.try(:fetch, :class, nil)].compact.join " "
@@ -101,13 +102,10 @@ module Rich
                 end
               end
 
-              attrs      = attrs.collect{|key, value| "#{key}=\"#{::ERB::Util.html_escape value}\""}.join(" ")
-              tag_string = "<#{[tag, (attrs unless attrs.empty?)].compact.join(" ")}>%s</#{tag}>"
-
               if options.include? :collection
-                render_collection tag_string, options
+                render_collection options[:collection], tag, attrs
               else
-                tag_string % derive_text(options)
+                tag_string tag, attrs
               end
 
             end.html_safe
@@ -120,9 +118,8 @@ module Rich
             (tag unless tag == :none) || (%w(text html).include?(options[:as].to_s.downcase) ? :div : :span)
           end
 
-          def derive_text(options)
-            text = editable? && default_value? ? "< #{value} >" : value
-            options.include?(:locals) ? Mustache.render(text, options[:locals]) : text
+          def derive_text
+            editable? && default_value? ? "< #{value} >" : value
           end
 
           def to_json(params = {})
@@ -139,14 +136,29 @@ module Rich
 
         private
 
-          def render_collection(tag_string, options)
-            options[:collection].collect do |entry|
+          def render_collection(collection, tag, attrs)
+            collection.collect do |entry|
 
               raise ArgumentError, "Expected at least one cmsable attribute for #{entry.class} (use attr_cmsable in class definitino)" if entry.class.attr_cmsables.empty?
-              locals = (options[:locals].try(:dup) || {}).stringify_keys.merge Hash[*entry.class.attr_cmsables.collect{|x| [x.to_s, entry.send(x)]}.flatten]
-              tag_string % derive_text(:locals => locals)
+              attributes = attrs.dup.tap do |hash|
+                             hash[:mustache_locals] = (hash[:mustache_locals] || {}).stringify_keys.merge Hash[*entry.class.attr_cmsables.collect{|x| [x.to_s, entry.send(x)]}.flatten]
+                           end
+              tag_string tag, attributes
 
             end.join ""
+          end
+
+          def tag_string(tag, attrs)
+            attributes = attrs.dup
+            html       = if locals = attributes.delete(:mustache_locals)
+                           attributes[:"data-mustache_locals"] = locals.collect{|key, value| "#{key}: \"#{value}\""}.join(", ") if editable?
+                           Mustache.render derive_text, locals
+                         else
+                           derive_text
+                         end
+            attributes = attributes.collect{|key, value| "#{key}=\"#{::ERB::Util.html_escape value}\""}.join(" ")
+
+            "<#{[tag, (attributes unless attributes.empty?)].compact.join(" ")}>#{html}</#{tag}>"
           end
 
           def configuration

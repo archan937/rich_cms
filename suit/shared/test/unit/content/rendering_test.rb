@@ -141,9 +141,10 @@ module Content
                 tag = Hpricot(mustache_content.to_tag(:locals => {:name => "Vicky"})).children[0]
 
                 assert_equal "Hi, Vicky!", tag.html
-                assert_equal({"class"            => "rich_cms_content",
-                              "data-store_key"   => "mustache1",
-                              "data-store_value" => "Hi, {{name}}!"},
+                assert_equal({"class"               => "rich_cms_content",
+                              "data-store_key"      => "mustache1",
+                              "data-store_value"    => "Hi, {{name}}!",
+                              "data-mustache_locals"=>"name: &quot;Vicky&quot;"},
                              tag.raw_attributes)
               end
             end
@@ -179,9 +180,10 @@ module Content
 
                 Hpricot(@mustache_content.to_tag(:collection => collection)).each_child_with_index do |tag, index|
                   assert_equal "Hi, #{names[index]}!", tag.html
-                  assert_equal({"class"            => "rich_cms_content",
-                                "data-store_key"   => "mustache1",
-                                "data-store_value" => "Hi, {{name}}!"},
+                  assert_equal({"class"                => "rich_cms_content",
+                                "data-store_key"       => "mustache1",
+                                "data-store_value"     => "Hi, {{name}}!",
+                                "data-mustache_locals" => "name: &quot;#{names[index]}&quot;"},
                                tag.raw_attributes)
                 end
               end

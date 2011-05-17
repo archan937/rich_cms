@@ -162,7 +162,14 @@ Rich.Cms.Editor = (function() {
 
     var defaultFunction = function(form, response, css_class, specs, identifier) {
       var value = response[specs.value.replace(/^data-/, "")];
-      $(identifier).html(value).attr(specs.value, value);
+
+      $.each($(identifier), function(index, element) {
+        var html = $(element).attr("data-mustache_locals") ?
+                     Mustache.to_html(value, eval("({" + $(element).attr("data-mustache_locals") + "})")) :
+                     value;
+        $(element).html(html).attr(specs.value, value);
+      });
+
       if (typeof(SeatHolder) != "undefined") {
         SeatHolder.rebind();
       }
