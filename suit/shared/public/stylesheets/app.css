@@ -15,6 +15,9 @@ body {
   text-shadow: white 0 2px 0;
   background: #E0E0E0; }
 
+ol, ul {
+  list-style: none; }
+
 a {
   padding-bottom: 1px;
   color: #111;
@@ -95,10 +98,9 @@ textarea {
   margin-top: 22px; }
 
 #page div.content ul.people li {
-  margin-left: 18px; }
+  margin-bottom: 18px; }
 
 #page div.content ul.sidebar {
   width: 175px;
   font-weight: bold;
-  float: right;
-  list-style: none; }
+  float: right; }

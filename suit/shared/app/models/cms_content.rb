@@ -1,4 +1,4 @@
 class CmsContent
   include Rich::Cms::Content
-  storage :memory
+  storage :active_record
 end
