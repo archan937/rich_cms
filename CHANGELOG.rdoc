@@ -3,7 +3,9 @@
 == Version 3.1.0 (xxxx, 2011)
 
 * Using GemSuit and Rich-Support (booya!)
-* Using Jzip v1.1.0
+* Removed HAML and Jzip as gem dependencies:
+  - not compiling SASS and Jzip templates at runtime anymore
+  - copying assets (images, javascripts and stylesheets) into public directory unless it already exists
 * Refactored the content code. Using Moneta to support numerous storage engines other than ActiveRecord (such as MongoDB, Redis, in memory, Datamapper and many more)
 * Introduced `cmsable` which provides you to mark Rich::Cms::Content classes as cmsable (or not)
 * Being able to render Mustache content. Thanks Peter Beers and Johan Vermeulen (@johpie) for contributing

@@ -1,6 +1,6 @@
 .DS_Store
 .bundle
-*.gem
+.sass-cache/*
 Gemfile.lock
 pkg/*
 suit/rails-*/dummy/db/test.sqlite3

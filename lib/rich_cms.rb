@@ -1,6 +1,4 @@
 require "rich_support"
-require "jzip"
-require "haml"
 require "moneta"
 require "mustache"
 

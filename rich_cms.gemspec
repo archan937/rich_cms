@@ -21,8 +21,9 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rich_support", "~> 0.1.1"
   s.add_dependency "gem_suit"    , "~> 0.1.2"
-  s.add_dependency "jzip"        , "~> 1.1.0"
-  s.add_dependency "haml"        , "~> 3.0.25"
   s.add_dependency "moneta"      , "~> 0.6.0"
   s.add_dependency "mustache"    , "~> 0.99.3"
+
+  s.add_development_dependency "jzip"    , "~> 1.1.0"
+  s.add_development_dependency "haml"    , "~> 3.0.25"
 end

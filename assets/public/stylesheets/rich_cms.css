@@ -1,0 +1,159 @@
+#rich_cms_dock *, #rich_cms_menu *, #rich_cms_panel * {
+  font-family: "Helvetica Neue", "Helvetica", "Arial", "sans-serif";
+  line-height: 1.5;
+  letter-spacing: 0; }
+
+#rich_cms_dock *, #rich_cms_menu * {
+  letter-spacing: -0.35px; }
+
+#rich_cms_dock {
+  margin: 15px;
+  z-index: 999998;
+  display: -moz-inline-block;
+  display: inline-block;
+  zoom: 1;
+  *display: inline;
+  position: fixed;
+  *position: absolute; }
+  #rich_cms_dock.top {
+    top: 0; }
+  #rich_cms_dock.bottom {
+    bottom: 0; }
+  #rich_cms_dock.left {
+    left: 0; }
+  #rich_cms_dock.right {
+    right: 0; }
+  #rich_cms_dock.middle {
+    width: 500px;
+    left: 50%;
+    margin-left: -250px;
+    text-align: center; }
+  #rich_cms_dock.ui-draggable-dragging {
+    filter: alpha(opacity=50);
+    -moz-opacity: 0.5;
+    -khtml-opacity: 0.5;
+    opacity: 0.5; }
+
+#x1, #x2, #y1, #x, #y {
+  display: none;
+  position: fixed; }
+  #x1.display, #x2.display, #y1.display, #x.display, #y.display {
+    display: block; }
+
+#x1, #x2, #x {
+  width: 1px;
+  height: 100%; }
+
+#y1, #y {
+  width: 100%;
+  height: 1px; }
+
+#x1, #x2, #y1 {
+  background: red; }
+
+#x, #y {
+  background: green; }
+
+#rich_cms_menu {
+  padding: 5px 0;
+  color: #222222;
+  font-family: "Helvetica Neue", "Helvetica", "Arial", "sans-serif";
+  font-size: 12px;
+  font-weight: bold;
+  *border: 1px solid #555555;
+  background: #fdfdfd;
+  display: -moz-inline-block;
+  display: inline-block;
+  zoom: 1;
+  *display: inline;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.5) 0 1px 2px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.5) 0 1px 2px;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.5) 0 1px 2px; }
+  #rich_cms_menu li {
+    padding: 0 17px;
+    *padding: 1px 17px;
+    line-height: 1;
+    border-right: 1px solid #bbbbbb;
+    box-shadow: white 1px 0 0;
+    -moz-box-shadow: white 1px 0 0;
+    -webkit-box-shadow: white 1px 0 0;
+    display: -moz-inline-block;
+    display: inline-block;
+    zoom: 1;
+    *display: inline; }
+    #rich_cms_menu li:first-child {
+      cursor: move; }
+    #rich_cms_menu li:last-child {
+      border: 0;
+      box-shadow: transparent 0 0 0;
+      -moz-box-shadow: transparent 0 0 0;
+      -webkit-box-shadow: transparent 0 0 0; }
+    #rich_cms_menu li.last {
+      *border: 0; }
+    #rich_cms_menu li a {
+      color: #4183c4;
+      cursor: pointer;
+      outline: 0;
+      text-decoration: none; }
+      #rich_cms_menu li a:hover {
+        text-decoration: underline;
+        text-shadow: transparent 0 0 0; }
+
+#rich_cms_panel {
+  min-width: 200px;
+  padding-right: 5px; }
+  #rich_cms_panel .edit form .inputs label {
+    padding-top: 2px;
+    padding-bottom: 5px; }
+  #rich_cms_panel form fieldset, #rich_cms_panel form ol {
+    margin: 0;
+    padding: 0;
+    border: 0; }
+  #rich_cms_panel form ol {
+    list-style: none; }
+  #rich_cms_panel form .inputs div.keys {
+    min-height: 21px; }
+    #rich_cms_panel form .inputs div.keys label {
+      display: inline; }
+    #rich_cms_panel form .inputs div.keys a, #rich_cms_panel form .inputs div.keys span {
+      font-size: 12px;
+      font-weight: bold; }
+    #rich_cms_panel form .inputs div.keys select {
+      margin-right: 4px; }
+  #rich_cms_panel form .inputs label {
+    font-size: 12px; }
+    #rich_cms_panel form .inputs label abbr {
+      padding-left: 2px;
+      border: 0; }
+  #rich_cms_panel form .inputs li.password {
+    padding-top: 4px; }
+  #rich_cms_panel form .inputs li.string input, #rich_cms_panel form .inputs li.password input {
+    width: 100%;
+    display: block; }
+  #rich_cms_panel form .inputs textarea {
+    width: 450px;
+    height: 300px;
+    font-family: "Arial";
+    font-size: 12px; }
+  #rich_cms_panel form .buttons {
+    padding-top: 9px; }
+    #rich_cms_panel form .buttons a {
+      font-size: 12px; }
+
+.rich_cms_content.marked {
+  color: black;
+  cursor: pointer;
+  *border: 1px solid #777777;
+  background: #f1eb00;
+  border-radius: 2px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  box-shadow: rgba(0, 0, 0, 0.5) 0 1px 3px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.5) 0 1px 3px;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.5) 0 1px 3px;
+  text-shadow: transparent 0 0 0; }
+  .rich_cms_content.marked.block {
+    display: block; }
