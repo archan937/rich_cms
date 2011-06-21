@@ -4,14 +4,15 @@ Bundler::GemHelper.install_tasks
 require "rake/testtask"
 require "rake/rdoctask"
 
-desc "Default: run unit tests."
+desc "Default: run unit tests"
 task :default => :test
 
-desc "Test Rich-CMS."
+desc "Test Rich-CMS"
 task :test do
   system "suit test unit -v"
 end
 
+desc "Compile Rich-CMS javascripts and stylesheets"
 namespace :assets do
   task :compile do
     require "jzip"
@@ -22,7 +23,7 @@ namespace :assets do
   end
 end
 
-desc "Generate documentation for Rich-CMS."
+desc "Generate documentation for Rich-CMS"
 Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = "rdoc"
   rdoc.title    = "Rich-CMS"
