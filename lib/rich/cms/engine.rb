@@ -20,8 +20,8 @@ module Rich
         end
 
         def copy_images
-          source_dir = File.join File.dirname(__FILE__), "..", "..", "..", "assets", "images", "."
-          target_dir = File.join Rails.root, "public", "images", "rich", "cms"
+          source_dir = File.join File.dirname(__FILE__), "..", "..", "..", "assets", "public", "images", "."
+          target_dir = File.join Rails.root, "public", "images"
 
           FileUtils.rm_r    target_dir if File.exists? target_dir
           FileUtils.mkdir_p target_dir
