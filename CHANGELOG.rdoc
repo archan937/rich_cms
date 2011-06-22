@@ -19,7 +19,7 @@
   - Rails 3: Devise authenticated with Moneta in-memory storage
   - Rails 3: non-authenticated with Moneta ActiveRecord storage
   - Rails 3: non-authenticated with Moneta in-memory storage
-* Using RaccoonTip v1.1.0 (which is jQuery 1.5.2 compatible!)
+* Using RaccoonTip v1.1.1 (which is jQuery 1.5.2 compatible and prevents itself from being displayed outside the window viewport!)
 * Increased the z-index of the Rich-CMS dock
 * Removed plugin related code
 

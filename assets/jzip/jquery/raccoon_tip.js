@@ -1,7 +1,7 @@
 if (typeof(RaccoonTip) == "undefined") {
 
 // *
-// * RaccoonTip 1.1.0 (Uncompressed)
+// * RaccoonTip 1.1.1 (Uncompressed)
 // * A lightweight jQuery based balloon tip library
 // *
 // * This library requires jQuery (http://jquery.com)
@@ -10,7 +10,7 @@ if (typeof(RaccoonTip) == "undefined") {
 // * Except otherwise noted, RaccoonTip is licensed under
 // * http://creativecommons.org/licenses/by-sa/3.0
 // *
-// * $Date: 2011-04-16 18:22:40 +0100 (Sat, 16 April 2011) $
+// * $Date: 2011-06-22 22:52:12 +0100 (Wed, 22 June 2011) $
 // *
 
 RaccoonTip = (function() {
@@ -151,10 +151,23 @@ RaccoonTip = (function() {
       }
     }
 
-    var pos = variants[variants[0].index < variants[1].index ? 0 : 1];
+    var margin = 18, pos = variants[variants[0].index < variants[1].index ? 0 : 1];
+
+    if (parseInt(pos.left, 10) - parseInt(raccoon_tip.css("marginLeft"), 10) < $(window).scrollLeft()) {
+      pos.left = $(window).scrollLeft() - parseInt(raccoon_tip.css("marginLeft"), 10) + margin;
+    } else if (parseInt(pos.left, 10) + parseInt(raccoon_tip.css("marginLeft"), 10) + raccoon_tip.outerWidth() > $(window).scrollLeft() + $(window).width()) {
+      pos.left = $(window).scrollLeft() + $(window).width() - parseInt(raccoon_tip.css("marginLeft"), 10) - raccoon_tip.outerWidth() - margin;
+    }
+
+    if (parseInt(pos.top, 10) - parseInt(raccoon_tip.css("marginTop"), 10) < $(window).scrollTop()) {
+      pos.top = $(window).scrollTop() - parseInt(raccoon_tip.css("marginTop"), 10) + margin;
+    } else if (parseInt(pos.top, 10) - parseInt(raccoon_tip.css("marginTop"), 10) + raccoon_tip.outerHeight() > $(window).scrollTop() + $(window).height()) {
+      pos.top = $(window).scrollTop() + $(window).height() - parseInt(raccoon_tip.css("marginTop"), 10) - raccoon_tip.outerHeight() - margin;
+    }
 
     raccoon_tip.attr("class", "rt_" + pos.position);
     raccoon_tip.css({top: pos.top, left: pos.left});
+
     opts.position = pos.position;
   };
 
@@ -170,7 +183,7 @@ RaccoonTip = (function() {
   };
 
   return {
-    version: "1.1.0",
+    version: "1.1.1",
     init: function() {
       if (typeof(onRaccoonTipReady) == "function") {
         onRaccoonTipReady();
