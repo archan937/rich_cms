@@ -64,8 +64,8 @@ module Rich
             end
 
             def engine=(engine_name)
-              @engine  = engine_name.to_s.underscore
-              @store   = nil
+              @engine = engine_name.to_s.underscore
+              @store  = nil
               begin
                 require "moneta/#{engine}"
               rescue LoadError

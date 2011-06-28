@@ -1,5 +1,3 @@
-# Taken from https://github.com/NZX/moneta/raw/master/lib/moneta/active_record.rb
-
 begin
   require "active_record"
 rescue LoadError
@@ -9,76 +7,70 @@ end
 
 module Moneta
   class ActiveRecord
-    class Store < ::ActiveRecord::Base
-      set_primary_key 'key'
-
-      def parsed_value
-        value
-      end
-    end
 
     def initialize(options = {})
-      @options = options
-      Store.establish_connection(@options[:connection] || raise("Must specify :connection"))
-      Store.set_table_name(@options[:table_name] || "moneta_store")
+      @store = new_store({:key => :key, :value => :value}.merge(options))
     end
 
-    module Implementation
-      def key?(key)
-        !!self[key]
-      end
-
-      def has_key?(key)
-        key?(key)
-      end
-
-      def [](key)
-        record = Store.find_by_key(key)
-        record ? record.parsed_value : nil
-      end
-
-      def []=(key, value)
-        record = Store.find_by_key(key)
-        if record
-          record.update_attributes!(:value => value)
-        else
-          store = Store.new
-          store.key = key
-          store.value = value
-          store.save!
-        end
-      end
-
-      def fetch(key, value = nil)
-        value ||= block_given? ? yield(key) : default # TODO: Shouldn't yield if key is present?
-        self[key] || value
-      end
-
-      def delete(key)
-        record = Store.find_by_key(key)
-        if record
-          record.destroy
-          record.parsed_value
-        end
-      end
-
-      def store(key, value, options = {})
-        self[key] = value
-      end
-
-      def clear
-        Store.delete_all
-      end
-
+    def [](key)
+      @store.find(key).try :value
     end
 
-    # Unimplemented
-    module Expiration
-      def update_key(key, options)
+    def []=(key, value)
+      entry = @store.find_or_initialize(key)
+      entry.value = value
+      entry.save!
+    end
+
+    def delete(key)
+      if entry = @store.find(key)
+        entry.destroy
+        entry.value
       end
     end
 
-    include Implementation
-    include Expiration
+    def key?(key)
+      !!self[key]
+    end
+    alias :has_key? :key?
+
+    def store(key, value, options = {})
+      self[key] = value # as you only pass options[:expires_at] the options argument is ignored
+    end
+
+    def update_key(key, options)
+      # not implemented
+    end
+
+    def clear
+      @store.delete_all
+    end
+
+  private
+
+    def new_store(options)
+      Class.new(::ActiveRecord::Base).tap do |store|
+        store.establish_connection options[:connection] || raise("You must specify :connection")
+        store.set_table_name       options[:table_name] || raise("You must specify :table_name")
+        store.class_eval <<-CODE
+          def self.find(key)
+            find_by_#{options[:key]} key
+          end
+
+          def self.find_or_initialize(key)
+            find_or_initialize_by_#{options[:key]} key
+          end
+
+          def value=(val)
+            write_attribute :#{options[:value]}, val
+          end
+
+          def value
+            read_attribute :#{options[:value]}
+          end
+        CODE
+      end
+    end
+
   end
 end

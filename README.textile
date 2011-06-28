@@ -284,7 +284,7 @@ A slight more advanced example of a Rich-CMS class:
 <pre>
   class Translation
     include Rich::Cms::Content
-    storage     :active_record
+    storage     :active_record, :key => :custom_key_column, :value => :custom_value_column
     identifiers :locale, :key
 
     configure do |config| # for a custom CSS class: configure "translation" do |config|

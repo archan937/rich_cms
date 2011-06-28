@@ -35,7 +35,10 @@ class SuitApplication < GemSuit::Application
       correct_user_fixtures
       generate_cms_content
     end
-    skip :require, "test/suit_application/rich/i18n_forgery.rb" unless config[:require] == :i18n_forgery
+
+    unless config[:require] == :i18n_forgery
+      skip :require, "test/suit_application/rich/i18n_forgery.rb"
+    end
   end
 
   def restore_files
@@ -59,6 +62,10 @@ class SuitApplication < GemSuit::Application
       stash "app/views/application/index.html.erb"
       copy  expand_path("test/integration/suit/rich/index.html.erb"      ), "app/views/application/index.html.erb"
       copy  expand_path("test/integration/suit/rich/rich_i18n_forgery.js"), "public/javascripts/rich_i18n_forgery.js"
+    end
+    if config[:moneta] == :active_record
+      create "db/migrate/19820801133701_create_custom_cms_contents.rb"
+      @ran_generator = true
     end
   end
 
