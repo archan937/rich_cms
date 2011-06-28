@@ -275,7 +275,7 @@ A simple Rich-CMS class:
   class Content
     include Rich:Cms::Content
     storage :memory
-    configure "custom_css_class"
+    css_class "custom_css_class"
   end
 </pre>
 
